@@ -1,0 +1,38 @@
+[
+    {
+        "merged": "C:\\Download\\Tab2\\app\\build\\intermediates\\res\\merged\\debug\\drawable-ldpi\\ic_filter_white_48dp.png",
+        "source": "C:\\Download\\Tab2\\app\\src\\main\\res\\drawable-ldpi\\ic_filter_white_48dp.png"
+    },
+    {
+        "merged": "C:\\Download\\Tab2\\app\\build\\intermediates\\res\\merged\\debug\\drawable-ldpi\\ic_home_white_18dp.png",
+        "source": "C:\\Download\\Tab2\\app\\src\\main\\res\\drawable-ldpi\\ic_home_white_18dp.png"
+    },
+    {
+        "merged": "C:\\Download\\Tab2\\app\\build\\intermediates\\res\\merged\\debug\\drawable-ldpi\\ic_launcher.png",
+        "source": "C:\\Download\\Tab2\\app\\src\\main\\res\\drawable-ldpi\\ic_launcher.png"
+    },
+    {
+        "merged": "C:\\Download\\Tab2\\app\\build\\intermediates\\res\\merged\\debug\\drawable-ldpi\\ic_home_white_24dp.png",
+        "source": "C:\\Download\\Tab2\\app\\src\\main\\res\\drawable-ldpi\\ic_home_white_24dp.png"
+    },
+    {
+        "merged": "C:\\Download\\Tab2\\app\\build\\intermediates\\res\\merged\\debug\\drawable-ldpi\\ic_cloud_black_48dp.png",
+        "source": "C:\\Download\\Tab2\\app\\src\\main\\res\\drawable-ldpi\\ic_cloud_black_48dp.png"
+    },
+    {
+        "merged": "C:\\Download\\Tab2\\app\\build\\intermediates\\res\\merged\\debug\\drawable-ldpi\\icon.png",
+        "source": "C:\\Download\\Tab2\\app\\src\\main\\res\\drawable-ldpi\\icon.png"
+    },
+    {
+        "merged": "C:\\Download\\Tab2\\app\\build\\intermediates\\res\\merged\\debug\\drawable-ldpi\\sujl.png",
+        "source": "C:\\Download\\Tab2\\app\\src\\main\\res\\drawable-ldpi\\sujl.png"
+    },
+    {
+        "merged": "C:\\Download\\Tab2\\app\\build\\intermediates\\res\\merged\\debug\\drawable-ldpi\\sull.png",
+        "source": "C:\\Download\\Tab2\\app\\src\\main\\res\\drawable-ldpi\\sull.png"
+    },
+    {
+        "merged": "C:\\Download\\Tab2\\app\\build\\intermediates\\res\\merged\\debug\\drawable-ldpi\\splash.png",
+        "source": "C:\\Download\\Tab2\\app\\src\\main\\res\\drawable-ldpi\\splash.png"
+    }
+]
