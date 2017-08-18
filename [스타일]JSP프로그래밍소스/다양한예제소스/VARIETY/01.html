@@ -1,0 +1,55 @@
+<html>
+<head><title>Form 연습</title></head>
+<body><center><h2>HTML FORM </h2></center><a/>
+
+<table  width = "70%" border=3>
+	<tr>
+		<td> I   D <input type=text  name="tname"><br>
+		       암호<input type=password name="tpassword"><br><br>
+		       <input type=button value="버튼"></br>
+		</td>
+		<td>성별<br>
+		<input type=radio name=sex value=male>남자
+		<input type=radio name=sex value=male>여자
+		
+		<br><br>소유하고 있는 자동차는 ? <br>
+		<input type=checkbox name="소형차" value="소형차">소형<br>
+		<input type=checkbox name="중형차" value="중형차">중형<br>
+		<input type=checkbox name="대형차" value="대형차">대형차<br>
+		</td>
+	</tr>
+	
+	<tr>
+		<td>
+			<input type=hidden name="state" value="ready">
+			거주 하고 있는 지역은 ? <br>
+			<select name=os size=3 multiple>
+			<option value="area1">서울시	 </option>
+			<option value="area2">일산</option>
+			<option value="area3">분당</option>
+			<option value="area4">송도</option>
+			</select>
+			
+			<br><br>사용중인 핸드폰은? <br>
+			<select name=hw>
+			<option value="sk">SK</option>
+			<option value="lg">Lg</option>
+			<option value="et">기타</option>
+			</select>
+		</td>
+		
+		<td>
+			<br>기타 전달하고싶은 내용</br>
+			<textarea rows=10 cols=40>
+			</textarea>
+		</td>
+	</tr>
+	
+	<tr>
+		<td colspan=2><center>
+			<input type=submit value="전  송">
+			<input type=reset   value="취   소"></center>
+		</td>
+	</tr>
+</table>
+</body></html>

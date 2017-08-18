@@ -1,0 +1,6 @@
+< 이클립스 프리징 현상 해결 >
+
+ - properties.index 파일을 아래 폴더로 복사한다.
+<안드로이드 작업폴더>/.metadata/.plugins/org.eclipse.core.resources/.root/.indexes
+
+

@@ -1,0 +1,28 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <meta name="viewport" content="width=320; user-scalable=no" />
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <title>Minimal AppLaud App</title>
+
+	<script language="javascript" type="text/javascript" charset="utf-8">
+var index=false;
+
+function changeImage() {
+	/*index = (index) ? false : true;
+	var filename = "http://bimage.interpark.com/goods_image/4/1/2/7/211714127g.jpg";
+	if( index )
+		filename = "http://bimage.interpark.com/goods_image/9/5/2/9/209329529g.jpg";
+	document.getElementByid("sampleImage").src = filename;*/
+	document.getElementByid("sampleImage").src = "http://bimage.interpark.com/goods_image/9/5/2/9/209329529g.jpg";
+}
+</script>
+</head>
+
+<body onload="init();" id="stage" class="theme">
+	<p><input type="button" value="Change Image" 
+		onClick="changeImage();"></p>
+	<br>
+	<img id="sampleImage" style="width:40%;" src="http://bimage.interpark.com/goods_image/4/1/2/7/211714127g.jpg" />
+</body>
+</html>

@@ -1,0 +1,20 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_margin="10dp"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/textMessage" 
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="20dp"
+        android:text="Touch Slider" />
+
+    <com.example.jsliderex.JSlider
+        android:id="@+id/jSlider" 
+        android:layout_width="290dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center" />
+
+</LinearLayout>

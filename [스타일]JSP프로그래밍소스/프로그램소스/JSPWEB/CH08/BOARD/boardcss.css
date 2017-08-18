@@ -1,0 +1,24 @@
+table,td,th {
+	border-collapse:collapse;
+	margin:0;
+	padding:0;
+}
+table {
+	border: none;
+	font-family: Garamond, Georgia, "Times New Roman", Times, serif;
+}
+td, th{	
+	vertical-align:top;
+	font-weight:normal;	
+}
+
+table a:link, table a:visited, table a:active {	
+	color:#444F66;
+	background-color: transparent;
+	text-decoration: underline;
+}
+table a:hover {
+	text-decoration:none;
+	background-color: #1E90FF;
+	color: #FFFFFF;
+}

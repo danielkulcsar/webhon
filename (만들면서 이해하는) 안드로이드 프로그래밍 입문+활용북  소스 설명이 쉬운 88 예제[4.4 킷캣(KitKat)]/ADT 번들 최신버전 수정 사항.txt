@@ -1,0 +1,25 @@
+< ADT 번들 최신버전 수정 사항 >
+
+
+# 2014.06.24 버전을 설치했다면 다음 사항들을 수정해 주세요.
+
+1. 이클립스에서 메인메뉴에 [Window > Android SDK Manager] 항목이 없을때
+
+-> ADT 버전에 따라서 메뉴에 Android SDK Manager 가 없는 경우도 있습니다. 
+이런 경우에는 Perspective(퍼스팩티브)를 Java 스타일로 변경하면 됩니다. 
+이클립스 툴바 오른쪽에 윈도우 창 모양의 아이콘인 Open Perspective 를 누릅니다. 
+팝업창이 나타나면 목록에서 Java를 선택하고 OK 버튼을 누릅니다. 그러면 메뉴에 Android SDK Manager 가 보입니다.
+
+
+2. 새로운 소스 프로젝트를 생성했을 때 /src 폴더와 /res/layout 폴더에 파일이 생성되지 않는 경우
+
+-> 소스 프로젝트를 생성할때‘Create Activity’ 화면의‘Create Activity’ 목록에서 Empty Activity를 선택하면 
+정상적으로 소스 프로젝트가 생성됩니다.
+
+
+3. 에뮬레이터의 키패드에 한글이 표시되지 않을때
+
+-> 아래 경로의 설명대로 한글 키보드 APK 파일을 설치하면 됩니다.
+http://codedragon.tistory.com/268
+
+

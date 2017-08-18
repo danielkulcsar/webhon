@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
+  <display-name>VARIETY</display-name>
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+  </welcome-file-list>
+  <servlet>
+    <description></description>
+    <display-name>posthandle</display-name>
+    <servlet-name>posthandle</servlet-name>
+    <servlet-class>servletWEB.posthandle</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>posthandle</servlet-name>
+    <url-pattern>/posthandle</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>FileUploadTest</display-name>
+    <servlet-name>FileUploadTest</servlet-name>
+    <servlet-class>CH10.FILELIST.FileUploadTest</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>FileUploadTest</servlet-name>
+    <url-pattern>/FileUploadTest</url-pattern>
+  </servlet-mapping>
+  <!-- 다양한 예제 12번 -->
+  <filter>
+    <display-name>XSLTFilter</display-name>
+    <filter-name>XSLTFilter</filter-name>
+    <filter-class>Exe12.FILTER.XSLTFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>XSLTFilter</filter-name>
+    <url-pattern>/Exe12/*</url-pattern>
+  </filter-mapping>
+</web-app>

@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app id="WebApp_ID" version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+	<display-name>
+	MunDap</display-name>
+	
+	
+	<servlet>
+		<description>
+		</description>
+		<display-name>
+		QueryServletPost</display-name>
+		<servlet-name>QueryServletPost</servlet-name>
+		<servlet-class>
+		MunDap.ch02dap.QueryServletPost</servlet-class>
+	</servlet>
+	<servlet>
+		<description>
+		</description>
+		<display-name>
+		URLTEST</display-name>
+		<servlet-name>URLTEST</servlet-name>
+		<servlet-class>
+		MunDap.ch02dap.URLTEST</servlet-class>
+	</servlet>
+	<servlet>
+		<description>
+		</description>
+		<display-name>
+		optionController</display-name>
+		<servlet-name>optionController</servlet-name>
+		<servlet-class>
+		MunDap.ch08.dap.optionController</servlet-class>
+	</servlet>
+	<servlet>
+		<description>
+		</description>
+		<display-name>
+		gomvc</display-name>
+		<servlet-name>gomvc</servlet-name>
+		<servlet-class>
+		MunDap.ch08.dap.gomvc</servlet-class>
+	</servlet>
+	<servlet>
+		<description>
+		</description>
+		<display-name>
+		AddrController</display-name>
+		<servlet-name>AddrController</servlet-name>
+		<servlet-class>
+		MunDap.ch08.dap.AddrController</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>QueryServletPost</servlet-name>
+		<url-pattern>/QueryServletPost</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>URLTEST</servlet-name>
+		<url-pattern>/URLTEST</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>optionController</servlet-name>
+		<url-pattern>*.option</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>gomvc</servlet-name>
+		<url-pattern>/gomvc</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>AddrController</servlet-name>
+		<url-pattern>*.do</url-pattern>
+	</servlet-mapping>
+
+	<!-- 문제 ch13 -1 
+      <filter>
+		<description>
+		</description>
+		<display-name>
+		AuthFilter</display-name>
+		<filter-name>AuthFilter</filter-name>
+		<filter-class>MunDap.ch13.dap.AuthFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>AuthFilter</filter-name>
+		<url-pattern>*</url-pattern>
+	</filter-mapping>
+-->
+	<!--  문제ch13 -2 
+        <listener>
+		<listener-class>MunDap.ch13.dap.DBCPCON</listener-class>
+	</listener>
+	<context-param>
+	<param-name>jdbcdriver</param-name>
+	<param-value>oracle.jdbc.OracleDriver</param-value>
+	</context-param>
+-->
+	
+	<!--  ch13 종합문제   -->	
+	<filter>
+		<description>
+		</description>
+		<display-name>
+		DBLogFilter</display-name>
+		<filter-name>DBLogFilter</filter-name>
+		<filter-class>MunDap.ch13.dap.DBLogFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>DBLogFilter</filter-name>
+		<url-pattern>/ch13dap/*</url-pattern>
+	</filter-mapping>
+	
+	  
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+		<welcome-file>index.htm</welcome-file>
+		<welcome-file>index.jsp</welcome-file>
+		<welcome-file>default.html</welcome-file>
+		<welcome-file>default.htm</welcome-file>
+		<welcome-file>default.jsp</welcome-file>
+	</welcome-file-list>
+</web-app>

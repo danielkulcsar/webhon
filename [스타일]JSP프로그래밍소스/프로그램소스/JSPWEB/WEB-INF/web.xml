@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app id="WebApp_ID" version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+ 
+	<description>getTest </description>
+	<display-name>GetTest</display-name>
+		<servlet>
+        <servlet-name>GetTest</servlet-name>
+        <servlet-class>
+          JSPWEB.CH02.GetTest
+        </servlet-class>
+         </servlet>
+		<servlet>
+			<description>
+			Network Infomation</description>
+			<display-name>
+			NetINFO</display-name>
+			<servlet-name>NetINFO</servlet-name>
+			<servlet-class>
+			JSPWEB.CH02.NetINFO</servlet-class>
+		</servlet>
+		<servlet>
+			<description>
+			</description>
+			<display-name>
+			MVCGO</display-name>
+			<servlet-name>MVCGO</servlet-name>
+			<servlet-class>
+			JSPWEB.CH08.Controller.MVCGO</servlet-class>
+		</servlet>
+		<servlet>
+			<description>
+			</description>
+			<display-name>
+			BOARDCONTROLLER</display-name>
+			<servlet-name>BOARDCONTROLLER</servlet-name>
+			<servlet-class>
+			JSPWEB.CH08.BOARD.BOARDCONTROLLER</servlet-class>
+		</servlet>
+		<servlet>
+			<description>
+			</description>
+			<display-name>
+			CookieServlet</display-name>
+			<servlet-name>CookieServlet</servlet-name>
+			<servlet-class>
+			JSPWEB.CH09.COOKIEM.CookieServlet</servlet-class>
+		</servlet>
+		<servlet>
+			<description>
+			</description>
+			<display-name>
+			CookieLogin</display-name>
+			<servlet-name>CookieLogin</servlet-name>
+			<servlet-class>
+			JSPWEB.CH09.COOKIEM.CookieLogin</servlet-class>
+		</servlet>
+		<servlet>
+			<description>
+			</description>
+			<display-name>
+			CookieLogout</display-name>
+			<servlet-name>CookieLogout</servlet-name>
+			<servlet-class>
+			JSPWEB.CH09.COOKIEM.CookieLogout</servlet-class>
+		</servlet>
+		<servlet>
+			<description>
+			</description>
+			<display-name>
+			SESSIONDAO</display-name>
+			<servlet-name>SESSIONDAO</servlet-name>
+			<servlet-class>
+			JSPWEB.CH09.SESSION.SESSIONDAO</servlet-class>
+		</servlet>
+		<servlet>
+			<description>
+			</description>
+			<display-name>
+			SESSIONLOGIN</display-name>
+			<servlet-name>SESSIONLOGIN</servlet-name>
+			<servlet-class>
+			JSPWEB.CH09.SESSION.SESSIONLOGIN</servlet-class>
+		</servlet>
+		<servlet>
+			<description>
+			</description>
+			<display-name>
+			SESSIONLOGOUT</display-name>
+			<servlet-name>SESSIONLOGOUT</servlet-name>
+			<servlet-class>
+			JSPWEB.CH09.SESSION.SESSIONLOGOUT</servlet-class>
+		</servlet>
+		<servlet>
+			<description>
+			</description>
+			<display-name>
+			FileUploadTest</display-name>
+			<servlet-name>FileUploadTest</servlet-name>
+			<servlet-class>
+			JSPWEB.CH10.FILELIST.FileUploadTest</servlet-class>
+		</servlet>
+		<servlet>
+			<description>
+			</description>
+			<display-name>
+			myCHART</display-name>
+			<servlet-name>myCHART</servlet-name>
+			<servlet-class>
+			JSPWEB.CH10.CHART.myCHART</servlet-class>
+		</servlet>
+	
+	<context-param>
+    <param-name>category</param-name>
+    <param-value>MyPet</param-value>
+  </context-param>
+		<servlet>
+						<display-name>
+			UsingParameters</display-name>
+			<servlet-name>UsingParameters</servlet-name>
+			<servlet-class>
+			JSPWEB.CH13.Listener.UsingParameters</servlet-class>
+			<init-param>
+      <param-name>firstName</param-name>
+      <param-value>Mill</param-value>
+    </init-param>
+    <init-param>
+      <param-name>lastName</param-name>
+      <param-value>coco</param-value>
+    </init-param>
+		</servlet>
+		
+	 <servlet-mapping>
+    	<servlet-name>UsingParameters</servlet-name>
+    	<url-pattern>/UsingParameters</url-pattern>
+    </servlet-mapping>
+		
+					
+    <servlet-mapping>
+        <servlet-name>GetTest</servlet-name>
+        <url-pattern>/GetTest</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+    	<servlet-name>NetINFO</servlet-name>
+    	<url-pattern>/NetINFO</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+    	<servlet-name>MVCGO</servlet-name>
+    	<url-pattern>*.do</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+    	<servlet-name>BOARDCONTROLLER</servlet-name>
+    	<url-pattern>*.go</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+    	<servlet-name>CookieServlet</servlet-name>
+    	<url-pattern>/CookieServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+    	<servlet-name>CookieLogin</servlet-name>
+    	<url-pattern>/CookieLogin</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+    	<servlet-name>CookieLogout</servlet-name>
+    	<url-pattern>/CookieLogout</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+    	<servlet-name>SESSIONDAO</servlet-name>
+    	<url-pattern>/SESSIONDAO</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+    	<servlet-name>SESSIONLOGIN</servlet-name>
+    	<url-pattern>/SESSIONLOGIN</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+    	<servlet-name>SESSIONLOGOUT</servlet-name>
+    	<url-pattern>/SESSIONLOGOUT</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+    	<servlet-name>FileUploadTest</servlet-name>
+    	<url-pattern>/FileUploadTest</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+    	<servlet-name>myCHART</servlet-name>
+    	<url-pattern>/myCHART</url-pattern>
+    </servlet-mapping>
+   
+    
+		
+		
+		
+<!--  Ch13-1 -->
+<!--  
+  <filter>
+    <filter-name>FIRST FILTER</filter-name>
+    <filter-class>JSPWEB.CH13.FIRSTFILTER</filter-class>
+    <init-param>
+     <param-name>encoding</param-name>
+     <param-value> euc-kr </param-value>
+    </init-param>
+  </filter>
+
+  <filter-mapping>
+    <filter-name>FIRST FILTER</filter-name>
+    <url-pattern>*.jsp</url-pattern>
+  </filter-mapping>
+		
+-->
+<!-- ch13-2 -->	
+<!--  
+		<display-name>FilterChain 연습</display-name>
+
+  <filter>
+    <filter-name>Simple Filter</filter-name>
+    <filter-class>JSPWEB.CH13.SimpleFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>Simple Filter</filter-name>
+    <url-pattern>*.jsp</url-pattern>
+  </filter-mapping>
+  
+  <filter>
+    <filter-name>Chained Filter</filter-name>
+    <filter-class>JSPWEB.CH13.ChainedFilter</filter-class>
+  </filter>
+
+  <filter-mapping>
+    <filter-name>Chained Filter</filter-name>
+    <url-pattern>*.jsp</url-pattern>
+  </filter-mapping>
+	-->	
+	<!-- ch13 이절의 목표 filter -->
+<!--  		<filter>
+    <filter-name>Log Filter</filter-name>
+    <filter-class>JSPWEB.CH13.LogFilter</filter-class>
+    <init-param>
+     <param-name>logfile</param-name>
+     <param-value>log.txt</param-value>
+    </init-param>
+  </filter>
+  <filter-mapping>
+    <filter-name>Log Filter</filter-name>
+    <url-pattern>*.jsp</url-pattern>
+  </filter-mapping>
+  -->
+	<!-- ch13 Listener -->	
+		<listener>
+		<listener-class>JSPWEB.CH13.Listener.StringContextListener</listener-class>
+		</listener>
+		<!-- ch13  이절의 목표 Listener  -->
+		<session-config>
+            <session-timeout>1</session-timeout>
+        </session-config>	
+		<listener>
+		<listener-class>JSPWEB.CH13.Listener.SessionLogListener</listener-class>
+		</listener>
+		</web-app>

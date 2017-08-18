@@ -1,0 +1,29 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item
+        android:id="@+id/menu_disk"
+        android:orderInCategory="1"
+        android:icon="@drawable/icon_disk"
+        android:showAsAction="always"
+        android:title="Disk"/>
+
+    <item
+        android:id="@+id/menu_cake"
+        android:orderInCategory="2"
+        android:icon="@drawable/icon_cake"
+        android:showAsAction="always"
+        android:title="Cake"/>
+    
+    <item
+        android:id="@+id/menu_star"
+        android:orderInCategory="3"
+        android:icon="@drawable/icon_star"
+        android:showAsAction="always"
+        android:title="Star"/>
+    
+    <item android:id="@+id/menu_glass"
+        android:title="Glass" />
+    <item android:id="@+id/menu_heart"
+        android:title="Heart" />
+    <item android:id="@+id/menu_watch"
+        android:title="Watch" />
+</menu>
