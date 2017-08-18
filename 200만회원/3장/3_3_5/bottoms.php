@@ -1,0 +1,3 @@
+<p>COPYRIGHTS (C) 1988 - 2014 게임세상 ALL RIGHTS RESERVED SINCE MAY 28,1998</p>
+</body>
+</html>

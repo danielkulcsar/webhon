@@ -1,0 +1,24 @@
+BODY,TD,TH,SELECT,input,DIV,form,TEXTAREA,center,option,pre,blockquote {font-family:±¼¸²;font-size:9pt;color:#555555;} 
+A:link    {color:black;text-decoration:none;} 
+A:visited {color:black;text-decoration:none;} 
+A:active  {color:black;text-decoration:none;} 
+A:hover  {color:gray;text-decoration:none;} 
+input.ahnbutton{
+   font-size:11px;
+   font-family:Tahoma,sans-serif;
+   color:black;
+   height:18px;
+   background-color:#EEEEEE;
+   border-top-style:solid;
+   border-top-color:gray;
+   border-top-width:1px;
+   border-bottom-style:solid;
+   border-bottom-color:gray;
+   border-bottom-width:1px;
+   border-left-style:solid;
+   border-left-color:gray;
+   border-left-width:10px;
+   border-right-style:solid;
+   border-right-color:gray;
+   border-right-width:1px;
+}

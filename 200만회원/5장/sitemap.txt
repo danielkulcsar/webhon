@@ -1,0 +1,8 @@
+http://www.bamtols.com/game_list.php
+http://www.bamtols.com/news_board_list.php
+http://www.bamtols.com/pds_board_list.php?type=pds_manual
+http://www.bamtols.com/pds_board_list.php?type=pds_editor
+http://www.bamtols.com/pds_board_list.php?type=pds_cheat
+http://www.bamtols.com/pds_board_list.php?type=pds_save
+http://www.bamtols.com/pds_board_list.php?type=pds_map
+http://www.bamtols.com/pds_board_list.php?type=pds_gameutility
