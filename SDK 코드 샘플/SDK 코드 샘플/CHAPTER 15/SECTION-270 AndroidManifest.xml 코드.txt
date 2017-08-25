@@ -1,0 +1,9 @@
+<activity android£ºname=".MainActivity"
+  android£ºlabel="@string/app_name"
+  android£ºscreenOrientation="landscape"
+  >
+  <intent-filter>
+    <action android£ºname="android.intent.action.MAIN" />
+    <category android£ºname="android.intent.category.LAUNCHER" />
+  </intent-filter>
+</activity>

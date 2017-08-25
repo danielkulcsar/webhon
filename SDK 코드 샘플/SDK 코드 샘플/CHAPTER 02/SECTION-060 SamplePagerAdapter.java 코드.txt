@@ -1,0 +1,90 @@
+package com.example.screen43;
+
+import android.content.Context;
+import android.os.Parcelable;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.view.LayoutInflater;
+import android.view.View;
+
+public class SamplePagerAdapter extends PagerAdapter {
+
+  // 페이지 수를 지정
+  static final int NUM_VIEW = 2;
+
+  LayoutInflater mInflater;
+
+  public SamplePagerAdapter(Context context) {
+
+    // 레이아웃 파일의 인스턴스화를 위해 LayoutInflater 인스턴스 취득
+    mInflater = (LayoutInflater) context
+        .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+  }
+
+  @Override
+  public void destroyItem(View collection, int position, Object view) {
+    ((ViewPager) collection).removeView((View) view);
+  }
+
+  @Override
+  public void finishUpdate(View collection) {
+  }
+
+  @Override
+  public int getCount() {
+    return NUM_VIEW;
+  }
+
+  // 각 페이지 생성시 요청
+  @Override
+  public Object instantiateItem(View collection, int position) {
+
+    // ViewPager 인스턴스 취득
+    ViewPager pager = (ViewPager) collection;
+
+    if (position == 0) {
+      // 1페이지 째를 생성
+      
+      // 레이아웃 파일 'page1.xml’을 인스턴스화한다
+      View view = mInflater.inflate(R.layout.page1, pager, false);
+      
+      // 여기서는 리스너를 설정하는 등 화면에 필요한 처리도 추가한다
+      
+      //  0번째 페이지에 인스턴스화한 뷰를 추가한다
+      pager.addView(view, 0);
+      
+      return view;
+    } else {
+      // 그 밖의 페이지 (2번째)를 생성
+      
+      // 레이아웃 파일 'page2.xml’을 인스턴스화한다
+      View view = mInflater.inflate(R.layout.page2, pager, false);
+      
+      // 여기서 리스너를 설정하는 등 화면에 필요한 처리도 추가한다
+      
+      // 1번 째 페이지에 인스턴스화한 뷰를 추가한다
+      pager.addView(view, 1);
+      
+      return view;
+    }
+  }
+
+  @Override
+  public boolean isViewFromObject(View view, Object object) {
+    return view == (View) object;
+  }
+
+  @Override
+  public void restoreState(Parcelable parcel, ClassLoader classLoader) {
+  }
+
+  @Override
+  public Parcelable saveState() {
+    return null;
+  }
+
+  @Override
+  public void startUpdate(View collection) {
+  }
+
+}

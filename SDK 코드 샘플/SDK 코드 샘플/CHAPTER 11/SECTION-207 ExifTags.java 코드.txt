@@ -1,0 +1,59 @@
+package com.example.exiftags;
+
+import java.io.IOException;
+import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.ExifInterface;
+import android.os.Bundle;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+public class ExifTags extends Activity {
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+
+    // 리소스로 정의한 ImageView와 TextView의 인스턴스를 얻는다
+    ImageView imageView =
+      (ImageView) findViewById(R.id.image_view);
+    TextView textView =
+      (TextView)findViewById(R.id.text_view);
+
+    try {
+      // 데이터를 꺼내고 싶은 JPEG파일을 지정해서
+      // ExifInterface 인스턴스 작성
+      ExifInterface exif = new ExifInterface(
+          "/sdcard/androidsdkrd_sample.jpg");
+
+      if (exif.hasThumbnail()) {
+        // 섬네일 이미지 데이터 취득
+        byte[] image = exif.getThumbnail();
+        // 이미지 데이터에서 비트맵 생성
+        Bitmap bitmap = BitmapFactory.decodeByteArray(image,
+            0, image.length);
+        // 얻은 이미지를 ImageView에 표시
+        imageView.setImageBitmap(bitmap);
+      }
+
+      String metaData = String.format(
+              "size: %d x %d\ndatetime: %s\n",
+              // 이미지의 너비를 얻는다
+              exif.getAttributeInt(
+                  ExifInterface.TAG_IMAGE_WIDTH,
+                  -1),
+              // 이미지의 높이(길이)를 얻는다 
+              exif.getAttributeInt(
+                  ExifInterface.TAG_IMAGE_LENGTH,
+                  -1),
+              // 촬영 날짜를 얻는다
+              exif.getAttribute(
+                  ExifInterface.TAG_DATETIME));
+      // 얻은 Exif 정보를 TextView에 표시 
+      textView.setText(metaData);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+}

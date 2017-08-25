@@ -1,0 +1,10 @@
+<html>
+<head>
+<title>Sample</title>
+</head>
+<body>
+<script type="text/javascript">
+  alert('Alert Message');
+</script>
+</body>
+</html>

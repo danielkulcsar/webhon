@@ -1,0 +1,54 @@
+package com.example.content09;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import android.app.Activity;
+import android.database.Cursor;
+import android.os.Bundle;
+import android.provider.CallLog;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+
+public class MainActivity extends Activity {
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+    // ArrayAdapter 클래스를 이용하여 오브젝트 생성
+    ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+      this, android.R.layout.simple_list_item_1);
+    // 발신처 전화 번호 취득
+    String[] projection = new String[] { 
+      CallLog.Calls.CACHED_NAME,    // 이름
+      CallLog.Calls.NUMBER,       // 전화 번호
+      CallLog.Calls.DATE,       // 일시
+    }; 
+    // 커서 취득
+    Cursor c = getContentResolver().query( 
+      CallLog.Calls.CONTENT_URI,      // URI
+      projection,              // Projection
+      null,                // Selection
+      null,                // Selection Args
+      CallLog.Calls.DEFAULT_SORT_ORDER  // Sort Order
+    );
+    //  커서로 데이터를 검색한다
+    while(c.moveToNext()) {
+      // 어댑터에 추가
+      String name = c.getString(c.getColumnIndex("NAME"));
+      String number = c.getString(c.getColumnIndex("NUMBER"));
+      Long timeMillis = c.getLong(c.getColumnIndex("DATE"));
+      // 타입스탭에서 날짜 변환
+      Date date = new Date(timeMillis);
+      SimpleDateFormat simpleDateFormat = 
+        new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+      adapter.add(" Name：" + name + "\nPhone No：" 
+        + number + "\nDate：" + simpleDateFormat.format(date));
+    }
+    // 커서 닫기
+    c.close();
+    // 목록 보기 설정
+    ListView listView = (ListView) findViewById(R.id.listview);
+    // 목록 보기 어댑터를 설정한다
+    listView.setAdapter(adapter);
+  }
+}

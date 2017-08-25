@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:orientation="vertical"
+  android:layout_width="fill_parent"
+  android:layout_height="fill_parent"
+  >
+  <TextView
+    android:id="@+id/text"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="@string/text"
+    android:background="#006699"
+    android:minHeight="70dp"
+    android:maxHeight="70dp"
+    android:minWidth="140dp"
+    android:maxWidth="140dp"
+    />
+</LinearLayout>

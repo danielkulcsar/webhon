@@ -1,0 +1,45 @@
+package com.example.pm10;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import android.app.Activity;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.os.Bundle;
+import android.util.Log;
+
+public class MainActivity extends Activity {
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+    
+    // 패키지 관리자 인스턴스를 취득
+    PackageManager pm = getPackageManager();
+    PackageInfo pInfo = null;
+    try {
+
+      // ApplicationInfo 인스턴스를 취득
+      pInfo = pm.getPackageInfo("com.example.pm10", 0);
+    } catch (NameNotFoundException e) {
+      e.printStackTrace();
+    }
+    if(pInfo != null){
+
+      // 가장 먼저 설치된 시간을 취득
+      long firstInstallTime = pInfo.firstInstallTime;
+
+      // 마지막에 업데이트된 시간을 취득
+      long lastUpdateTime = pInfo.lastUpdateTime;
+      
+      // 시간을 눈으로 확인할 수 있도록 포맷을 변경
+      DateFormat df = new SimpleDateFormat("yyyy/MM/dd (EE) HH:mm:ss.SSS zz");
+      
+      // 로그에 설치된 날짜와 시간을 출력
+      Log.d("firstInstallTime",String.valueOf( df.format( firstInstallTime ) ));
+       // 로그에 업데이트된 날짜와 시간을 출력
+      Log.d("lastUpdateTime",String.valueOf( df.format(  lastUpdateTime ) ));
+    }
+  }
+}

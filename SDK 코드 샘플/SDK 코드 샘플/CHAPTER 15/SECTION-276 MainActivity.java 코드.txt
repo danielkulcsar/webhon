@@ -1,0 +1,26 @@
+package com.example.settings12;
+
+import java.util.Calendar;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.widget.TextView;
+
+public class MainActivity extends Activity {
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+    Calendar calendar = Calendar.getInstance();
+    // 년의 취득
+    int year = calendar.get(Calendar.YEAR);
+    // 월의 취득
+    int month = calendar.get(Calendar.MONTH);
+    // 일의 취득
+    int day = calendar.get(Calendar.DAY_OF_MONTH);
+    // 현재 연월일을 텍스트 뷰에 표시
+    TextView tv = (TextView) findViewById(R.id.text);
+    tv.setText("Present：" + year + "/" 
+      + (month + 1) + "/" + day + "day");
+  }
+}

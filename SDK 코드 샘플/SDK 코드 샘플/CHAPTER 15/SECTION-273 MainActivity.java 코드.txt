@@ -1,0 +1,18 @@
+package com.example.settings09;
+
+import android.app.Activity;
+import android.os.Build;
+import android.os.Bundle;
+import android.widget.TextView;
+
+public class MainActivity extends Activity {
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+    // ≈ÿΩ∫∆Æ ∫‰¿« √ÎµÊ
+    TextView tv = (TextView) findViewById(R.id.text);
+    // ∫ÙµÂπ¯»£∏¶ √ÎµÊ«œø© ≈ÿΩ∫∆Æ ∫‰ø° «•Ω√
+    tv.setText("Model Build No.£∫" + Build.MODEL);
+  }
+}

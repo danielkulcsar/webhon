@@ -1,0 +1,29 @@
+package com.example.wifitoggle;
+
+import android.app.Activity;
+import android.net.wifi.WifiManager;
+import android.os.Bundle;
+
+public class WifiToggle extends Activity {
+  @Override
+  public void onCreate（Bundle savedInstanceState） {
+    super.onCreate（savedInstanceState）;
+    setContentView（R.layout.main）;
+
+    // WifiManager 인스턴스를 얻는다
+    WifiManager wifi = （WifiManager） 
+        getSystemService（WIFI_SERVICE）;
+
+    if （wifi.isWifiEnabled（）） {
+      // 현재 Wi-Fi가 ON이면, OFF로 전환한다
+      wifi.setWifiEnabled（false）;
+    } else {
+      // 현재 Wi-Fi가 OFF
+      if （wifi.getWifiState（） != 
+            WifiManager.WIFI_STATE_ENABLING） {
+        // ON으로 전환하는 중이 아니면 ON으로 한다
+        wifi.setWifiEnabled（true）;
+      }
+    }
+  }
+}

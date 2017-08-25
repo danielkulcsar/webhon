@@ -1,0 +1,62 @@
+package com.example.lv06;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.util.Log;
+import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
+import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
+import android.widget.ListView;
+
+//OnScrollListener를 implements한다
+public class MainActivity extends Activity
+implements OnScrollListener{
+  // 리스트뷰에 표시하는 데이터
+  String[] words = new String[] { 
+      "aaa", "bbb", "ccc", "ddd", "eee", 
+      "fff", "ggg", "hhh", "iii", "jjj", 
+      "kkk", "lll", "mmm", "nnn", "ooo", 
+      "ppp", "qqq", "rrr", "sss", "ttt", 
+      "uuu", "vvv", "www", "xxx", "yyy", "zzz",
+      "111", "222", "333", "444", "555",
+      "666", "777", "888", "999", "000"
+  };
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+      super.onCreate(savedInstanceState);
+      setContentView(R.layout.main);
+      
+      // 리스트 어댑터를 작성
+      ListAdapter la = (ListAdapter) new ArrayAdapter<String>(this, 
+          android.R.layout.simple_list_item_1, words); 
+          
+      //　작성한 리스트 어댑터를 리스트뷰에 등록한다
+      ListView lv = (ListView)findViewById(R.id.listview);
+      lv.setAdapter(la);
+      
+  }
+  // onScroll를 재정의 한다
+  @Override
+  public void onScroll(AbsListView view, int firstVisibleItem,
+      int visibleItemCount, int totalItemCount) {
+    Log.d("onScroll", "firstVisibleItem: " + String.valueOf(firstVisibleItem));
+    Log.d("onScroll", "visibleItemCount: " + String.valueOf(visibleItemCount));
+    Log.d("onScroll", "totalItemCount: " + String.valueOf(totalItemCount));
+  }
+  // onScrollStateChanged를 재정의 한다
+  @Override
+  public void onScrollStateChanged(AbsListView view, int scrollState) {
+    switch(scrollState){
+      case OnScrollListener.SCROLL_STATE_FLING:
+        Log.d( "onScrollStateChanged", "SCROLL_STATE_FLING");
+        break;
+      case OnScrollListener.SCROLL_STATE_IDLE:
+        Log.d( "onScrollStateChanged", "SCROLL_STATE_IDLE");
+        break;
+      case OnScrollListener.SCROLL_STATE_TOUCH_SCROLL:
+        Log.d( "onScrollStateChanged", "SCROLL_STATE_TOUCH_SCROLL");
+        break;
+    }
+  }
+}

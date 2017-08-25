@@ -1,0 +1,48 @@
+package com.example.account03;
+
+import java.io.IOException;
+import android.accounts.Account;
+import android.accounts.AccountManager;
+import android.accounts.AccountManagerFuture;
+import android.accounts.AuthenticatorException;
+import android.accounts.OperationCanceledException;
+import android.app.Activity;
+import android.os.Bundle;
+import android.util.Log;
+
+public class MainActivity extends Activity {
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+      super.onCreate(savedInstanceState);
+      setContentView(R.layout.main);
+      
+      // AccountManager 인스턴스를 생성
+      AccountManager accountManager = AccountManager.get(this);
+      
+      // 계정 목록을 생성
+      Account[] accounts = accountManager.getAccountsByType("com.google");
+      for (Account account : accounts) {
+          AccountManagerFuture<Bundle> accountManagerFuture =
+           accountManager.getAuthToken(account, "android", null, this, null, null);
+          Bundle authTokenBundle;
+          String authToken = null;
+          try {
+          
+            // 번들 생성
+            authTokenBundle = accountManagerFuture.getResult();
+          
+            // 토큰 생성
+            authToken = authTokenBundle.get(AccountManager.KEY_AUTHTOKEN).toString();
+          } catch (OperationCanceledException e) {
+            e.printStackTrace();
+          } catch (AuthenticatorException e) {
+            e.printStackTrace();
+          } catch (IOException e) {
+        ze.printStackTrace();
+      }
+      if(authToken != null){
+        Log.d("AuthToken", authToken);
+      }
+      }
+  }
+}

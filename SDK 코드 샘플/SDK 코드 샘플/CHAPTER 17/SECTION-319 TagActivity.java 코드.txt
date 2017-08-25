@@ -1,0 +1,198 @@
+package com.example.nfc02;
+
+import java.util.Arrays;
+import android.app.Activity;
+import android.content.Intent;
+import android.nfc.NdefMessage;
+import android.nfc.NdefRecord;
+import android.nfc.NfcAdapter;
+import android.os.Bundle;
+import android.os.Parcelable;
+import android.util.Log;
+import android.widget.TextView;
+
+public class TagActivity extends Activity {
+  private static final byte FLAG_MB = (byte) 0x80;
+  private static final byte FLAG_ME = (byte) 0x40;
+  private static final byte FLAG_CF = (byte) 0x20;
+  private static final byte FLAG_SR = (byte) 0x10;
+  private static final byte FLAG_IL = (byte) 0x08;
+
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.sub);
+    
+    TextView text = (TextView) findViewById(R.id.tag);
+    String str = "";
+    
+    // 인텐트 취득
+    Intent intent = getIntent();
+    
+    // 액션 명 취득
+    String intentAction = intent.getAction();
+
+    // TAG검출 시의 인텐트인지 여부 점검
+    if ( intentAction.equals( NfcAdapter.ACTION_TAG_DISCOVERED ) ){
+      Log.i("NFC02", NfcAdapter.ACTION_TAG_DISCOVERED);
+      
+      // NFC에서 취득한 메시지 취득
+      Parcelable[] msgs = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
+      
+      // NdefMessage형 배열 선언
+      NdefMessage[] nmsgs = new NdefMessage[msgs.length];
+      
+      for(int i=0;i<msgs.length;i++) {
+        
+        // Parcelable을NdefMessage에 캐스트
+        nmsgs[i] = (NdefMessage) msgs[i];
+        
+        // 태그 유형을 점검
+        NFCType type = getTagType( nmsgs[i] );
+        if(type == NFCType.TEXT){
+          Log.i("NFCType", "NFCType.TEXT");
+        }else if(type == NFCType.URI){
+          Log.i("NFCType", "NFCType.URI");
+        }else if(type == NFCType.SMART_POSTER){
+          Log.i("NFCType", "NFCType.SMART_POSTER");
+        }else if(type == NFCType.ABSOLUTE_URI){
+          Log.i("NFCType", "NFCType.ABSOLUTE_URI");
+        }
+        
+        // 메시지 레코드를 NdefMessage로 취득
+        byte[] bytes = getTagData( nmsgs[i] );
+        
+        // NdefRecord의 첫 번째 1바이트는 헤드
+        int header = bytes[0];
+        
+        // MB(Message Begin)플래그 점검
+        if( ( header & FLAG_MB ) > 0 ){
+          Log.i("TagHeader", "FLAG_MB = on" );
+        }else{
+          Log.i("TagHeader", "FLAG_MB = off" );
+        }
+        
+        // MB(Message End) 플래그 점검
+        if( ( header & FLAG_ME ) > 0 ){
+          Log.i("TagHeader", "FLAG_ME = on" );
+        }else{
+          Log.i("TagHeader", "FLAG_ME = off" );
+        }
+
+        // CF(Chunk Flag)의 점검
+        if( ( header & FLAG_CF ) > 0 ){
+          Log.i("TagHeader", "FLAG_CF = on" );
+        }else{
+          Log.i("TagHeader", "FLAG_CF = off" );
+        }
+
+        // SR(Short Record) 플래그 점검
+        if( ( header & FLAG_SR ) > 0 ){
+          Log.i("TagHeader", "FLAG_SR = on" );
+        }else{
+          Log.i("TagHeader", "FLAG_SR = off" );
+        }
+
+        // IL(ID Length) 플래그 점검
+        if( ( header & FLAG_IL ) > 0 ){
+          Log.i("TagHeader", "FLAG_IL = on" );
+        }else{
+          Log.i("TagHeader", "FLAG_IL = off" );
+        }
+         
+        // TNF(Type Name Format Type)의 점검
+        if( ( header & NdefRecord.TNF_EMPTY ) > 0 ){
+          Log.i("TagHeader", "TNF = NdefRecord.TNF_EMPTY" );
+        }else if( ( header & NdefRecord.TNF_WELL_KNOWN ) > 0 ){
+          Log.i("TagHeader", "TNF = NdefRecord.TNF_WELL_KNOWN" );
+        }else if( ( header & NdefRecord.TNF_MIME_MEDIA ) > 0 ){
+          Log.i("TagHeader", "TNF = NdefRecord.TNF_MIME_MEDIA" );
+        }else if( ( header & NdefRecord.TNF_EXTERNAL_TYPE ) > 0 ){
+          Log.i("TagHeader", "TNF = NdefRecord.TNF_EXTERNAL_TYPE" );
+        }else if( ( header & NdefRecord.TNF_EXTERNAL_TYPE ) > 0 ){
+          Log.i("TagHeader", "TNF = NdefRecord.TNF_EXTERNAL_TYPE" );
+        }else if( ( header & NdefRecord.TNF_UNKNOWN ) > 0 ){
+          Log.i("TagHeader", "TNF = NdefRecord.TNF_UNKNOWN" );
+        }else if( ( header & NdefRecord.TNF_UNCHANGED ) > 0 ){
+          Log.i("TagHeader", "TNF = NdefRecord.TNF_UNCHANGED" );
+        }
+        
+        // NdefRecord의 두 번째 바이트 이후는 Tag 본문
+        
+        if( type == NFCType.TEXT){
+          String lang = new String(new byte[]{bytes[1],bytes[2],});
+          Log.i("TagBody", "Lang: " + lang );
+          for (int j = 3; j < bytes.length; j++) {
+            String string = new String(new byte[]{bytes[j]});
+            Log.i("TagBody", string );
+          }
+        }else if( type == NFCType.SMART_POSTER ){
+          // NdefRecord의 두 번째 바이트는 Record Type의 길이
+          byte recordtype = bytes[1];
+          Log.i("TagBody", "Record Type length = " + recordtype);
+          
+          // NdefRecord의 세 번째 바이트는 Preload의 길이
+          byte prelength = bytes[2];
+          Log.i("TagBody", "Preload length = " + prelength);
+          
+          // NdefRecord의 네 번째 바이트는 레코드 명
+          byte recordname = bytes[3];
+          String RecordName = new String(new byte[]{recordname});
+          Log.i("TagBody", "Record Name = " + RecordName);
+
+          if( RecordName.equalsIgnoreCase("U") ){
+            // NdefRecord의 다섯 번째 바이트는 URI ID
+            byte uriID = bytes[4];
+            Log.i("TagBody", "URI ID = " + UriPrefix.getMap(uriID) );
+
+            for (int j = 5; j < bytes.length; j++) {
+              Log.i("TagBody", new String(new byte[]{bytes[j]}) );
+            }
+          }
+          
+        }
+
+      }
+      
+      text.setText(str);
+    }
+  }
+  // enum의 정의
+  private static enum NFCType {                  
+    UNKNOWN, TEXT, URI, SMART_POSTER, ABSOLUTE_URI
+  }
+  // 태그 유형을 점검하는 메소드
+  private NFCType getTagType(final NdefMessage msg) {
+    if(msg == null) return null;
+    
+    for (NdefRecord record : msg.getRecords()) {
+      
+      // TNF(Type Name Format)을 점검
+      if(record.getTnf() == NdefRecord.TNF_WELL_KNOWN) {
+        
+        // RTD(Record Type Definition)을 점검
+        if(Arrays.equals(record.getType(), NdefRecord.RTD_TEXT)) {
+          return NFCType.TEXT;
+        }else if(Arrays.equals(record.getType(), NdefRecord.RTD_URI)) {
+          return NFCType.URI;
+        }else if(Arrays.equals(record.getType(), NdefRecord.RTD_SMART_POSTER)) {
+          return NFCType.SMART_POSTER;
+        }
+      }else if(record.getTnf() == NdefRecord.TNF_ABSOLUTE_URI) {
+        return NFCType.ABSOLUTE_URI;
+      }
+    }
+    return null;
+  }
+  
+  // 메시지 레코드를 NdefMessage에서 취득
+  private byte[] getTagData(final NdefMessage msg) {
+    if(msg == null) return null;
+    
+    for (NdefRecord record : msg.getRecords()) {
+      byte[] payload = record.getPayload();
+      if(payload != null) return payload;
+    }
+    return null;
+  }
+}

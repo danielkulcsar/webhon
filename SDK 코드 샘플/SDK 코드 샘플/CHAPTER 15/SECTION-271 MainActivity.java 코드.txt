@@ -1,0 +1,32 @@
+package com.example.settings07;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.provider.Settings;
+import android.widget.TextView;
+
+public class MainActivity extends Activity {
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+    // 텍스트뷰 작성
+    TextView tv = (TextView) findViewById(R.id.text);
+    // 화면 꺼짐 시간을 설정한다(여기에서는 30초로 설정)
+    Settings.System.putInt(this.getContentResolver(), 
+      "screen_off_timeout", 30000);
+    // 화면 꺼짐 시간을 ‘screen_off_timeout’에서 취득
+    String timeout = Settings.System
+      .getString(this.getContentResolver(), "screen_off_timeout");
+    if(timeout.equals("-1")) {
+      // -1 의 경우 항상 켜짐 
+      timeout = "Always on";
+    } else {
+      // 밀리 초에서 초로 변환 (Integer형으로 변환하고 계신하여 String형으로)
+      timeout = 
+        String.valueOf((Integer.parseInt(timeout) / 1000));
+    }
+    // 텍스트뷰에 표시
+    tv.setText("Time to sleep(sec)：" + timeout);
+  }
+}

@@ -1,0 +1,206 @@
+package com.example.sip03;
+
+import java.text.ParseException;
+
+import android.app.Activity;
+import android.app.PendingIntent;
+import android.content.Intent;
+import android.net.sip.SipAudioCall;
+import android.net.sip.SipException;
+import android.net.sip.SipManager;
+import android.net.sip.SipProfile;
+import android.net.sip.SipRegistrationListener;
+import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.TextView;
+
+public class MainActivity extends Activity implements OnClickListener{
+  
+  SipManager manager = null;
+  SipProfile sp = null;
+  SipAudioCall call = null;
+  TextView textview;
+  Button call_button;
+  Button end_button;
+
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+
+    textview = (TextView) findViewById(R.id.text);
+    call_button = (Button) findViewById(R.id.call);
+    end_button = (Button) findViewById(R.id.end);
+    call_button.setOnClickListener(this);
+    end_button.setOnClickListener(this);
+    
+    // SipManager 인스턴스 생성
+    manager = SipManager.newInstance(this);
+    SipProfile.Builder builder;
+    try {
+      
+      // SipProfile 작성
+      builder = new SipProfile.Builder(
+        "username", 
+        "*******.aspgate.info"
+      );
+      builder.setPassword("password");
+      sp = builder.build();
+
+      // SIP 전화 수신용 인텐트 작성
+      Intent i = new Intent();
+      i.setAction("android.SipDemo.INCOMING_CALL");
+      PendingIntent pi = 
+        PendingIntent.getBroadcast(
+          this, 0, i, Intent.FILL_IN_DATA);
+
+      // SIP 서버와 접속
+      manager.open(sp, pi, null);
+
+      // 리스너 설정
+      manager.setRegistrationListener(
+        sp.getUriString(), 
+        new SipRegistrationListener() {
+          
+        // 등록 요청 전송 시
+        public void onRegistering(
+          String localProfileUri) {
+          Log.i("onRegistering", "Registering with SIP Server...");
+          Log.i("localProfileUri", localProfileUri);
+        }
+
+        // 등록 성공 시
+        public void onRegistrationDone(
+          String localProfileUri, 
+          long expiryTime) {
+          Log.i("onRegistrationDone", "Ready");
+          Log.i("localProfileUri", localProfileUri);
+          handler.post(run);
+        }
+
+        // 등록 실패 시
+        public void onRegistrationFailed(
+          String localProfileUri, 
+          int errorCode,
+          String errorMessage) {
+          Log.i("onRegistrationFailed", "Registration failed.");
+          Log.i("localProfileUri", localProfileUri);
+          Log.i("errorCode", String.valueOf( errorCode ));
+          Log.i("errorMessage", errorMessage);
+        }
+      });
+    } catch (ParseException e) {
+      e.printStackTrace();
+    } catch (SipException e) {
+      e.printStackTrace();
+    }
+  }
+
+  @Override
+  public void onDestroy() {
+    super.onDestroy();
+    if (call != null) {
+      try {
+        call.endCall();
+      } catch (SipException e) {
+        e.printStackTrace();
+      }
+      call.close();
+    }
+    if (manager == null) {
+      return;
+    }
+    try {
+      if (sp != null) {
+        manager.close(sp.getUriString());
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+
+  }
+
+  // 발신
+  public void makeCall() {
+    try {
+      // 리스너 작성
+      SipAudioCall.Listener listener = 
+        new SipAudioCall.Listener() {
+        // 통신설정시 처리
+        @Override
+        public void onCallEstablished(SipAudioCall call) {
+          // 음성 통화 시작
+          call.startAudio();
+          
+          // 스피커 모드를 작동한다
+          call.setSpeakerMode(true);
+        }
+
+        // 통화 종료 시 처리
+        @Override
+        public void onCallEnded(SipAudioCall call) {
+          handler.post(run);
+        }
+      };
+
+      // 음성 통화 발신
+      call = manager.makeAudioCall(
+        sp.getUriString(), 
+        "username2@********.aspgate.info", 
+        listener, 
+        30
+      );
+      
+    }catch (Exception e) {
+      e.printStackTrace();
+      if (sp != null) {
+        try {
+          manager.close(sp.getUriString());
+        } catch (Exception ee) {
+          ee.printStackTrace();
+        }
+      }
+      if (call != null) {
+        call.close();
+      }
+    }
+  }
+
+  // 통화 종료
+  public void finishCall(){
+    if(call != null) {
+      try {
+        call.endCall();
+      } catch (SipException e) {
+        e.printStackTrace();
+      }
+      call.close();
+    }
+  }
+  
+  // 버튼 누를 때의 처리
+  @Override
+  public void onClick(View v) {
+    switch(v.getId()){
+      case R.id.call:
+        makeCall();
+        break;
+      case R.id.end:
+        finishCall();
+        break;
+    }
+  }
+  
+  Handler handler = new Handler();
+  Runnable run = new Runnable(){
+
+    @Override
+    public void run() {
+      textview.setText("Ready");
+    }
+  };
+}

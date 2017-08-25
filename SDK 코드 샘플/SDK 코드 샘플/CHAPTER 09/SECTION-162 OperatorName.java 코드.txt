@@ -1,0 +1,23 @@
+package com.example.operatorname;
+
+import android.app.Activity;
+import android.content.Context;
+import android.os.Bundle;
+import android.telephony.TelephonyManager;
+import android.util.Log;
+
+public class OperatorName extends Activity {
+  private TelephonyManager mTelephonyManager;
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+    // TelephonyManager의 인스턴스를 얻는다
+    mTelephonyManager = (TelephonyManager) 
+      getSystemService(Context.TELEPHONY_SERVICE);
+    // 네트워크 운영자 이름을 얻는다
+    String operatorName = mTelephonyManager
+        .getNetworkOperatorName();
+    Log.i("***", "Network Operator Name:" + operatorName);
+  }
+}

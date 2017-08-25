@@ -1,0 +1,36 @@
+package com.example.gp06;
+
+import android.app.Activity;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Bundle;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+public class MainActivity extends Activity {
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+    
+   // main.xml에서 image ID의 ImageView 오브젝트 취득
+    ImageView img = (ImageView) findViewById(R.id.image);
+   // main.xml에서 text1/text2 ID의 TextView 오브젝트 취득
+    TextView text1 = (TextView) findViewById(R.id.text1);
+    TextView text2 = (TextView) findViewById(R.id.text2);
+    // 리소스 오브젝트 취득
+    Resources res = getResources();
+    // icon.png을 Bitmap으로 변환
+    Bitmap bitmap = 
+      BitmapFactory.decodeResource(res, R.drawable.icon);
+    // Bitmap을 ImageVew에 표시
+    img.setImageBitmap(bitmap);
+    // bitmap에서 취득한 높이를 TextView에 표시
+    text1.setText(
+      "Height: " + String.valueOf( bitmap.getHeight() ) );
+    // bitmap에서 취득한 폭을 TextView에 표시
+    text2.setText(
+      "Width: " + String.valueOf( bitmap.getWidth() ) );
+  }
+}

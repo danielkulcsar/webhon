@@ -1,0 +1,11 @@
+<html>
+<head>
+<title>Sample</title>
+</head>
+<body>
+<form>
+<!-버튼을 터치하면 배경이 빨간색으로 되는 샘플 -->
+<input type="button" value="click here!" onClick="document.bgColor='red'">
+</form>
+</body>
+</html>

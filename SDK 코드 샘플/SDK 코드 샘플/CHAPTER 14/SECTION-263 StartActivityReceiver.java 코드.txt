@@ -1,0 +1,17 @@
+package com.example.service08;
+
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+
+public class StartActivityReceiver extends BroadcastReceiver {
+  @Override
+  public void onReceive(Context context, Intent intent) {
+    // 'SubActivity.class’를 기동하여 액티비티를 지정
+    Intent activity = new Intent(context, SubActivity.class);
+    // 액티비티를 시동하기 위해 상수를 지정
+    activity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+    // 액티비티 시작
+    context.startActivity(activity);
+  }
+}

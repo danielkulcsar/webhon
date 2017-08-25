@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns£ºandroid="http£º//schemas.android.com/apk/res/android"
+  android£ºlayout_width="fill_parent"
+  android£ºlayout_height="60dip"
+  android£ºorientation="horizontal"
+  >
+<TextView
+  android£ºid="@+id/countrycode"
+  android£ºlayout_width="100dip"
+  android£ºlayout_height="wrap_content"
+  />
+<TextView
+  android£ºid="@+id/countryname"
+  android£ºlayout_width="wrap_content"
+  android£ºlayout_height="wrap_content"
+  />
+</LinearLayout>

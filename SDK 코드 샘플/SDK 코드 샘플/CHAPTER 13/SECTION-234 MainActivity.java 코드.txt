@@ -1,0 +1,77 @@
+package com.example.contenta;
+
+import android.app.Activity;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.os.Handler;
+import android.preference.PreferenceManager;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.TextView;
+
+public class MainActivity extends Activity 
+  implements OnClickListener {
+  static SharedPreferences sp;
+  static TextView txt1, txt2, txt3, txt4;
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+ 
+    txt1 = (TextView) findViewById(R.id.txt1);
+    txt2 = (TextView) findViewById(R.id.txt2);
+    txt3 = (TextView) findViewById(R.id.txt3);
+    txt4 = (TextView) findViewById(R.id.txt4);
+
+    Button btn = (Button) findViewById(R.id.prefbtn);
+    btn.setOnClickListener(this);
+    
+    sp =
+      PreferenceManager.getDefaultSharedPreferences(this);
+    
+    handler.post(runnable);
+  }
+
+  @Override
+  public void onClick(View v) {
+    if(v.getId() == R.id.prefbtn){
+      Intent intent = new Intent(this, PrefSample.class);
+      startActivity(intent);
+    }
+  }
+  static Handler handler = new Handler();
+  
+  static Runnable runnable = new Runnable(){
+    @Override
+    public void run() {
+      if( sp.contains("chkbox") && sp.getBoolean("chkbox", false)){
+        txt1.setText("Checkbox ON");
+      }else{
+        txt1.setText("Checkbox OFF");
+      }
+
+      if( sp.contains("edittxt") ){
+        txt2.setText( "EditText value is" +
+          sp.getString("edittxt", "Empty") + "state ");
+      }else{
+        txt2.setText("EditText value cannot be defined");
+      }
+
+      if( sp.contains("list") ){
+        txt3.setText( "List value is" + 
+            sp.getString("list", "Empty") + "state");
+      }else{
+        txt3.setText("List value cannot be defined");
+      }
+
+      if( sp.contains("ring") ){
+        txt4.setText( "BellSound value is" + 
+            sp.getString("ring", "Empty") + "state");
+      }else{
+        txt4.setText("BellSound cannot be defined");
+      }
+    }
+  };
+}

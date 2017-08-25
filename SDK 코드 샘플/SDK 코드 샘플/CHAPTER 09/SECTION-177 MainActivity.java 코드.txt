@@ -1,0 +1,83 @@
+package com.example.wifid03;
+
+import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.IntentFilter;
+import android.net.Wi-fi.p2p.Wi-fiP2pInfo;
+import android.net.Wi-fi.p2p.Wi-fiP2pManager;
+import android.net.Wi-fi.p2p.Wi-fiP2pManager.Channel;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.EditText;
+
+public class MainActivity extends Activity {
+  public static final String TAG = "SAMPLE";
+  public static final int port = 9999;
+  private Wi-fiP2pManager manager;
+  private final IntentFilter intentFilter = new IntentFilter();
+  private Channel channel;
+  private BroadcastReceiver receiver = null;
+  private String host;
+
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+    
+    // 피어 목록과 그 상태를 수신하기 위한 인텐트 액션
+    intentFilter.addAction(Wi-fiP2pManager.Wi-fi_P2P_PEERS_CHANGED_ACTION);
+    // 연결 상태를 수신하기 위한 인텐트 액션
+    intentFilter.addAction(Wi-fiP2pManager.Wi-fi_P2P_CONNECTION_CHANGED_ACTION);
+    // Wi-fiP2pManager 인스턴스 취득
+    manager = (Wi-fiP2pManager) getSystemService(Context.Wi-fi_P2P_SERVICE);
+    // Wi-fiP2pManager.Channel 인스턴스 취득
+    channel = manager.initialize(this, getMainLooper(), null);
+
+    // 피어 탐색을 시작한다
+    manager.discoverPeers(channel, new Wi-fiP2pManager.ActionListener() {
+
+      @Override
+      public void onSuccess() {
+        Log.i(TAG, "Success");
+      }
+
+      @Override
+      public void onFailure(int reasonCode) {
+        Log.i(TAG, "Fail");
+      }
+    });
+  }
+
+  @Override
+  public void onResume() {
+    super.onResume();
+    
+    // 리시버 설정
+    receiver = new Wi-fiDirectReceiver(this, manager, channel);
+    registerReceiver(receiver, intentFilter);
+  }
+
+  @Override
+  public void onPause() {
+    super.onPause();
+    
+    // 리시버 해제
+    unregisterReceiver(receiver);
+  }
+  
+  public void sendMessage(View view){
+    // 전송 버튼을 누를 때 입력된 텍스트 취득
+    EditText editText = (EditText) findViewById(R.id.send_message);
+    String str = editText.getText().toString();
+    
+    // 입력 텍스트 전송
+    ClientAsyncTask client = new ClientAsyncTask(this.host, str);
+    client.execute();
+  }
+  
+  public void setOwnerHost(Wi-fiP2pInfo info){
+    this.host = info.groupOwnerAddress.getHostAddress();
+  }
+}

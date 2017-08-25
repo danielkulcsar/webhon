@@ -1,0 +1,43 @@
+package com.example.userprofile;
+
+import android.app.Activity;
+import android.database.Cursor;
+import android.os.Bundle;
+import android.provider.ContactsContract;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+
+public class MainActivity extends Activity {
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+    // 'ArrayAdapter’ 클래스를 이용하여 오브젝트 생성
+    ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+        this, android.R.layout.simple_list_item_1);
+    // Cursor의 취득(URI에 ContactsContract.Profile.CONTENT_URI을 지정)
+    Cursor c = getContentResolver().query(
+        ContactsContract.Profile.CONTENT_URI, null,  null, null, null);
+    int count = c.getCount();
+    String[] columnNames = c.getColumnNames();
+    c.moveToFirst();
+    int position = c.getPosition();
+    if (count == 1 && position == 0) {
+      for (int i = 0; i < count; i++) {
+        for (int j = 0; j < columnNames.length; j++) {
+          String columnName = columnNames[j];
+          // 어댑터에 데이터를 세트
+          adapter.add(columnName + " = " 
+              + c.getString(c.getColumnIndex(columnName)));
+        }
+        c.moveToNext();
+      }
+    }
+    // Cursor를 닫는다
+    c.close();
+    // 목록 보기 설정
+    ListView listview = (ListView) findViewById(R.id.listview);
+    // 목록 보기의 어댑터를 설정한다
+    listview.setAdapter(adapter);
+  }
+}

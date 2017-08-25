@@ -1,0 +1,22 @@
+package com.example.playmoviefile;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.widget.VideoView;
+
+public class PlayMovieFile extends Activity {
+  private VideoView mVideoView;
+
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+
+    // 리소스로 정의한 VideoView 인스턴스를 취득
+    mVideoView = (VideoView) findViewById(R.id.videoview);
+    // 재생하고 싶은 동영상 파일 경로 설정 
+    mVideoView.setVideoPath("/sdcard/androidsdkrd_sample.mp4");
+    // 재생 시작
+    mVideoView.start();
+  }
+}

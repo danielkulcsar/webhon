@@ -1,0 +1,49 @@
+package com.example.gp03;
+
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
+import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Bundle;
+import android.widget.ImageView;
+
+public class MainActivity extends Activity {
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+    
+    // main.xml에서 image ID의 ImageView 오브젝트 취득
+    ImageView img = (ImageView) findViewById(R.id.image);
+    
+    FileInputStream file = null;
+    BufferedInputStream buf = null;
+    try {
+    
+      // SD 카드에 있는 sample.png을 연다
+      file = new FileInputStream("/sdcard/filename.png");
+      buf = new BufferedInputStream(file);
+
+      // 버퍼에서 Bitmap 작성
+      Bitmap bitmap = BitmapFactory.decodeStream(buf);
+      
+      // ImageView에 작성한 Bitmap 표시
+      img.setImageBitmap(bitmap);
+      
+      // 파일을 닫는다
+      file.close();
+      
+      // 버퍼를 닫는다
+      buf.close();
+      
+    } catch (FileNotFoundException e) {
+      e.printStackTrace();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+}

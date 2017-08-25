@@ -1,0 +1,63 @@
+package com.example.androidbeam;
+
+import java.nio.charset.Charset;
+
+import android.app.Activity;
+import android.nfc.NdefMessage;
+import android.nfc.NdefRecord;
+import android.nfc.NfcAdapter;
+import android.nfc.NfcAdapter.CreateNdefMessageCallback;
+import android.nfc.NfcEvent;
+import android.os.Bundle;
+import android.widget.EditText;
+
+public class MainActivity extends Activity implements CreateNdefMessageCallback{
+  private NfcAdapter mNfcAdapter;
+  private EditText mEditText;
+
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+    
+    // EditText 인스턴스를 취득한다
+    mEditText = (EditText) findViewById(R.id.editText);
+    
+    // NFC 어댑터 인스턴스를 취득한다
+    mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
+    
+    // Ndef 메시지 송신용 콜백을 설정한다
+    mNfcAdapter.setNdefPushMessageCallback(this, this);
+  }
+
+  @Override
+  public void onPause(){
+    super.onPause();
+    // Ndef 메시지 송신을 비활성화한다
+    mNfcAdapter.disableForegroundNdefPush(this);
+  }
+  
+  // NFC 어댑터가 Ndef 메시지 송신 시에 호출된다
+  @Override
+  public NdefMessage createNdefMessage(NfcEvent event) {
+    // 입력된 문자열을 취득한다
+    String text = mEditText.getText().toString();
+    // Ndef 메시지를 생성한다
+    NdefMessage msg = new NdefMessage(new NdefRecord[] {
+        createMimeRecord("application/com.example.androidbeam", text.getBytes())
+        });
+    // 생성한 Ndef 메시지를 반환한다
+    // ※반환한 Ndef 메시지를 NFC 어댑터가 송신한다(Push)
+    return msg;
+  }
+  // Ndef 메시지 생성
+  public NdefRecord createMimeRecord(String mimeType, byte[] payload) {
+      // 받은 MIME 유형의 바이트 배열을 취득한다
+    byte[] mimeBytes = mimeType.getBytes(Charset.forName("US-ASCII"));
+    
+    // TNF, 포맷, ID, 데이터를 지정하여 Ndef 레코드를 생성
+    NdefRecord mimeRecord = new NdefRecord(NdefRecord.TNF_MIME_MEDIA,
+        mimeBytes, new byte[0], payload);
+    return mimeRecord;
+  }
+}

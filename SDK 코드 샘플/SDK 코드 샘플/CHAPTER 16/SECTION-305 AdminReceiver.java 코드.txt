@@ -1,0 +1,103 @@
+package com.example.cameradisabled;
+
+import android.app.Activity;
+import android.app.admin.DeviceAdminReceiver;
+import android.app.admin.DevicePolicyManager;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+
+public class AdminReceiver extends DeviceAdminReceiver {
+  public static class Controller extends Activity {
+    // 디바이스 정책 관리자 선언
+    DevicePolicyManager mDPM;
+    // 컴포넌트 네임 선언
+    ComponentName mDeviceAdmin;
+    // Admin유효/Admin무효 버튼 선언
+    Button mEnableButton;
+    Button mDisableButton;
+    // 카메라 무효 버튼 선언
+    private Button mDisableCameraButton;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+      super.onCreate(savedInstanceState);
+      // 디바이스 정책 관리자 구현
+      mDPM = (DevicePolicyManager)getSystemService(
+                                    Context.DEVICE_POLICY_SERVICE);
+      // 컴포넌트 네임에 'Controller' 클래스 지정
+      mDeviceAdmin = 
+          new ComponentName(Controller.this, AdminReceiver.class);
+      setContentView(R.layout.main);
+      // Admin 유효 버튼, 리스너 설정
+      mEnableButton = (Button)findViewById(R.id.enable);
+      mEnableButton.setOnClickListener(mEnableListener);
+      // Admin 무효 버튼, 리스너 설정
+      mDisableButton = (Button)findViewById(R.id.disable);
+      mDisableButton.setOnClickListener(mDisableListener);
+      // 카메라 무효 버튼, 리스너 설정
+      mDisableCameraButton = (Button) findViewById(R.id.set_disable);
+      mDisableCameraButton.setOnClickListener(mSetDisableListener);
+      // 카메라 유효·무효판정
+      if (mDPM.getCameraDisabled(mDeviceAdmin)) {
+        // 버튼 라벨을 무효로 한다
+        mDisableCameraButton.setText(R.string.set_enable_label);
+      }
+    }
+    void updateButtonStates() {
+      // 디바이스 정책 관리자가 유효하면 버튼을 유효로
+      boolean active = mDPM.isAdminActive(mDeviceAdmin);
+      if (active) {
+        mEnableButton.setEnabled(false);
+        mDisableButton.setEnabled(true);
+        mDisableCameraButton.setEnabled(true);
+      } else {
+        mEnableButton.setEnabled(true);
+        mDisableButton.setEnabled(false);
+        mDisableCameraButton.setEnabled(false);
+      }
+    }
+    @Override
+    protected void onResume() {
+      super.onResume();
+      updateButtonStates();
+    }
+    // Admin 유효 버튼
+    private OnClickListener mEnableListener = new OnClickListener() {
+      public void onClick(View v) {
+        // 디바이스 정책 관리자 설정의 Activity 시작
+        Intent intent = 
+            new Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN);
+        intent.putExtra(
+            DevicePolicyManager.EXTRA_DEVICE_ADMIN, mDeviceAdmin);
+        startActivity(intent);
+      }
+    };
+    // Admin 무효 버튼
+    private OnClickListener mDisableListener = new OnClickListener() {
+      public void onClick(View v) {
+        mDPM.removeActiveAdmin(mDeviceAdmin);
+        updateButtonStates();
+      }
+    };
+    // 카메라 무효 버튼
+    private OnClickListener mSetDisableListener = new OnClickListener() {
+      public void onClick(View v) {
+        if (mDPM.isAdminActive(mDeviceAdmin) == true) {
+          if(mDisableCameraButton.getText().equals("Disable Camera")) {
+            // 단말기 카메라를 비활성화한다
+            mDPM.setCameraDisabled(mDeviceAdmin, true);
+            mDisableCameraButton.setText(R.string.set_enable_label);
+          } else {
+            // 단말기 카메라를 활성화한다
+            mDPM.setCameraDisabled(mDeviceAdmin, false);
+            mDisableCameraButton.setText(R.string.set_disable_label);
+          }
+        }
+      }
+    };
+  }
+}

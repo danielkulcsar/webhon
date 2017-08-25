@@ -1,0 +1,181 @@
+package com.example.mediaplayerlock;
+
+import android.app.PendingIntent;
+import android.app.Service;
+import android.content.ComponentName;
+import android.content.Intent;
+import android.graphics.BitmapFactory;
+import android.media.AudioManager;
+import android.media.AudioManager.OnAudioFocusChangeListener;
+import android.media.MediaMetadataRetriever;
+import android.media.MediaPlayer;
+import android.media.MediaPlayer.OnPreparedListener;
+import android.media.RemoteControlClient;
+import android.media.RemoteControlClient.MetadataEditor;
+import android.os.IBinder;
+
+public class SampleService extends Service 
+  implements OnPreparedListener, OnAudioFocusChangeListener {
+
+  public static final String ACTION_TOGGLE = "com.example.mediaplayerlock.ACTION_TOGGLE";
+  public static final String ACTION_PLAY = "com.example.mediaplayerlock.ACTION_PLAY";
+  
+  MediaPlayer mPlayer = null;
+  RemoteControlClient mRemoteCtlClient;
+  ComponentName sampleReceiver;
+  AudioManager mAudioManager;
+
+  // 미디어 플레이어 상태
+  enum State { PLAY, STOP, PAUSE };
+  State mState = State.STOP;
+
+
+  @Override
+  public void onCreate() {
+    
+    // AudioManager 인스턴스 취득
+    mAudioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
+    
+    mState = State.STOP;
+
+    mAudioManager.requestAudioFocus(this, AudioManager.STREAM_MUSIC,
+      AudioManager.AUDIOFOCUS_GAIN);
+    
+    sampleReceiver = new ComponentName(this, SampleReceiver.class);
+  }
+
+  @Override
+  public int onStartCommand(Intent intent, int flags, int startId) {
+    String action = intent.getAction();
+    
+    // 잠금 화면에서 재생/일시정지 버튼 클릭시 
+    if ( action.equals(ACTION_TOGGLE) ){
+      if (mState == State.PAUSE || mState == State.STOP) {
+        // 정지/일시정지 중일 경우는 재생
+        playMusic();
+      } else {
+        // 재생 중인 경우는 일시정지
+        mState = State.PAUSE;
+        mPlayer.pause();
+        
+        if (mRemoteCtlClient != null) {
+          // 원격제어 클라이언트 상태를 지정한다
+          mRemoteCtlClient.setPlaybackState(RemoteControlClient.PLAYSTATE_PAUSED);
+        }
+      }
+    }
+    
+    // MainActivity로 재생 버튼 클릭 시 
+    else if (action.equals(ACTION_PLAY)){
+      if(mPlayer != null){
+        clean(); 
+      }
+      playMusic();
+    }
+
+    // 서비스 시작 or 기존 서비스 재이용
+    return START_NOT_STICKY;
+  }
+
+  public void playMusic() {
+    if (mState == State.STOP) {
+      // 정지중인 경우는 미디어 플레이어에 필요한 정보를 지정해서 재생 
+      prepareAndPlay();
+    }
+    else if (mState == State.PAUSE && ! mPlayer.isPlaying() ) {
+      // 일시정지 중인 경우는 다시 시작한다
+      mState = State.PLAY;
+      mPlayer.start();
+    }
+
+    if (mRemoteCtlClient != null) {
+      // 원격 제어 클라이언트 상태를 지정한다
+      mRemoteCtlClient.setPlaybackState(RemoteControlClient.PLAYSTATE_PLAYING);
+    }
+  }
+
+  public void prepareAndPlay() {
+    mState = State.STOP;
+
+    // 미디어 플레이어에서 재생할 음악을 지정한다 
+    mPlayer = MediaPlayer.create(getApplicationContext(), R.raw.sample);
+        
+    // 미디어 플레이어 수신기 세트
+    mAudioManager.registerMediaButtonEventReceiver(sampleReceiver);
+      
+    // 원격 컨트롤러 인스턴스 생성
+    if( mRemoteCtlClient == null ){
+      
+      // 원격 컨트롤러용 Intent 생성
+      Intent intent = new Intent(Intent.ACTION_MEDIA_BUTTON);
+      intent.setComponent(sampleReceiver);
+      
+      // PendingIntent 인스턴스 취득
+      PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
+      
+      // RemoteControlClient 인스턴스 생성
+      mRemoteCtlClient = new RemoteControlClient(pendingIntent);
+      
+      // 오디오 관리자 클라이언트를 세트
+      mAudioManager.registerRemoteControlClient(mRemoteCtlClient);
+    }
+
+    // 이용할 컨트롤 기능을 지정한다(이하는 재생/일시정지/정지/다음 곡을 지정)
+    mRemoteCtlClient.setTransportControlFlags(
+      RemoteControlClient.FLAG_KEY_MEDIA_PLAY |
+      RemoteControlClient.FLAG_KEY_MEDIA_PAUSE |
+      RemoteControlClient.FLAG_KEY_MEDIA_NEXT |
+      RemoteControlClient.FLAG_KEY_MEDIA_STOP
+    );
+
+    // RemoteControlClient에 메타 정보를 설정한다
+    MetadataEditor editMeta = mRemoteCtlClient.editMetadata(true);
+    
+    editMeta
+      .putString(MediaMetadataRetriever.METADATA_KEY_ARTIST, "Artist")
+      .putString(MediaMetadataRetriever.METADATA_KEY_ALBUM, "Album")
+      .putString(MediaMetadataRetriever.METADATA_KEY_TITLE, "Title")
+      
+      // 곡 재생시간(밀리초) 
+      .putLong(MediaMetadataRetriever.METADATA_KEY_DURATION, 123456)
+      
+      // 재생 중에 표시할 영상 지정 
+      .putBitmap(
+        MetadataEditor.BITMAP_KEY_ARTWORK,
+        BitmapFactory.decodeResource(getResources(), R.drawable.sample_image)
+      )
+      .apply();
+
+    mPlayer.start();
+    mState = State.PLAY;
+    
+    // 원격 제어 클라이언트 지정
+    mRemoteCtlClient.setPlaybackState(RemoteControlClient.PLAYSTATE_PLAYING);
+    
+  }
+
+  // 미디어 플레이어 준비가 끝난 시점에서 불러온다 
+  public void onPrepared(MediaPlayer player) {
+    mState = State.PLAY;
+    if (!mPlayer.isPlaying()){
+      mPlayer.start();
+    }
+  }
+
+
+  @Override
+  public IBinder onBind(Intent arg0) {
+    return null;
+  }
+
+  @Override
+  public void onAudioFocusChange(int focusChange) {
+    
+  }
+  public void clean(){
+    mState = State.STOP;
+    mPlayer.reset();
+    mPlayer.release();
+    mPlayer = null;
+  }
+}

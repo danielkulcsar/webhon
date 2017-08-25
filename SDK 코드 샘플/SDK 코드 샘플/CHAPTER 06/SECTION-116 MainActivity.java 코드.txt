@@ -1,0 +1,111 @@
+package com.example.maps14;
+
+import com.google.android.maps.GeoPoint;
+import com.google.android.maps.MapActivity;
+import com.google.android.maps.MapController;
+import com.google.android.maps.MapView;
+import android.content.Context;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
+
+// Activity 상속은 'MapActivity'로 한다
+public class MainActivity extends MapActivity 
+  implements LocationListener {
+  // LocationManager 선언
+  LocationManager mLocationManager;
+  // MapView 선언
+  private MapView mapview;
+  // MapController 선언
+  MapController mMapController;
+  // 텍스트뷰의 선언
+  TextView tv;
+  // 현재 위치·목적지의 경도위도 선언
+  double startLatitude;
+  double startLongitude;
+  double endLatitude;
+  double endLongitude;
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+    // MapView의 이용
+    mapview = (MapView) findViewById(R.id.mapview);
+    // MapController 취득
+    mMapController = mapview.getController();
+    // 줌콘트롤러를 배치한다
+    mapview.getController().setZoom(15);
+    mapview.setBuiltInZoomControls(true);
+    mapview.invalidate();
+    // 위치 관리자 취득
+    mLocationManager = 
+      (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+    // 텍스트 뷰 취득
+    tv = (TextView) findViewById(R.id.text);
+    tv.setText("현재위치를 찾고 있습니다…");
+  }
+  
+  @Override
+  public void onResume() {
+    super.onResume();
+    // 위치 정보 업데이트 설정(업데이트 시간： 10초, 업데이트 거리： 1m)
+    mLocationManager.requestLocationUpdates(
+      LocationManager.GPS_PROVIDER,
+      10000, 1, this);
+  }
+  // 'isRouteDisplayed’ 메소드를 구현한다
+  @Override
+  protected boolean isRouteDisplayed() {
+
+    return false;
+  }
+  // 위치 정보가 업데이트된 경우
+  public void onLocationChanged(Location location) {
+
+    GeoPoint sgp = new GeoPoint((int)(location.getLatitude()*1E6), 
+      (int)(location.getLongitude()*1E6));
+    // 위도 취득
+    startLatitude = sgp.getLatitudeE6() / 1E6;
+    // 경도 취득
+    startLongitude = sgp.getLongitudeE6() / 1E6;
+    // 마지막으로 취득한 위도·경도를 텍스트뷰에 출력
+    tv.setText("Current location Latitude：" + String.valueOf(startLatitude) 
+      + ", Longtitude：" + String.valueOf(startLongitude));
+  }
+  // 버튼 클릭시의 작업
+  public void onLocationClick(View view) {
+    // GeoPoint 클래스 취득
+    GeoPoint egp = mapview.getMapCenter();
+    // 위도 취득
+    endLatitude = egp.getLatitudeE6() / 1E6;
+    // 경도 취득
+    endLongitude = egp.getLongitudeE6() / 1E6;
+    //  2점 사이의 거리 취득
+    if(startLatitude!=0.0 && startLongitude!=0.0) {
+      float[] results = {0, 0, 0};
+      Location.distanceBetween(startLatitude, startLongitude, 
+        endLatitude, endLongitude, results);
+      Toast.makeText(this, "Distance to destination：" + results[0] + "m", 
+        Toast.LENGTH_LONG).show();
+    } else {
+      Toast.makeText(this, "Cannot get current location！", 
+        Toast.LENGTH_LONG).show();
+    }
+  }
+  public void onProviderDisabled(String provider) {
+
+    
+  }
+  public void onProviderEnabled(String provider) {
+
+    
+  }
+  public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    
+  }
+}

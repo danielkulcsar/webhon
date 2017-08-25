@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns£ºandroid="http£º//schemas.android.com/apk/res/android"
+  android£ºorientation="vertical"
+  android£ºlayout_width="fill_parent"
+  android£ºlayout_height="fill_parent"
+  >
+<LinearLayout xmlns£ºandroid="http£º//schemas.android.com/apk/res/android"
+  android£ºorientation="vertical"
+  android£ºlayout_width="fill_parent"
+  android£ºlayout_height="fill_parent"
+  android£ºid="@+id/sample1"
+  >
+</LinearLayout>
+<LinearLayout xmlns£ºandroid="http£º//schemas.android.com/apk/res/android"
+  android£ºorientation="vertical"
+  android£ºlayout_width="fill_parent"
+  android£ºlayout_height="fill_parent"
+  android£ºid="@+id/sample2"
+  >
+</LinearLayout>
+<LinearLayout xmlns£ºandroid="http£º//schemas.android.com/apk/res/android"
+  android£ºorientation="vertical"
+  android£ºlayout_width="fill_parent"
+  android£ºlayout_height="fill_parent"
+  android£ºid="@+id/sample3"
+  >
+</LinearLayout>
+
+</LinearLayout>

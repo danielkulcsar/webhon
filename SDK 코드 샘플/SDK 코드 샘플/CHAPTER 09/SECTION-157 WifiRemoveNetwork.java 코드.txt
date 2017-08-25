@@ -1,0 +1,21 @@
+package com.example.wifiremovenetwork;
+
+import android.app.Activity;
+import android.net.wifi.WifiManager;
+import android.os.Bundle;
+
+public class WifiRemoveNetwork extends Activity {
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+
+    // WifiManager 인스턴스를 얻는다
+    WifiManager wifi = (WifiManager) 
+      getSystemService(WIFI_SERVICE);
+
+    // 네트워크 설정을 삭제한다
+    wifi.removeNetwork(-1); // -1은 실제로 삭제하고 싶은 설정 ID로 대체할 것
+
+  }
+}

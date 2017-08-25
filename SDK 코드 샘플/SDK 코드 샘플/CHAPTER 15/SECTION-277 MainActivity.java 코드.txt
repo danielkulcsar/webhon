@@ -1,0 +1,43 @@
+package com.example.settings13;
+
+import java.util.Calendar;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.widget.TextView;
+
+public class MainActivity extends Activity {
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+    Calendar calendar = Calendar.getInstance();
+    // AM/PM의 취득(0:AM,1:PM)
+    String am_pm;
+    if(calendar.get(Calendar.AM_PM) == 0) {
+      am_pm = "오전"; // 0이면 오전
+    }else{
+      am_pm = "오후"; // 1이면 오후
+    }
+    // 시간의 취득(12시간 단위)
+    int hour12 = calendar.get(Calendar.HOUR);
+    // 시간의 취득(24시간 단위)
+    int hour24 = calendar.get(Calendar.HOUR_OF_DAY);
+    // 분의 취득
+    int minute = calendar.get(Calendar.MINUTE);
+    // 초의 취득
+    int second = calendar.get(Calendar.SECOND);
+    // 밀리 초의 취득
+    int millisec = calendar.get(Calendar.MILLISECOND);
+    // 표시 형식1(오전 XX시XX분XX초)
+    String timeFormat1 = am_pm + hour12 + ":" 
+      + minute + ":" + second + “ “ + am_pm;
+    // 표시 형식2(XX시XX분XX초XXX))
+    String timeFormat2 = hour24 + ":" 
+      + minute + ":" + second + ":" + millisec;
+    // 현재 시간을 텍스트 뷰에 표시
+    TextView tv = (TextView) findViewById(R.id.text);
+    tv.setText("Current Time:\nFormat1···" 
+      + timeFormat1 + "\nFormat2···" + timeFormat2);
+  }
+}

@@ -1,0 +1,95 @@
+package com.example.sip02;
+
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.net.sip.*;
+import android.util.Log;
+
+public class CallReceiver extends BroadcastReceiver {
+  @Override
+  public void onReceive(Context context, Intent intent) {
+    Log.i("CallReceiver", "onReceive");
+    SipAudioCall incomingCall = null;
+    try {
+
+      SipAudioCall.Listener listener = new SipAudioCall.Listener() {
+        @Override
+        public void onCallBusy (SipAudioCall call){
+          Log.i("onCallBusy", ""+ call.getState());
+        }
+        @Override
+        public void onCallEnded (SipAudioCall call){
+          Log.i("onCallEnded", ""+ call.getState());
+        }
+        @Override
+        public void onCallEstablished (SipAudioCall call){
+          Log.i("onCallEstablished", ""+call.getState());
+        }
+        @Override
+        public void onCallHeld (SipAudioCall call){
+          Log.i("onCallHeld", ""+ call.getState());
+        }
+        @Override
+        public void onCalling (SipAudioCall call){
+          Log.i("onCalling", ""+ call.getState());
+        }
+        @Override
+        public void onChanged (SipAudioCall call){
+          Log.i("onChanged", ""+ call.getState());
+        }
+        @Override
+        public void onError (
+          SipAudioCall call,
+          int errorCode, String errorMessage){
+          Log.i("onError", ""+ call.getState());
+        }
+        @Override
+        public void onReadyToCall (SipAudioCall call){
+          Log.i("onReadyToCall", ""+ call.getState());
+        }
+        @Override
+        public void onRinging(
+          SipAudioCall call, SipProfile caller) {
+          Log.i("onRinging", ""+ call.getState());
+        }
+        @Override
+        public void onRingingBack (SipAudioCall call){
+          Log.i("onRingingBack", ""+ call.getState());
+        }
+      };
+
+      SIP02 activity = (SIP02) context;
+
+      incomingCall = activity.manager.takeAudioCall(intent, listener);
+      
+      // 응답한다
+      incomingCall.answerCall(30);
+      
+      // 보류로 한다
+//    incomingCall.holdCall(30);
+      
+      // 음성 통화를 활성화한다
+      incomingCall.startAudio();
+      
+      // 스피커 모드로 한다
+//    incomingCall.setSpeakerMode(true);
+
+
+      // 종료한다
+//    incomingCall.endCall();
+      
+      // 음소거상태로 한다
+//    incomingCall.toggleMute();
+
+      // DTMF음을 전송한다
+//    incomingCall.sendDtmf(0);
+
+      
+    } catch (Exception e) {
+      if (incomingCall != null) {
+        incomingCall.close();
+      }
+    }
+  }
+}

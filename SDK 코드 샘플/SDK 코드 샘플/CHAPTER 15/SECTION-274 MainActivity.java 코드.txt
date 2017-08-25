@@ -1,0 +1,46 @@
+package com.example.settings10;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.widget.TextView;
+
+public class MainActivity extends Activity {
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+    // 클래스와 메소드의 초기화
+    Class<?> GetClass = null;
+    Method get = null;
+    Object result = null;
+    try {
+      // 'SystemProperties’ 클로스의 로드
+      GetClass = Class.forName("android.os.SystemProperties");
+      // 'get()’ 메소드와 인수의 클래스를 지정하여 메소드를 취득
+      get = GetClass.getMethod("get", 
+        new Class[]{String.class, String.class});
+      // 오브젝트를 지정하여 메소드를 실행
+      result = get.invoke(null, 
+        new Object[]{"gsm.version.baseband", null});
+    // 예외처리
+    } catch (ClassNotFoundException e) {
+      e.printStackTrace();
+    } catch (SecurityException e) {
+      e.printStackTrace();
+    } catch (NoSuchMethodException e) {
+      e.printStackTrace();
+    } catch (IllegalArgumentException e) {
+      e.printStackTrace();
+    } catch (IllegalAccessException e) {
+      e.printStackTrace();
+    } catch (InvocationTargetException e) {
+      e.printStackTrace();
+    }
+    // 베이스 밴드 버전을 취득하여 텍스트 뷰에 표시
+    TextView tv = (TextView) findViewById(R.id.text);
+    tv.setText("Baseband Ver.：" + result);
+  }
+}

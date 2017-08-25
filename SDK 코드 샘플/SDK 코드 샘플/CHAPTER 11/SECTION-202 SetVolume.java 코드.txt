@@ -1,0 +1,52 @@
+package com.example.setvolume;
+
+import android.app.Activity;
+import android.content.Context;
+import android.media.AudioManager;
+import android.os.Bundle;
+import android.widget.TextView;
+
+public class SetVolume extends Activity {
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+
+    // 리소스로 정의한 TextView 인스턴스를 얻는다 
+    TextView textView = (TextView) findViewById(R.id.text_view);
+
+    // AudioManager 인스턴스를 얻는다 
+    AudioManager manager = 
+      (AudioManager)getSystemService(Context.AUDIO_SERVICE);
+
+    String volumeInfo = String.format(
+    "STREAM_ALARM: %d/%d\n"
+    + "STREAM_MUSIC: %d/%d\n"
+    + "STREAM_NOTIFICATION: %d/%d\n"
+    + "STREAM_RING: %d/%d\n"
+    + "STREAM_SYSTEM: %d/%d\n"
+    + "STREAM_VOICE_CALL: %d/%d\n",
+    // 각 스트림 유형별 음량의 현재 값과 최대 값을 얻는다
+    manager.getStreamVolume(AudioManager.STREAM_ALARM),
+    manager.getStreamMaxVolume(AudioManager.STREAM_ALARM),
+    manager.getStreamVolume(AudioManager.STREAM_MUSIC),
+    manager.getStreamMaxVolume(AudioManager.STREAM_MUSIC),
+    manager.getStreamVolume(AudioManager.STREAM_NOTIFICATION),
+    manager.getStreamMaxVolume(AudioManager.STREAM_NOTIFICATION),
+    manager.getStreamVolume(AudioManager.STREAM_RING),
+    manager.getStreamMaxVolume(AudioManager.STREAM_RING),
+    manager.getStreamVolume(AudioManager.STREAM_SYSTEM),
+    manager.getStreamMaxVolume(AudioManager.STREAM_SYSTEM),
+    manager.getStreamVolume(AudioManager.STREAM_VOICE_CALL),
+    manager.getStreamMaxVolume(AudioManager.STREAM_VOICE_CALL));
+    // 얻어진 현재 음량을 TextView에 표시 
+    textView.setText(volumeInfo);
+
+    // 미디어 재생 음량의 최대 값을 얻는다
+    int maxVolume = manager
+        .getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+    // 미디어 재생 음량 최대 값의 1/2을 설정한다
+    manager.setStreamVolume(AudioManager.STREAM_MUSIC,
+        maxVolume/2, AudioManager.FLAG_SHOW_UI);
+  }
+}

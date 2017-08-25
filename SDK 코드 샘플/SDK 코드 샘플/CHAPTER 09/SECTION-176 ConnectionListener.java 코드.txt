@@ -1,0 +1,16 @@
+package com.example.wifid02;
+
+import android.net.Wi-fi.p2p.Wi-fiP2pInfo;
+import android.net.Wi-fi.p2p.Wi-fiP2pManager.ConnectionInfoListener;
+import android.util.Log;
+
+public class ConnectionListener implements ConnectionInfoListener{
+
+  @Override
+  public void onConnectionInfoAvailable(Wi-fiP2pInfo info) {
+    Log.i(MainActivity.TAG, "그룹오너IP:" + info.groupOwnerAddress.getHostAddress());
+    Log.i(MainActivity.TAG, "그룹오너 여부:" + info.isGroupOwner);
+    Log.i(MainActivity.TAG, "P2P그룹이 정상적으로 형성되었는가:" + info.groupFormed);
+  }
+
+}

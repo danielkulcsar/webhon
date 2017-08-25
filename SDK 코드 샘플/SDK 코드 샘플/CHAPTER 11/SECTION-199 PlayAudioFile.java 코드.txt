@@ -1,0 +1,43 @@
+package com.example.playaudiofile;
+
+import java.io.IOException;
+import android.app.Activity;
+import android.media.MediaPlayer;
+import android.os.Bundle;
+
+public class PlayAudioFile extends Activity {
+  private MediaPlayer mPlayer;
+
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+
+    // MediaPlayer 인스턴스 작성
+    mPlayer = new MediaPlayer();
+    if (mPlayer != null) {
+      try {
+        // 재생 대상 파일 지정
+        mPlayer.setDataSource(
+            "/sdcard/androidsdkrd_sample.3gp");
+        // 재생을 준비한다
+        mPlayer.prepare();
+      } catch (IllegalArgumentException e) {
+        e.printStackTrace();
+      } catch (IllegalStateException e) {
+        e.printStackTrace();
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+      // 재생 시작
+      mPlayer.start();
+    }
+  }
+  
+  @Override
+  protected void onDestroy() {
+    super.onDestroy();
+    // 사용하지 않게 된 시점에서 MediaPlayer에 연결된 리소스를 해제한다 
+    mPlayer.release();
+  }
+}

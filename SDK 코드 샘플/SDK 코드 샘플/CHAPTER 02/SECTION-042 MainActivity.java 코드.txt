@@ -1,0 +1,35 @@
+package com.example.screen26;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.CheckBox;
+import android.widget.Toast;
+
+public class MainActivity extends Activity implements OnClickListener{
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+
+    // 체크 박스 인스턴스 취득
+    CheckBox checkBox = (CheckBox) findViewById(R.id.checkbox);
+
+    // 리스너를 설정
+    checkBox.setOnClickListener(this);
+  }
+
+  @Override
+  public void onClick(View v) {
+    CheckBox checkBox = (CheckBox) v;
+
+    if( checkBox.isChecked() == true ){
+      // 체크 박스가 체크된 경우
+      Toast.makeText(this, "Checked", Toast.LENGTH_SHORT).show();
+    }else{
+      // 체크박스가 체크되지 않은 경우
+      Toast.makeText(this, "Uncheked", Toast.LENGTH_SHORT).show();
+    }
+  }
+}

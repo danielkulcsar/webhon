@@ -1,0 +1,115 @@
+package com.example.gp18;
+
+import java.nio.FloatBuffer;
+import java.nio.IntBuffer;
+import javax.microedition.khronos.egl.EGLConfig;
+import javax.microedition.khronos.opengles.GL10;
+import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.opengl.GLSurfaceView.Renderer;
+import android.opengl.GLU;
+import android.opengl.GLUtils;
+
+// Renderer를 계승한 SampleOpenGL 작성
+public class SampleOpenGL implements Renderer {
+
+  private Context context;
+  
+  public SampleOpenGL(Context context){
+      this.context = context;
+  }
+
+  private static FloatBuffer[] vertexBuffer;
+  private static FloatBuffer[] textureBuffer;
+  
+  private IntBuffer texturesBuffer;
+  
+  static
+  {
+    vertexBuffer = new FloatBuffer[6];
+    textureBuffer = new FloatBuffer[6];
+    // 정점 배열
+    vertexBuffer[0] = FloatBuffer.wrap(
+      new float[] {
+        0.1f, 1.0f, 0,
+        0.1f, 0.1f, 0,
+        1.0f, 0.1f, 0,
+        1.0f, 1.0f, 0
+      }    
+    );
+    // 텍스처 붙여 넣기 순서
+    textureBuffer[0] = FloatBuffer.wrap(
+      new float[] {
+        1, 0,
+        1, 1,
+        0, 1,
+        0, 0
+      }
+    );
+  }
+
+  // Surface가 작성되었을 때 여기에서 구현한다
+  public void onSurfaceCreated(GL10 gl, EGLConfig config) {
+    // 텍스처 맵핑을 활성화한다
+    gl.glEnable(GL10.GL_TEXTURE_2D);
+    texturesBuffer = IntBuffer.allocate(1);
+    // 텍스처 생성
+    gl.glGenTextures(1, texturesBuffer);
+    // 텍스처 바인딩
+    gl.glBindTexture(GL10.GL_TEXTURE_2D, texturesBuffer.get(0));
+
+    // 텍스처 축소 시 보간 방법 지정
+    gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MIN_FILTER, GL10.GL_NEAREST);
+
+    // 리소스 파일을 취득하여 텍스처에 붙여 넣기
+    Resources res = context.getResources();
+    
+    // 텍스처로 이용 가능한 이미지크기는 2의 거듭 제곱
+    // 예)2x2 4x4 8x8 16x16 32x32 64x64 128x128 ... 64x128 128x512 ...
+    // ※거듭 제곱 이외의 크기인 이미지를 사용한 경우, 표시할 수 없는 단말기가 있다 
+    Bitmap bitmap = BitmapFactory.decodeResource(res, R.drawable.texture_icon);
+    GLUtils.texImage2D(GL10.GL_TEXTURE_2D, 0, bitmap, 0);
+    bitmap.recycle();
+  }
+
+  // 프레임 표시 시 여기에서 구현한다
+  public void onDrawFrame(GL10 gl) {
+    // 버퍼를 클리어
+    gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
+    // 행렬 연산 대상 설정
+    gl.glMatrixMode(GL10.GL_MODELVIEW);
+    // 단위 행렬을 로드
+    gl.glLoadIdentity();
+    // 평행 이동
+    gl.glTranslatef(0, 0, -8);
+    // 텍스처 바인딩
+    gl.glBindTexture(GL10.GL_TEXTURE_2D, texturesBuffer.get(0));
+    // 정점 배열을 활성화한다
+    gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
+    gl.glEnableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
+    // 정점 배열 정의
+    gl.glVertexPointer(3, GL10.GL_FLOAT, 0, vertexBuffer[0]);
+    // 텍스처 좌표 지정
+    gl.glTexCoordPointer(2, GL10.GL_FLOAT, 0, textureBuffer[0]);
+    // 지정한 점을 정점으로 한 도형을 그린다
+    gl.glDrawArrays(GL10.GL_TRIANGLE_FAN, 0, 4);
+  }
+
+  // Surface가 변경되었을 때 여기에서 구현한다
+  public void onSurfaceChanged(GL10 gl, int width, int height) {
+    // 뷰포트의 재설정
+    gl.glViewport(0, 0, width, height);
+    // 행렬 연산 대상 설정
+    gl.glMatrixMode(GL10.GL_PROJECTION);
+    // 투시 투영법의 볼륨 설정
+    GLU.gluPerspective(
+      gl,
+      45.0f,
+      (float)width / (float)height,
+      1.0f,
+      100.0f
+    );
+  }
+}

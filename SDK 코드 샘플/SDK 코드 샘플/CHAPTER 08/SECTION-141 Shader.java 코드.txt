@@ -1,0 +1,68 @@
+package com.example.gp19;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
+import android.content.res.Resources;
+import android.opengl.GLES20;
+
+public class Shader {
+  private Resources mResource;
+
+  public Shader(Resources res){
+    this.mResource = res;
+  }
+
+  // 위치 정보
+  public int positionHandle;
+  // 포인트 크기
+  public int pointSizeHandle;
+
+  // 프로그램 생성
+  public void makeProgram() {
+    int vertexShader = 0, fragmentShader = 0;
+    
+    // 쉐더 오브젝트 생성
+    try {
+      vertexShader = loadShader(GLES20.GL_VERTEX_SHADER, R.raw.vertex_shader);
+      fragmentShader = loadShader(GLES20.GL_FRAGMENT_SHADER, R.raw.fragment_shader);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    
+    // 프로그램 오브젝트 생성
+    int program = GLES20.glCreateProgram();
+    
+    // 쉐더를 등록한다.
+    GLES20.glAttachShader(program, vertexShader);
+    GLES20.glAttachShader(program, fragmentShader);
+    
+    // 쉐더 프로그램을 링크한다
+    GLES20.glLinkProgram(program);
+
+    // 위치 정보/포인트 크기 취득
+    positionHandle = GLES20.glGetAttribLocation(program, "a_Position");
+    pointSizeHandle = GLES20.glGetUniformLocation(program, "u_PointSize");
+
+    // 프로그램 오브젝트 이용시작
+    GLES20.glUseProgram(program);
+  }
+
+  // 리소스 ID를 지정하여 쉐더 오브젝트 생성
+  private int loadShader(int type, int resourceID) throws IOException {
+    InputStream is = mResource.openRawResource(resourceID);
+    BufferedReader bufferReader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
+    StringBuffer buffer = new StringBuffer();
+    String str;
+    while ((str = bufferReader.readLine()) != null) {
+        buffer.append(str);
+        buffer.append("\n");
+    }
+    int shader = GLES20.glCreateShader(type);
+    GLES20.glShaderSource(shader, buffer.toString());
+    GLES20.glCompileShader(shader);
+    return shader;
+  }
+}

@@ -1,0 +1,22 @@
+package com.example.wv10;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.webkit.WebView;
+
+public class MainActivity extends Activity {
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        
+        WebView webview = new WebView(this);
+
+        // 디폴트 유저 에이전트 이름을 취득
+        String ua = webview.getSettings().getUserAgentString();
+ 
+        // (New User Agent Name)을 추가 기술한 UA를 설정 
+        webview.getSettings().setUserAgentString( ua + " (New User Agent Name)");
+        setContentView(webview);
+        webview.loadUrl("http://www.google.com/");
+    }
+}

@@ -1,0 +1,34 @@
+package com.example.pm06;
+
+import android.app.Activity;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.os.Bundle;
+import android.util.Log;
+
+public class MainActivity extends Activity {
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+    
+    // 패키지 관리자 인스턴스를 취득
+    PackageManager pm = getPackageManager();
+    PackageInfo pinfo = null;
+    try {
+      // 패키지 명을 지정하여 패키지 정보 취득
+      pinfo = pm.getPackageInfo("com.example.pm06", PackageManager.GET_INSTRUMENTATION);
+    } catch (NameNotFoundException e1) {
+      e1.printStackTrace();
+    }
+
+    // 버전 번호 취득
+    int versionCode = pinfo.versionCode;
+
+    // 버전 명 취득
+    String versionName = pinfo.versionName;
+    Log.d("versionCode", String.valueOf(versionCode) );
+    Log.d("versionName", versionName );
+  }
+}

@@ -1,0 +1,37 @@
+package com.example.airplanemodetoggle;
+
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+
+public class AirplaneModeToggle extends Activity {
+  @Override
+  public void onCreate（Bundle savedInstanceState） {
+    super.onCreate（savedInstanceState）;
+    setContentView（R.layout.main）;
+
+    // 현재의 에어플레인 모드 상태를 확인하여
+    int airplaneMode = android.provider.Settings.System
+        .getInt（this.getContentResolver（）,
+        android.provider.Settings.System.AIRPLANE_MODE_ON,
+        0）;
+
+    if （airplaneMode != 0） {
+      airplaneMode = 0; // ON이면 OFF로
+    } else {
+      airplaneMode = 1; // OFF이면 ON로
+    }
+
+    // 시스템 설정의 에어플레인 모드를 전환한다
+    android.provider.Settings.System.putInt（
+        this.getContentResolver（）,
+        android.provider.Settings.System.AIRPLANE_MODE_ON,
+        airplaneMode）;
+
+    // 에어플레인 모드를 전환한 것을 브로드캐스트로 알린다
+    Intent intent = new Intent（
+          Intent.ACTION_AIRPLANE_MODE_CHANGED）;
+    intent.putExtra（"state", airplaneMode）;
+    this.sendBroadcast（intent）;
+  }
+}

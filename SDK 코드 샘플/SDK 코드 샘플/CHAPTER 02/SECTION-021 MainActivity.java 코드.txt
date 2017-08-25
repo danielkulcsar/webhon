@@ -1,0 +1,38 @@
+package com.example.screen05;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.Toast;
+
+public class MainActivity extends Activity {
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+  }
+  // 메뉴 버튼을 터치했을 때 실행한다 
+  @Override
+  public boolean onCreateOptionsMenu(Menu menu) {
+    // 메뉴 추가
+    menu.add(Menu.NONE, 0, Menu.NONE, "Menu1");
+    menu.add(Menu.NONE, 1, Menu.NONE, "Menu2");
+    return super.onCreateOptionsMenu(menu);
+  }
+  // 메뉴가 선택되면 실행한다 
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+
+    // 선택한 ID를 확인
+    switch (item.getItemId()) {
+      case 0:
+        Toast.makeText(this, "Menu1", Toast.LENGTH_SHORT).show();
+        break;
+      case 1:
+        Toast.makeText(this, "Menu2", Toast.LENGTH_SHORT).show();
+        break;
+    }
+     return true;
+  }
+}

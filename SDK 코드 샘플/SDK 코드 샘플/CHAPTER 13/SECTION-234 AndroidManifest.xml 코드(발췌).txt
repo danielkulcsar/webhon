@@ -1,0 +1,14 @@
+<application
+  android£ºicon="@drawable/icon"
+    android£ºlabel="@string/app_name">
+    <activity android£ºname=".MainActivity"
+        android£ºlabel="@string/app_name">
+        <intent-filter>
+          <action android£ºname="android.intent.action.MAIN" />
+          <category android£ºname="android.intent.category.LAUNCHER" />
+        </intent-filter>
+    </activity>
+    <activity android£ºname=".PrefSample" android£ºlabel="@string/app_name">
+  </activity>
+
+</application>

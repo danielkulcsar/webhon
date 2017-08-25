@@ -1,0 +1,28 @@
+package com.example.service08;
+
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+
+public class MainActivity extends Activity {
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+    // 버튼을 읽어 리스너를 등록 
+    Button button = (Button)findViewById(R.id.button);
+    button.setOnClickListener(mStartService);
+  }
+  // 서비스 시작 버튼 링크시의 처리
+  private OnClickListener mStartService = new OnClickListener() {
+    public void onClick(View v) {
+      // 서비스 클래스를 지정하여 인텐트 작성
+      Intent intent = new Intent(MainActivity.this, StartActivityService.class);
+      // 서비스 시작
+      startService(intent);
+    }
+  };
+}

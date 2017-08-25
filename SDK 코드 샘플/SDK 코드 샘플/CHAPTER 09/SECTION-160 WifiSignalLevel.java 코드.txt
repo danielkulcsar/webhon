@@ -1,0 +1,26 @@
+package com.example.wifisignallevel;
+
+import android.app.Activity;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
+import android.os.Bundle;
+import android.util.Log;
+
+public class WifiSignalLevel extends Activity {
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+    // WifiManager의 인스턴스를 구한다
+    WifiManager wifi = (WifiManager) 
+        getSystemService(WIFI_SERVICE);
+    // 현재 활성 연결 정보를 구한다
+    WifiInfo info = wifi.getConnectionInfo();
+    // 수신 신호 강도를 구한다
+    int rssi = info.getRssi();
+    // 필요 범위에 따라 신호 강도 산출
+    int signalLevel = WifiManager.calculateSignalLevel(rssi, 5);
+    Log.i("***", String.format("Signal Level:%d/4",
+        signalLevel));
+  }
+}

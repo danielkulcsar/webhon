@@ -1,0 +1,23 @@
+package com.example.screen04;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.view.Menu;
+
+public class MainActivity extends Activity {
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+  }
+  @Override
+  public boolean onCreateOptionsMenu(Menu menu) {
+    // 1번 째 인자: 그룹 ID
+    // 2번 째 인자: 아이템 ID
+    // 3번 째 인자: 정렬 순서
+    // 4번 째 인자: 표시하는 텍스트
+    menu.add(Menu.NONE, 0, 0, "Menu1");
+    menu.add(Menu.NONE, 1, 1, "Menu2");
+    return super.onCreateOptionsMenu(menu);
+  }
+}

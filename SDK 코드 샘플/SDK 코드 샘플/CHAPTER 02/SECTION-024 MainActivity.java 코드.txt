@@ -1,0 +1,38 @@
+package com.example.screen08;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.view.Menu;
+import android.widget.SearchView;
+import android.widget.SearchView.OnQueryTextListener;
+import android.widget.Toast;
+
+public class MainActivity extends Activity implements OnQueryTextListener {
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+  }
+  @Override
+  public boolean onCreateOptionsMenu(Menu menu) {
+    // 'action_bar_menu.xml’로 정의 된 메뉴 항목을 적용한다
+    getMenuInflater().inflate(R.menu.action_bar_menu, menu);
+    // 검색 뷰 인스턴스를 취득한다 
+    SearchView searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
+    // 리스트를 지정하여 검색 뷰의 입력을 기다린다 
+    searchView.setOnQueryTextListener(this);
+    return super.onCreateOptionsMenu(menu);
+  }
+  // 쿼리 문자열이 변경된 타이밍에서 호출한다 
+  @Override
+  public boolean onQueryTextChange(String newText) {
+    return false;
+  }
+  // 쿼리 문자열이 전송된 타이밍에서 호출한다
+  @Override
+  public boolean onQueryTextSubmit(String query) {
+    // 입력된 쿼리 문자열을 토스트로 표시 
+    Toast.makeText(this, query, Toast.LENGTH_SHORT).show();
+    return false;
+  }
+}

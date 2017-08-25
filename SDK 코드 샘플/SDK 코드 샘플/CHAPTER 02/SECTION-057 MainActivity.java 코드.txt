@@ -1,0 +1,76 @@
+package com.example.screen41;
+
+import android.app.TabActivity;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.widget.TabHost;
+import android.widget.TabHost.TabSpec;
+
+public class MainActivity extends TabActivity {
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+
+    // TabHost 인스턴스 취득
+    TabHost tabHost = getTabHost();
+
+    // LayoutInflater 인스턴스 취득
+    LayoutInflater inflater = getLayoutInflater();
+
+    // tabHost를 원본으로 'sample1.xml’ 레이아웃을 읽어들임 
+    inflater.inflate(
+      R.layout.sample1,
+      tabHost.getTabContentView(),
+      true
+    );
+
+    // tabHost를 원본으로 'sample2.xml’ 레이아웃을 읽어들임
+    inflater.inflate(
+      R.layout.sample2,
+      tabHost.getTabContentView(),
+      true
+    );
+
+    // tabHost를 원본으로 'sample3.xml’ 레이아웃을 읽어들임
+    inflater.inflate(
+      R.layout.sample3,
+      tabHost.getTabContentView(),
+      true
+    );
+
+    // 1번 째 탭 생성
+    TabSpec tab1 = tabHost.newTabSpec("tab1");
+
+    // 1번 째 탭의 레벨 설정
+    tab1.setIndicator("tab1 Label");
+
+    // 선택시에는 'sample1.xml’에 있는 R.id.tab1의 내용을 표시
+    tab1.setContent(R.id.tab1);
+
+    // 2번 째 탭 생성
+    TabSpec tab2 = tabHost.newTabSpec("tab2");
+
+    // 2번 째 탭 레벨 설정
+    tab2.setIndicator("tab2 Label");
+
+    // 선택시에는 'sample2.xml’에 있는 R.id.tab2의 내용을 표시
+    tab2.setContent(R.id.tab2);
+
+    // 3번 째 탭 생성
+    TabSpec tab3 = tabHost.newTabSpec("tab3");
+
+    // 3번 째 탭의 레벨과 아이콘 설정
+    tab3.setIndicator(
+      "tab3 Label",
+      getResources().getDrawable(R.drawable.icon)
+    );
+
+    // 선택시에는 'sample3.xml’에 있는 R.id.tab3의 내용을 표시
+    tab3.setContent(R.id.tab3);
+
+    // tabHost에 생성한 탭을 추가
+    tabHost.addTab(tab1);
+    tabHost.addTab(tab2);
+    tabHost.addTab(tab3);
+  }
+}

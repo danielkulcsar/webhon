@@ -1,0 +1,26 @@
+package com.example.videothumbnail;
+
+import android.app.Activity;
+import android.graphics.Bitmap;
+import android.media.ThumbnailUtils;
+import android.os.Bundle;
+import android.provider.MediaStore.Video;
+import android.widget.ImageView;
+
+public class VideoThumbnail extends Activity {
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+
+    // 리소스로 정의한 ImageView 인스턴스를 얻는다
+    ImageView imageView;
+    imageView = (ImageView) findViewById(R.id.image_view);
+    // 동영상 파일에서 섬네일 영상 작성
+    Bitmap bitmap = ThumbnailUtils.createVideoThumbnail(
+        "/mnt/sdcard/androidsdkrd_sample.mp4",
+        Video.Thumbnails.MICRO_KIND);
+    // 얻어진 화상을 ImageView에 표시
+    imageView.setImageBitmap(bitmap);
+  }
+}

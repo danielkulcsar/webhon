@@ -1,0 +1,19 @@
+package com.example.gp01;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.widget.ImageView;
+
+public class MainActivity extends Activity {
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+  super.onCreate(savedInstanceState);
+  setContentView(R.layout.main);
+  
+  // main.xml에서 image ID의 ImageView 오브젝트 취득
+  ImageView img = (ImageView) findViewById(R.id.image);
+  
+  // icon.png를 ImageView에 설정한다
+  img.setImageResource(R.drawable.icon);
+  }
+}

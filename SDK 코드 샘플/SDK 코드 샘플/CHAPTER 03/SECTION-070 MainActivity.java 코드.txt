@@ -1,0 +1,119 @@
+package com.example.lv03;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import android.app.Activity;
+import android.content.Context;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.SimpleAdapter;
+import android.widget.TextView;
+
+public class MainActivity extends Activity {
+
+  // 리스트 뷰에 표시하는 국가 코드 
+  String[] c_code = new String[] { 
+      "+81", "+82", "+86", "+49", "+44", 
+      "+91", "+57", "+65", "+34", "+45" 
+  }; 
+  
+  // 리스트뷰 에 표시하는 나라 이름
+  String[] c_name = new String[] { 
+      "Japan", "Korea", "China", "Germany", "UK", 
+      "India", "Colombia", "Singapore", "Spain", "Denmark" 
+  }; 
+  
+  // 리스트 뷰에 표시하는 국기 리소스 ID
+  int[] c_icon = new int[] { 
+      R.drawable.japan,   R.drawable.korea,
+      R.drawable.china,  R.drawable.germany,
+      R.drawable.uk,     R.drawable.india, 
+      R.drawable.colombia,R.drawable.singapore, 
+      R.drawable.spain,   R.drawable.denmark
+  }; 
+  
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+      super.onCreate(savedInstanceState);
+      setContentView(R.layout.main);
+      
+      // 데이터를 저장하기 위해 ArrayList를 선언 
+      ArrayList<HashMap<String, Object>> data =
+        new ArrayList<HashMap<String, Object>>();
+      
+      // 10개 나라 반복 
+      for(int i = 0; i< 10; i++){
+        HashMap<String, Object> map =
+          new HashMap<String, Object>();
+        
+          // 국가 코드를 map에 대입
+          map.put("countrycode", c_code[i]);
+        
+          // 나라 이름을 map에 대입
+          map.put("countryname", c_name[i]);
+        
+          // 국기를 map에 대입
+          map.put("app_icon", c_icon[i]);
+        
+          // 작성한 map을 data에 추가
+          data.add(map);
+       }
+      /*
+       * 작성한 data와 커스터마이즈한 레이아웃 row.xml을
+       * 붙인 CustomAdapter를 작성한다
+       */
+      CustomAdapter ca = new CustomAdapter(this, data, R.layout.row, 
+          new String[]{"countrycode", "countryname"},
+          new int[]{R.id.countrycode, R.id.countryname}
+      );
+      
+      // main.xml의 ListView에 커스텀 어댑터를 지정한다
+      ListView lv = (ListView)findViewById(R.id.listview);
+      lv.setAdapter(ca);
+  }
+  
+  //SimpleAdapter를 계승한 CustomAdapter를 작성한다
+  public class CustomAdapter extends SimpleAdapter{
+    LayoutInflater mLayoutInflater;
+    
+    // 생성자
+    public CustomAdapter(
+      Context context,
+      List<? extends Map<String, ?>> data, 
+      int resource,
+      String[] from, int[] to) {
+      super(context, data, resource, from, to);
+    }
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+      mLayoutInflater = LayoutInflater.from( getBaseContext() );
+        
+      // 레이아웃에 'row.xml'를 붙인다
+      convertView = mLayoutInflater.inflate(R.layout.row, parent, false);
+      ListView listView = (ListView) parent;
+      
+      // 해당하는 위치의 데이터 취득 
+      Map<String, Object> data = (Map<String, Object>) listView.getItemAtPosition(position);
+      
+      // 국가 코드를 TextView에 지정한다 
+      TextView countrycode = (TextView) convertView.findViewById(R.id.countrycode);
+      countrycode.setText( (String) data.get("countrycode") );
+        
+      // 나라 이름을 TextView에 지정한다
+      TextView countryname = (TextView) convertView.findViewById(R.id.countryname);
+      countryname.setText( (String) data.get("countryname") );
+        
+      // 아이콘을 ImageView에 등록한다 
+      ImageView app_icon = (ImageView) convertView.findViewById(R.id.app_icon);
+      app_icon.setImageResource( (Integer) data.get("app_icon") );
+
+      return convertView;
+    }
+  }
+}

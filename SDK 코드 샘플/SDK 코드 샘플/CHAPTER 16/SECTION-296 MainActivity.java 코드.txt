@@ -1,0 +1,32 @@
+package com.example.account02;
+
+import android.accounts.Account;
+import android.accounts.AccountManager;
+import android.app.Activity;
+import android.os.Bundle;
+import android.util.Log;
+
+public class MainActivity extends Activity {
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+    
+    // AccountManager 인스턴스 취득
+    AccountManager accountManager = AccountManager.get(this);
+    
+    // Google 계정의 목록을 취득
+    Account[] accounts = accountManager.getAccountsByType("com.google");
+      
+    for (Account account : accounts) {
+      Log.d("Account.name", account.name);
+      Log.d("Account.type", account.type);
+      if(account.name.equalsIgnoreCase("sample@gmail.com")){
+      
+        // 계정을 삭제
+        accountManager.removeAccount(account, null, null);
+        
+      }
+    }
+  }
+}

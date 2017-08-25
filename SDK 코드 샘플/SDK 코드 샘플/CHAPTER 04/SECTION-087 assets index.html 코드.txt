@@ -1,0 +1,15 @@
+<html>
+<head>
+<title>Sample</title>
+</head>
+<body>
+<script type="text/javascript">
+  document.write("Before<br>");
+  
+  // 브라우저의 콘솔에 로그를 출력하는 JavaScript
+  console.log('hi! Debug Message');
+  
+  document.write("After<br>");
+</script>
+</body>
+</html>

@@ -1,0 +1,13 @@
+<selector xmlns£ºandroid="http£º//schemas.android.com/apk/res/android">
+  <item
+    android£ºstate_pressed="true"
+    android£ºdrawable="@drawable/btn3"
+    />
+  <item
+    android£ºstate_focused="true"
+    android£ºdrawable="@drawable/btn2"
+    />
+  <item
+    android£ºdrawable="@drawable/btn1"
+    />
+</selector>

@@ -1,0 +1,73 @@
+package com.example.screen42;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.View.OnTouchListener;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ViewFlipper;
+
+public class MainActivity extends Activity implements OnTouchListener {
+  ViewFlipper viewflipper;
+  float posX;
+  Animation in_from_left;
+  Animation in_from_right;
+  Animation out_to_left;
+  Animation out_to_right;
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+
+    // ViewFlipper 인스턴스 취득
+    viewflipper = (ViewFlipper)this.findViewById(R.id.viewflipper);
+
+    // 리스너 설정
+    viewflipper.setOnTouchListener(this);
+
+    // 왼쪽에서 들어올 때 애니메이션
+    in_from_left = AnimationUtils.loadAnimation(this, R.anim.in_from_left);
+    
+    // 오른쪽에서 들어올 때 애니메이션
+    in_from_right = AnimationUtils.loadAnimation(this, R.anim.in_from_right);
+
+    // 왼쪽에서 나갈 때 애니메이션
+    out_to_left = AnimationUtils.loadAnimation(this, R.anim.out_to_left);
+
+    // 오른쪽에서 나갈 때 애니메이션
+    out_to_right = AnimationUtils.loadAnimation(this, R.anim.out_to_right);
+  }
+
+  // 터치 이벤트 발생시
+  @Override
+  public boolean onTouch(View v, MotionEvent event) {
+    switch (event.getAction()) {
+      // 터치 되었을 때 X축을 얻어 저장한다
+      case MotionEvent.ACTION_DOWN:
+        posX = event.getX();
+        break;
+
+      // 떨어졌을 때 X축을 비교하여 이동한 방향 값을 얻는다
+      case MotionEvent.ACTION_UP:
+        if ( posX > event.getX() ){
+          // 오른쪽 페이지로 이동하기 위하여 애니메이션을 설정
+          viewflipper.setInAnimation(in_from_right);
+          viewflipper.setOutAnimation(out_to_left);
+
+          // 오른쪽 페이지로 이동
+          viewflipper.showNext();
+        }else if (posX < event.getX() ){
+          // 왼쪽 페이지로 이동하기 위하여 애니메이션을 설정
+          viewflipper.setInAnimation(in_from_left);
+          viewflipper.setOutAnimation(out_to_right);
+
+          // 왼쪽 페이지로 이동 
+          viewflipper.showPrevious();
+        }
+        break;
+    }
+    return true;
+  }
+}

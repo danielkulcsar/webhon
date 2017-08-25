@@ -1,0 +1,56 @@
+package com.example.settings11;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.provider.Settings;
+import android.view.View;
+import android.widget.TextView;
+import android.widget.ToggleButton;
+
+public class MainActivity extends Activity {
+  // 토글 버튼의 선언
+  private ToggleButton toggleButton;
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+    // 토글 버튼의 배치
+    toggleButton = (ToggleButton) findViewById(R.id.button);
+    // 토글 버튼의 텍스트를 설정
+    toggleButton.setTextOn("On");
+    toggleButton.setTextOff("Off");
+    // 텍스트 뷰 표시 처리
+    setTextView();
+  }
+  public void onToggleClick(View view) {
+    int check;
+    if(toggleButton.isChecked()==true) {
+      check = 1;
+    } else {
+      check = 0;
+    }
+    // 날짜 시간의 자동동기화 설정을 변경한다
+    Settings.System.
+      putInt(this.getContentResolver(), "auto_time", check);
+    // 텍스트 뷰에 표시
+    setTextView();
+  }
+  private void setTextView() {
+    // 날짜 시간의 자동 동기화 설정을 확인한다
+    String auto_time = Settings.System
+      .getString(this.getContentResolver(), 
+      Settings.System.AUTO_TIME);
+    if(auto_time.equals("1")) {
+      // 설정이 유효하면 유효 표시와 토글 버튼을 ON
+      auto_time = auto_time + " (On)";
+      toggleButton.setChecked(true);
+    } else {
+      // 설정이 무효하면 무효 표시와 토글 버튼을 OFF
+      auto_time = auto_time + " (Off)";
+      toggleButton.setChecked(false);
+    }
+    // 텍스트뷰에 표시
+    TextView tv = (TextView) findViewById(R.id.text);
+    tv.setText("Autosync Date and Time：" + auto_time);
+  }
+}

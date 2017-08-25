@@ -1,0 +1,33 @@
+package com.example.contenta;
+public class PrefSample extends PreferenceActivity 
+  implements OnSharedPreferenceChangeListener{
+
+  @Override
+  public void onCreate£¨Bundle savedInstanceState£© {
+    super.onCreate£¨savedInstanceState£©;
+    addPreferencesFromResource£¨R.xml.preference£©;
+  }
+  
+  @Override
+  protected void onResume£¨£© {
+    super.onResume£¨£©;
+    getPreferenceScreen£¨£©
+      .getSharedPreferences£¨£©
+        .registerOnSharedPreferenceChangeListener£¨this£©;
+  }
+  @Override
+  protected void onPause£¨£© {
+    super.onPause£¨£©;
+    getPreferenceScreen£¨£©
+      .getSharedPreferences£¨£©
+        .unregisterOnSharedPreferenceChangeListener£¨this£©;
+
+  }
+
+  @Override
+  public void onSharedPreferenceChanged£¨
+      SharedPreferences sharedPreferences,
+      String key£© {
+    contenta.handler.post£¨MainActivity.runnable£©;
+  }
+}

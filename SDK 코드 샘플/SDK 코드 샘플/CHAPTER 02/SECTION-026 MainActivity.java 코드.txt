@@ -1,0 +1,19 @@
+package com.example.screen10;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.view.Menu;
+
+public class MainActivity extends Activity {
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+  }
+  @Override
+  public boolean onCreateOptionsMenu(Menu menu) {
+    // 'action_bar_menu.xml’로 정의한 메뉴 항목을 적용한다
+    getMenuInflater().inflate(R.menu.action_bar_menu, menu);
+    return true;
+  }
+}

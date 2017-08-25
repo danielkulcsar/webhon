@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns£ºandroid="http£º//schemas.android.com/apk/res/android"
+  android£ºorientation="vertical"
+  android£ºlayout_width="fill_parent"
+  android£ºlayout_height="fill_parent"
+  >
+  <Spinner
+     android£ºid="@+id/spinner"
+     android£ºlayout_width="fill_parent" 
+     android£ºlayout_height="wrap_content"
+     android£ºentries="@array/spinner_list"
+     android£ºlayout_alignParentTop="true"
+     android£ºlayout_centerHorizontal="true"/>
+</LinearLayout>

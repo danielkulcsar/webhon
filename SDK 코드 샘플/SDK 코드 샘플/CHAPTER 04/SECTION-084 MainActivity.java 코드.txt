@@ -1,0 +1,49 @@
+package com.example.wv06;
+
+import android.app.Activity;
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.os.Bundle;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
+import android.widget.Toast;
+
+public class MainActivity extends Activity {
+    Context context;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        this.context = this;
+        
+        // WebView 인스턴스 생성 
+        WebView webview = new WebView(this);
+        
+        // JavaScript를 유효하게 한다 
+        webview.getSettings().setJavaScriptEnabled(true);
+        
+        // setContentView에 작성한 Web 뷰를 설정한다 
+        setContentView(webview);
+        
+        // 지정한 URL을 Web 뷰에서 읽음
+        webview.loadUrl("http://www.google.com/");
+        
+        // WebViewClient를 Web 뷰에 지정한다
+        webview.setWebViewClient(new WebViewClient(){
+        
+          @Override
+          public void onPageStarted(
+              WebView view, String url, Bitmap favicon){
+        
+              // 페이지를 읽기 시작할 때 토스트를 표시 
+             Toast.makeText(context, "onPageStarted!", Toast.LENGTH_SHORT).show();
+            }
+          
+          @Override
+          public void onPageFinished(WebView view, String url){
+            // 페이지를 읽기 완료 시 토스트를 표시
+            Toast.makeText(context, "onPageFinished!", Toast.LENGTH_SHORT).show();
+          }
+        });
+    }
+}

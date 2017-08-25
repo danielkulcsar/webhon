@@ -1,0 +1,46 @@
+package com.example.wv05;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.webkit.WebView;
+import android.widget.Toast;
+
+public class MainActivity extends Activity {
+
+ WebView webview;
+ 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+    
+        super.onCreate(savedInstanceState);
+        
+        // WebView 인스턴스 생성
+        webview = new WebView(this);
+        
+        // setContentView에 작성한 Web뷰를 설정한다 
+        setContentView(webview);
+        
+        // 'assets’ 폴더 안에 있는 'index.html’ 파일을 Web 뷰에서 읽음 
+        webview.loadUrl("file:///android_asset/index.html");
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+    
+        // 'Get URL’라는 메뉴를 추가 
+        menu.add(Menu.NONE, 0, Menu.NONE, "Get URL");
+        
+        return super.onCreateOptionsMenu(menu);
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+          case 0:
+          //  'Get URL’을 터치할 때 토스트로 URL을 표시 
+          Toast.makeText(this, webview.getUrl(), Toast.LENGTH_LONG).show();
+          break;
+        }
+          return true;
+    }
+}

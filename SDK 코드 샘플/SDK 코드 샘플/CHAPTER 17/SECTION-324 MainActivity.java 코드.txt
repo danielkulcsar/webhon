@@ -1,0 +1,6 @@
+// 생략
+    IntentFilter filter = new IntentFilter（）;
+    filter.addAction（"android.SipDemo.INCOMING_CALL"）;
+    callReceiver = new CallReceiver（）;
+    registerReceiver（callReceiver, filter）;
+// 생략

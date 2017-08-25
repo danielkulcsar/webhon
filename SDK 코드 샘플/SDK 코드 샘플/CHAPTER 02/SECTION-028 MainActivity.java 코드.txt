@@ -1,0 +1,62 @@
+package com.example.screen12;
+
+import android.app.ActionBar;
+import android.app.ActionBar.Tab;
+import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
+import android.os.Bundle;
+
+public class MainActivity extends Activity implements ActionBar.TabListener{
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+    
+    // 액션 바 인스턴스를 취득
+    ActionBar actionBar = getActionBar();
+    
+    // 탭1 작성
+    Tab newTab1 = actionBar.newTab();
+    newTab1.setTag("tab1");
+    newTab1.setText("TAB1");
+    newTab1.setTabListener(this);
+    actionBar.addTab(newTab1);
+    
+    // 탭2 작성
+    Tab newTab2 = actionBar.newTab();
+    newTab2.setTag("tab2");
+    newTab2.setText("TAB2");
+    newTab2.setTabListener(this);
+    actionBar.addTab(newTab2);
+    
+    // 액션 바에 커스텀 뷰를 표시하도록 지정
+    actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+  }
+
+  @Override
+  public void onTabReselected(Tab tab, FragmentTransaction ft) {
+    // 탭이 다시 선택될 때 요청
+  }
+
+  @Override
+  public void onTabSelected(Tab tab, FragmentTransaction ft) {
+    Fragment fragment = null;
+    
+    if(tab.getTag().toString().equals("tab1")){
+      // 탭 1이 선택되었을 때 Tab1Fragment를 인스턴스화 한다 
+      fragment = new Tab1Fragment();
+    }else if(tab.getTag().toString().equals("tab2")){
+      // 탭 2가 선택되었을 때 Tab2Fragment를 인스턴스화 한다
+      fragment = new Tab2Fragment();
+    }
+    
+    // Fragment 변환
+    ft.replace(R.id.parent, fragment, tab.getTag().toString());
+  }
+
+  @Override
+  public void onTabUnselected(Tab tab, FragmentTransaction ft) {
+    // 탭이 비선택 상태가 되었을 때 요청
+  }
+}

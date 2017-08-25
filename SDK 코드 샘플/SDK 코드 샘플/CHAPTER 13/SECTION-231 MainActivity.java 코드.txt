@@ -1,0 +1,44 @@
+package com.example.content06;
+
+import java.io.IOException;
+
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+
+public class MainActivity extends Activity {
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+    // ArrayAdapter 클래스를 이용하여 오브젝트 생성 
+    ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+      this, android.R.layout.simple_list_item_1);
+    // res/xml/sample.xml의 읽기 
+    XmlPullParser parser = this.getResources().getXml(R.xml.sample);
+      try {
+        while(parser.next() != XmlPullParser.END_DOCUMENT){
+          String name = parser.getName();
+          if((name != null) && name.equals("person")){
+            int size = parser.getAttributeCount();
+            for(int i=0; i<size; i++){
+              String value = parser.getAttributeValue(i);
+              adapter.add(value);
+            }
+          }
+        }
+      } catch (XmlPullParserException e) {
+        e.printStackTrace();
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+    // 목록 보기 설정
+    ListView listView = (ListView) findViewById(R.id.listview);
+    // 목록 보기의 어댑터를 설정한다
+    listView.setAdapter(adapter);
+  }
+}

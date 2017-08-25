@@ -1,0 +1,33 @@
+package com.example.gp05;
+
+import android.app.Activity;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Bundle;
+import android.widget.ImageView;
+
+public class MainActivity extends Activity {
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+    
+    // main.xml에서 image ID의 ImageView 오브젝트 취득
+    ImageView img = (ImageView) findViewById(R.id.image);
+    
+    // 리소스 오브젝트 취득
+    Resources res = getResources();
+    
+    // icon.png를 Bitmap으로 변환
+    Bitmap bitmap =
+      BitmapFactory.decodeResource(res, R.drawable.icon);
+    
+    // 작성한 Bitmap을 조정한 Bitmap 작성
+    Bitmap bitmap2 = 
+      Bitmap.createScaledBitmap(bitmap, 100, 100, false);
+    
+    // 크기 조정한 Bitmap을 ImageView에 표시
+    img.setImageBitmap(bitmap2);
+  }
+}

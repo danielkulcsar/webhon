@@ -1,0 +1,65 @@
+package com.example.recaudiofile;
+
+import java.io.IOException;
+import android.app.Activity;
+import android.media.MediaRecorder;
+import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+
+public class RecAudioFile extends Activity {
+  private Button mExecuteButton;
+  private MediaRecorder mRecorder;
+
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+
+    // MediaRecorder 인스턴스 작성
+    mRecorder = new MediaRecorder();
+    // 입력 소스를 마이크에 설정
+    mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+    // 기록 포맷을 THREE_GPP에 설정
+    mRecorder.setOutputFormat(
+        MediaRecorder.OutputFormat.THREE_GPP);
+    // 음성 코덱을 AMR-NB에 설정
+    mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+    // 출력 파일 경로 지정
+    mRecorder.setOutputFile(
+        "/sdcard/androidsdkrd_sample.3gp");
+    try {
+      // 레코더 준비 
+      mRecorder.prepare();
+    } catch (IllegalStateException e) {
+      e.printStackTrace();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    // 녹음 시작
+    mRecorder.start();
+
+    this.mExecuteButton = 
+      (Button) findViewById(R.id.execute_button);
+    mExecuteButton.setOnClickListener(new OnClickListener() {
+      public void onClick(View v) {
+        try {
+          // 녹음 정지
+          mRecorder.stop();
+          // 다시 사용할 수 있도록 레코더 상태를 리셋
+          mRecorder.reset();
+        } catch (IllegalStateException e) {
+          e.printStackTrace();
+        }
+      }
+    });
+  }
+
+  @Override
+  protected void onDestroy() {
+    super.onDestroy();
+    // 레코더가 파괴되어 더 이상 사용되지 않으면 리소스를 해제한다
+    mRecorder.release();
+  }
+}

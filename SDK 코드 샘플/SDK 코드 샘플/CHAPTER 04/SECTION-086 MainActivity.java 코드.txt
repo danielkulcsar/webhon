@@ -1,0 +1,40 @@
+package com.example.wv08;
+
+import android.app.Activity;
+import android.content.Context;
+import android.os.Bundle;
+import android.util.Log;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
+import android.widget.Toast;
+
+public class MainActivity extends Activity {
+
+    Context context;
+  
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+    
+        super.onCreate(savedInstanceState);
+        
+        this.context = this;
+        WebView webview = new WebView(this);
+        setContentView(webview);
+        webview.loadUrl("http://error.sample/");
+        
+        // WebViewClient를 Web뷰에 지정한다.
+        webview.setWebViewClient(new WebViewClient(){
+          @Override
+          public void onReceivedError(
+            WebView view, int errorCode, String description, String failingUrl){
+        
+            // 에러 발생시 토스트 표시
+            Toast.makeText( context, "onReceivedError!", Toast.LENGTH_SHORT).show();
+            // 에러 코드 등을 로그 출력 
+            Log.e("Log", "errorCode: " + String.valueOf(errorCode));
+            Log.e("Log", "description: " + description);
+            Log.e("Log", "failingUrl: " + failingUrl);
+          }
+        });
+    }
+}

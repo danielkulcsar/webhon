@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  android:orientation="vertical"
+  android:layout_width="fill_parent"
+  android:layout_height="fill_parent"
+  >
+  <TextView  
+    android:layout_width="fill_parent" 
+    android:layout_height="wrap_content" 
+    android:text="Main Contents"
+    />
+  <SlidingDrawer
+    android:id="@+id/slidingdrawer"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:handle="@+id/sliderhandle"
+    android:content="@+id/slidercontent">    
+     <LinearLayout
+       android:id="@id/sliderhandle"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       >
+       <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:padding="10dip"
+          android:background="#666666"
+          android:textColor="#FF0000"
+          android:text="Handle"
+          />
+     </LinearLayout>
+      <LinearLayout
+        android:id="@id/slidercontent"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="#CCCCCC">
+        <TextView  
+          android:layout_width="fill_parent" 
+          android:layout_height="wrap_content" 
+          android:textColor="#0000FF"
+          android:text="Sub Contents"
+          />
+      </LinearLayout>
+</SlidingDrawer>
+</FrameLayout>

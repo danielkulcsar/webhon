@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns£ºandroid="http£º//schemas.android.com/apk/res/android"
+  android£ºlayout_width="fill_parent"
+  android£ºlayout_height="60dip"
+  android£ºorientation="horizontal"
+  >
+<ImageView
+    android£ºid="@+id/app_icon"
+    android£ºlayout_width="60dip"
+    android£ºlayout_height="70dip"
+    android£ºsrc="@drawable/icon"
+       />
+<TextView
+  android£ºid="@+id/countrycode"
+  android£ºlayout_width="100dip"
+  android£ºlayout_height="wrap_content"
+  />
+<TextView
+  android£ºid="@+id/countryname"
+  android£ºlayout_width="wrap_content"
+  android£ºlayout_height="wrap_content"
+  />
+</LinearLayout>

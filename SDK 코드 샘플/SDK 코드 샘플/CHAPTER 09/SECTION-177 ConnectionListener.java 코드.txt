@@ -1,0 +1,27 @@
+package com.example.wifid03;
+
+import android.net.Wi-fi.p2p.Wi-fiP2pInfo;
+import android.net.Wi-fi.p2p.Wi-fiP2pManager.ConnectionInfoListener;
+import android.util.Log;
+
+public class ConnectionListener implements ConnectionInfoListener{
+  private MainActivity activity;
+  public ConnectionListener(MainActivity activity){
+    this.activity = activity;
+  }
+  @Override
+  public void onConnectionInfoAvailable(Wi-fiP2pInfo info) {
+    Log.i(MainActivity.TAG, "Group Owner’s IP: " + info.groupOwnerAddress.getHostAddress());
+    Log.i(MainActivity.TAG, "Is GoupOwner: " + info.isGroupOwner);
+    Log.i(MainActivity.TAG, "Succed to create P2P paring: " + info.groupFormed);
+    
+    // 그룹 오너 IP 저장
+    this.activity.setOwnerHost(info);
+    
+    // 그룹 오너 경우에 대기하는 상주 스레드를 생성한다
+    if(info.groupFormed && info.isGroupOwner){
+      ServerThread thread = new ServerThread();
+      thread.start();
+    }
+  }
+}

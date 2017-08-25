@@ -1,0 +1,67 @@
+package com.example.camera03;
+
+import java.io.IOException;
+import android.app.Activity;
+import android.hardware.Camera;
+import android.os.Bundle;
+import android.view.SurfaceHolder;
+import android.view.SurfaceView;
+import android.view.WindowManager;
+
+public class MainActivity extends Activity {
+  // 카메라 선언
+  private Camera camera;
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+    // 전체 화면 지정(화면 상부의 아이콘이나 시계를 표시하지 않는다) 
+    getWindow().addFlags(
+      WindowManager.LayoutParams.FLAG_FULLSCREEN);
+    // 카메라 미리보기 화면 설정(화면 뷰 세트) 
+    SurfaceView cameraPreview = 
+      (SurfaceView) findViewById(R.id.preview);
+    // 화면 홀더 생성
+    cameraPreview.getHolder().addCallback(previewCallback);
+    // 화면 홀더 유형 설정(외부 버퍼 사용) 
+    cameraPreview.getHolder().setType(
+      SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
+  }
+  // 화면 홀더의 'Callback()' 메소드 구현 
+  private SurfaceHolder.Callback previewCallback = 
+    new SurfaceHolder.Callback() {
+    // 화면 생성 처리 
+    public void surfaceCreated(SurfaceHolder holder) {
+      // 카메라 초기화
+      try {
+        // 카메라 오픈
+        camera = Camera.open();
+        // 미리보기 디스플레이 세트
+        camera.setPreviewDisplay(holder);
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+    }
+    // 화면 변경 처리
+    public void surfaceChanged(SurfaceHolder holder, 
+        int format, int width, int height) {
+      // 미리보기 정지
+      camera.stopPreview();
+      // 카메라 매개 변수 취득
+      Camera.Parameters params = camera.getParameters();
+      // 매개 변수에 미리보기 표시 크기 설정 
+      params.setPreviewSize(params.getPreviewSize().width, params.getPreviewSize().height);
+      // 설정한 매개 변수를 지정 
+      camera.setParameters(params);
+      // 카메라 미리보기 시작
+      camera.startPreview();
+    }
+    // 화면 해제 처리
+    public void surfaceDestroyed(SurfaceHolder holder) {
+      // 카메라 미리보기 정지
+      camera.stopPreview();
+      // 카메라 릴리스
+      camera.release();
+    }
+  };
+}

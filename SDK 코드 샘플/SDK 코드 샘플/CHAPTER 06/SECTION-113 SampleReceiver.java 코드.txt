@@ -1,0 +1,16 @@
+package com.example.maps11;
+
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.location.LocationManager;
+import android.widget.Toast;
+
+public class SampleReceiver extends BroadcastReceiver {
+  public void onReceive(Context context, Intent intent) {
+    // 받은 브로드캐스트의 인텐트 정보에 'entering’이  있는 경우
+    if(intent.hasExtra(LocationManager.KEY_PROXIMITY_ENTERING)) {
+      Toast.makeText(context, "Came into 1km boundary from the city hall!", Toast.LENGTH_LONG).show();
+    }
+  }
+}

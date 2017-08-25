@@ -1,0 +1,32 @@
+package com.example.wificonfiglist;
+
+import java.util.List;
+
+import android.app.Activity;
+import android.net.wifi.WifiConfiguration;
+import android.net.wifi.WifiManager;
+import android.os.Bundle;
+import android.util.Log;
+
+public class WifiConfigList extends Activity {
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+    // WifiManager 인스턴스를 얻는다
+    WifiManager wifi = (WifiManager) 
+      getSystemService(WIFI_SERVICE);
+    // 네트워크 설정 목록을 얻는다
+    List<WifiConfiguration> configurations = wifi
+        .getConfiguredNetworks();
+    if (configurations != null) {
+      for (final WifiConfiguration config : configurations) {
+        // 설정 정보에서 networkID와 SSID를 로그에 출력
+        int id = config.networkId;
+        String ssid = config.SSID;
+        Log.i("***", String.format("Network ID:%3d SSID:%s",
+            id, ssid));
+      }
+    }
+  }
+}

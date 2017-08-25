@@ -1,0 +1,50 @@
+package com.example.wv04;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.webkit.WebView;
+
+public class MainActivity extends Activity{
+    WebView webview;
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        
+        // WebView 인스턴스 생성 
+        webview = new WebView(this);
+        
+        // setContentView에 작성한 Web 뷰를 설정한다
+        setContentView(webview);
+        
+        // 'assets’ 폴더 안에 있는 'index.html’ 파일을 Web 뷰에서 읽음 
+        webview.loadUrl("file:///android_asset/index.html");
+        
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        // '-’라는 메뉴를 추가
+        menu.add(Menu.NONE, 0, Menu.NONE, "-");
+        
+        // '+’라는 메뉴를 추가
+        menu.add(Menu.NONE, 1, Menu.NONE, "+");
+        
+        return super.onCreateOptionsMenu(menu);
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+          case 0:
+            // '-’가 선택되었을 때 축소된다 
+            webview.zoomOut();
+            break;
+          case 1:
+            // '+’가 선택되었을 때 확대된다 
+            webview.zoomIn();
+            break;
+      }
+      return true;
+    }
+}

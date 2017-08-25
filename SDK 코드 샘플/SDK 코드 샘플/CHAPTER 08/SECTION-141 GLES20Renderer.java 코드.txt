@@ -1,0 +1,108 @@
+package com.example.gp19;
+
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.nio.FloatBuffer;
+
+import javax.microedition.khronos.egl.EGLConfig;
+import javax.microedition.khronos.opengles.GL10;
+
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.effect.Effect;
+import android.media.effect.EffectContext;
+import android.media.effect.EffectFactory;
+import android.opengl.GLES20;
+import android.opengl.GLSurfaceView.Renderer;
+import android.opengl.GLUtils;
+
+public class GLES20Renderer implements Renderer {
+  private Context context;
+  private FloatBuffer vertexBuffer;
+  private int textureId;
+  private Effect effect;
+  private Bitmap bitmap;
+  private Shader shader;
+
+  public GLES20Renderer(Context context) {
+    this.context = context;
+    this.shader = new Shader(context.getResources());
+  }
+
+  @Override
+  public void onSurfaceCreated(GL10 gl10, EGLConfig eglConfig) {
+
+     // EffectContext 인스턴스 취득
+     EffectContext effectContext = EffectContext.createWithCurrentGlContext();
+    
+     // Effectfactory 인스턴스 취득
+     EffectFactory factory = effectContext.getFactory();
+    
+     // 효과 명을 지정(세피아 효과)하여 Effect 인스턴스 취득
+     effect = factory.createEffect(EffectFactory.EFFECT_SEPIA);
+     
+     // 프로그램 생성
+     shader.makeProgram();
+
+    // 텍스처 생성
+    bitmap = BitmapFactory.decodeResource(context.getResources(),
+        R.drawable.sample_texture);
+    
+      
+    textureId = makeTexture(bitmap);
+
+    effect.apply(textureId, bitmap.getWidth(),
+          bitmap.getHeight(), textureId);
+     
+    // 정점 버퍼 생성
+    vertexBuffer = makeBuffer(new float[] { 0, 0, 0 });
+  }
+
+  @Override
+  public void onSurfaceChanged(GL10 gl10, int w, int h) {
+    // 화면의 표시 영역 지정
+    GLES20.glViewport(0, 0, w, h);
+  }
+
+  @Override
+  public void onDrawFrame(GL10 gl10) {
+    // 화면 지우기
+    GLES20.glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+    GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);
+    
+    // 그리기 위치 등을 지정
+    GLES20.glUniform1f(shader.pointSizeHandle, 400.0f);
+    GLES20.glVertexAttribPointer(shader.positionHandle, 3, GLES20.GL_FLOAT,
+        false, 0, vertexBuffer);
+    GLES20.glDrawArrays(GLES20.GL_POINTS, 0, 1);
+  }
+  
+  // 텍스처 생성
+  private int makeTexture(Bitmap bitmap) {
+    int[] textureID = new int[1];
+    
+    // 텍스처에 비트맵을 붙여 넣는다
+    GLES20.glGenTextures(1, textureID, 0);
+    GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
+    GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textureID[0]);
+    GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, bitmap, 0);
+    GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_S,
+       GLES20.GL_CLAMP_TO_EDGE);
+    GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_T, 
+       GLES20.GL_CLAMP_TO_EDGE);
+       
+    // mipmap 텍스처 생성
+    GLES20.glGenerateMipmap(GLES20.GL_TEXTURE_2D);
+
+    return textureID[0];
+  }
+
+  // float 배열을 FloatBuffer로 변환
+  private FloatBuffer makeBuffer(float[] array) {
+    FloatBuffer fb = ByteBuffer.allocateDirect(array.length * 4)
+        .order(ByteOrder.nativeOrder()).asFloatBuffer();
+    fb.put(array).position(0);
+    return fb;
+  }
+}

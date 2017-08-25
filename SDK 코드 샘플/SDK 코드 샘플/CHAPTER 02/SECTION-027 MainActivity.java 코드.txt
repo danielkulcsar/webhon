@@ -1,0 +1,22 @@
+package com.example.screen11;
+
+import android.app.ActionBar;
+import android.app.Activity;
+import android.os.Bundle;
+
+public class MainActivity extends Activity {
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+    
+    // 액션 바 인스턴스 취득
+    ActionBar actionBar = getActionBar();
+    
+    // 'actionbar.xml’ 레이아웃을 커스텀 뷰에 지정 
+    actionBar.setCustomView(R.layout.actionbar);
+    
+    // 액션 바로 커스텀 뷰를 표시할 수 있도록 지정
+    actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+  }
+}

@@ -1,0 +1,31 @@
+package com.example.screen25;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.widget.RadioGroup;
+import android.widget.RadioGroup.OnCheckedChangeListener;
+import android.widget.Toast;
+
+public class MainActivity extends Activity implements OnCheckedChangeListener{
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+
+    RadioGroup radiogroup = (RadioGroup) findViewById(R.id.radiogroup);
+
+    // 라디오 버튼의 상태 변화 이벤트를 취득할 수 있도록 한다
+    radiogroup.setOnCheckedChangeListener(this);
+
+    // 첫 번째 라디오 버튼에 체크
+    radiogroup.check(R.id.radiobutton_first);
+  }
+
+  @Override
+  public void onCheckedChanged(
+    RadioGroup group, int checkedId) {
+
+    // 체크 상태에 변경이 있으면 선택된 ID를 표시 
+    Toast.makeText(this, "Selected " + String.valueOf(checkedId), Toast.LENGTH_SHORT).show();
+  }
+}

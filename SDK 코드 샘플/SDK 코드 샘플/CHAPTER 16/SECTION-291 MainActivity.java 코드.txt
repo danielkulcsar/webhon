@@ -1,0 +1,43 @@
+package com.example.pm07;
+
+import android.app.Activity;
+import android.content.pm.PackageManager;
+import android.os.Bundle;
+import android.util.Log;
+
+public class MainActivity extends Activity {
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+    
+    // 패키지 관리자 인스턴스를 취득
+    PackageManager pm = getPackageManager();
+
+    // 패키지 명을 두 개 지정하여 서명을 비교
+    int check = pm.checkSignatures("com.android.packageinstaller"
+              , "com.android.email");
+
+    // 비교한 결과를 기록(상태는 표를 참조)
+    switch(check){
+        case PackageManager.SIGNATURE_FIRST_NOT_SIGNED:
+          Log.d("SignCheck", "SIGNATURE_FIRST_NOT_SIGNED");
+          break;
+         case PackageManager.SIGNATURE_MATCH:
+          Log.d("SignCheck", "SIGNATURE_MATCH");
+          break;
+         case PackageManager.SIGNATURE_NEITHER_SIGNED:
+          Log.d("SignCheck", "SIGNATURE_NEITHER_SIGNED");
+          break;
+         case PackageManager.SIGNATURE_NO_MATCH:
+          Log.d("SignCheck", "SIGNATURE_NO_MATCH");
+          break;
+         case PackageManager.SIGNATURE_SECOND_NOT_SIGNED:
+          Log.d("SignCheck", "SIGNATURE_SECOND_NOT_SIGNED");
+          break;
+         case PackageManager.SIGNATURE_UNKNOWN_PACKAGE:
+          Log.d("SignCheck", "SIGNATURE_UNKNOWN_PACKAGE");
+          break;
+    }
+  }
+}

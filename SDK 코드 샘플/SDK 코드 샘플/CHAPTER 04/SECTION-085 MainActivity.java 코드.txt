@@ -1,0 +1,40 @@
+package com.example.wv07;
+
+import android.app.Activity;
+import android.content.Context;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.MotionEvent;
+import android.webkit.WebView;
+
+public class MainActivity extends Activity {
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        
+        // NewWebView 인스턴스 생성 
+        NewWebView webview = new NewWebView(this);
+        
+        //  setContentView에 작성한 NewWebView를 설정
+        setContentView(webview);
+        
+        // 'assets’ 폴더 안에 있는 'index.html’ 파일을 Web 뷰에서 읽음
+        webview.loadUrl("file:///android_asset/index.html");
+    }
+    
+    // WebView를 계승한 NewWebView를 작성
+    class NewWebView extends WebView {
+      public NewWebView(Context context) {
+        super(context);
+      }
+      @Override
+      public boolean onTouchEvent(MotionEvent event) {
+        super.onTouchEvent(event);
+   
+        // 화면을 터치할 때 로그 출력
+        Log.i("onTouchEvent","touched!");
+        return true;
+      }
+  }
+}

@@ -1,0 +1,38 @@
+package com.example.wifid03;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.net.ServerSocket;
+import java.net.Socket;
+
+import android.util.Log;
+
+public class ServerThread extends Thread{
+  public void run() {
+
+    /**
+     * 데이터를 수신하기 위해 특정 포트로 대기한다
+     * 여기에서는 수신한 문자열을 로그에 출력하는 간단한 구현 
+     */
+    try {
+      ServerSocket serverSocket = new ServerSocket(MainActivity.port);
+      while(true){
+        Socket socket = serverSocket.accept();
+        InputStream inputstream = socket.getInputStream();
+        char[] buf = new char[1024];
+        Reader reader = new InputStreamReader(inputstream, "UTF-8");
+        StringBuilder string = new StringBuilder();
+        int len;
+        while ( (len = reader.read(buf)) != -1) {
+          string.append(buf, 0, len);
+        }
+        inputstream.close();
+        Log.i(MainActivity.TAG, string.toString());
+      }
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+}

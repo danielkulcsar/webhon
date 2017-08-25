@@ -1,0 +1,55 @@
+package com.example.settings14;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.provider.Settings;
+import android.view.View;
+import android.widget.TextView;
+import android.widget.ToggleButton;
+
+public class MainActivity extends Activity {
+  // 토글 버튼 선언
+  private ToggleButton toggleButton;
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+    // 토글 버튼의 배치
+    toggleButton = (ToggleButton) findViewById(R.id.button);
+    // 토글 버튼의 텍스트를 설정
+    toggleButton.setTextOn("24Format");
+    toggleButton.setTextOff("12Format");
+    // 텍스트 뷰 표시 처리
+    setTextView();
+  }
+  public void onToggleClick(View view) {
+    String time_format;
+    if(toggleButton.isChecked()==true) {
+      time_format = "24";
+    } else {
+      time_format = "12";
+    }
+    // 시간 표시 형식을 변경한다.
+    Settings.System.putString(this.getContentResolver(), 
+      "time_12_24" , time_format);
+    // 텍스트 뷰에 표시
+    setTextView();
+  }
+  private void setTextView() {
+    // 시간 표시 형식을 취득한다
+    String time_format = Settings.System
+      .getString(this.getContentResolver(), "time_12_24");
+    if(time_format.equals("24")) {
+      // 설정이 '24’라면 24시간의 표시와 토글 버튼을 ON
+      time_format = time_format + " (24hour)";
+      toggleButton.setChecked(true);
+    } else {
+      // 설정이 '12’라면 12시간의 표시와 토글 버튼을 OFF
+      time_format = time_format + " (12hour)";
+      toggleButton.setChecked(false);
+    }
+    // 텍스트 뷰에 표시
+    TextView tv = (TextView) findViewById(R.id.text);
+    tv.setText("ON/OFF for Timeformat：" + time_format);
+  }
+}

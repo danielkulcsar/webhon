@@ -1,0 +1,67 @@
+package com.example.backup01;
+
+import android.app.Activity;
+import android.app.backup.BackupManager;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.EditText;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.RandomAccessFile;
+
+public class MainActivity extends Activity {
+  // 데이터를 저장할 파일명
+  static final String DATA_FILE_NAME = "data";
+  // 데이터를 저장할 파일 선언
+  File mDataFile;
+  // 에디트 텍스트 선언
+  EditText mNameEditText;
+  // 백업 관리자 선언
+  BackupManager mBackupManager;
+  // 데이터 문자열 선언
+  String userName = null;
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+    // 에디트 텍스트 읽기
+    mNameEditText = (EditText) findViewById(R.id.edittext);
+    // 데이터 파일 생성
+    mDataFile = new File(getFilesDir(), MainActivity.DATA_FILE_NAME);
+    // 백업 관리자 생성
+    mBackupManager = new BackupManager(this);
+    RandomAccessFile file;
+    try {
+      file = new RandomAccessFile(mDataFile, "rw");
+      if (mDataFile.exists() == true) {
+        userName = file.readLine();
+        mNameEditText.setText(userName);
+      } else {
+        // 데이터 업데이트를 백업 관리자에게 알림
+        mBackupManager.dataChanged();
+      }
+    } catch (FileNotFoundException e) {
+      e.printStackTrace();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+  // 저장 버튼 클릭 시의 처리
+  public void onButtonClick(View view) {
+    userName = String.valueOf(mNameEditText.getText());
+    // 파일 쓰기 처리
+    RandomAccessFile file;
+    try {
+      file = new RandomAccessFile(mDataFile, "rw");
+      file.setLength(0L);
+      file.writeBytes(userName);
+    } catch (FileNotFoundException e) {
+      e.printStackTrace();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    // 데이터 업데이트를 백업 관리자에게 알림
+    mBackupManager.dataChanged();
+  }
+}

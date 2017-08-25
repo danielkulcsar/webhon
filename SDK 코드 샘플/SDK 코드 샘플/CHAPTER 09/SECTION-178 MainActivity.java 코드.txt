@@ -1,0 +1,50 @@
+package com.example.networkusage;
+
+import java.io.IOException;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.os.StrictMode;
+
+public class MainActivity extends Activity {
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+    // StrictMode을 비활성화한다
+    StrictMode.setThreadPolicy(
+        new StrictMode.ThreadPolicy.Builder().permitAll().build());
+    // twitter 퍼블릭 타임라인 취득
+    @SuppressWarnings("unused")
+    HttpEntity httpEntity = getServer(
+        "http://api.twitter.com/1/statuses/public_timeline.xml");
+  }
+  
+  // GET 통신 처리
+  private HttpEntity getServer(String sUrl) {
+    HttpClient client = new DefaultHttpClient();
+    HttpGet get = new HttpGet(sUrl);
+    HttpEntity httpEntity = null;
+    HttpResponse response = null;
+    while(response == null){
+      try {
+        response = client.execute(get);
+      } catch (ClientProtocolException e) {
+        e.printStackTrace();
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+    }
+    if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
+      httpEntity = response.getEntity();
+    }
+    return httpEntity;
+  }
+}

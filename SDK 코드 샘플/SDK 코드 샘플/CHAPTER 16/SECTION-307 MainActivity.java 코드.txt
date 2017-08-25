@@ -1,0 +1,59 @@
+package com.example.keychain;
+
+import java.security.KeyStore;
+import java.security.cert.X509Certificate;
+import java.util.Enumeration;
+import android.app.Activity;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+
+public class MainActivity extends Activity {
+  // ArrayAdapter
+  ArrayAdapter<String> adapter;
+  // ListView
+  ListView listView;
+  
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+    
+    // ArrayAdapter
+    adapter = new ArrayAdapter<String>(this, 
+        android.R.layout.simple_list_item_1);
+    // ListView
+    listView = (ListView) findViewById(R.id.listview);
+    
+    new AsyncTask<Void, Void, Boolean>() {
+      
+      @Override
+      protected Boolean doInBackground(Void... arg) {
+        try {
+          // 저장된 키 로드 처리
+          KeyStore ks = KeyStore
+              .getInstance("AndroidCAStore");
+          ks.load(null, null);
+          // 별칭(Alias) 취득
+          Enumeration<String> aliases = ks.aliases();
+          while (aliases.hasMoreElements()) {
+            String alias = aliases.nextElement();
+            X509Certificate cert = (X509Certificate) ks
+                .getCertificate(alias);
+            // adapter에 이름 추가
+            adapter.add(alias + "-> DN: " + cert.getSubjectDN().getName());
+          }
+          return true;
+        } catch (Exception e) {
+          return false;
+        }
+      }
+      
+      protected void onPostExecute(Boolean trusted) {
+        // ListView에 adapter을 설정
+        listView.setAdapter(adapter);
+      }
+    }.execute();
+  }
+}

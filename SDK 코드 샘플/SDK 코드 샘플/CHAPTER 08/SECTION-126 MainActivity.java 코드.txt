@@ -1,0 +1,43 @@
+package com.example.gp04;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+
+import android.app.Activity;
+import android.graphics.drawable.Drawable;
+import android.os.Bundle;
+import android.widget.ImageView;
+
+public class MainActivity extends Activity {
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+    
+    // main.xml에서 image ID의 ImageView 오브젝트 취득
+    ImageView img = (ImageView) findViewById(R.id.image);
+    
+    try {
+      //  URL작성(※ 해당 경로가 작동하지 않을 경우, 인터넷에서 아무 이미지나 경로를 얻어 붙여 넣은 후 테스트한다.)
+      URL url = new URL("http://sample.com/test.png");
+      
+      // InputStream을 연다.
+      InputStream is = (InputStream) url.getContent();
+      
+      // InputStream에서 Drawable 작성
+      Drawable drawable = Drawable.createFromStream(is, "");
+      
+      // InputStream을 닫는다.
+      is.close();
+      
+      // 작성한 Drawable을 ImageView에 표시
+      img.setImageDrawable(drawable);
+      
+    } catch (IOException e) {
+      e.printStackTrace();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+}

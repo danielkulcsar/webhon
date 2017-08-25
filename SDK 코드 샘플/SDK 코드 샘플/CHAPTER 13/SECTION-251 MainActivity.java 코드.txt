@@ -1,0 +1,90 @@
+package com.example.database11;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
+import android.app.Activity;
+import android.content.res.AssetManager;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteStatement;
+import android.os.Bundle;
+import android.widget.Toast;
+
+public class MainActivity extends Activity {
+  // 데이터베이스 도우미 작성
+  private DatabaseHelper helper = new DatabaseHelper(this);
+  // 데이터베이스 선언
+  public static SQLiteDatabase db;
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    // 시작 시간 취득
+    long start = System.currentTimeMillis();
+    setContentView(R.layout.main);
+    // 데이터베이스 오픈
+    db = helper.getWritableDatabase();
+    // ZIPCODE 테이블 데이터 삭제 처리
+    db.delete("ZIPCODE", null, null);
+    try{
+      AssetManager as = getResources().getAssets();
+      // CSV 파일 읽기
+      InputStream is = as.open("13TOKYO.CSV");
+      BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+      String s;
+      // 트랜잭션 처리 시작
+      db.beginTransaction();
+      try {
+        while((s = reader.readLine())!= null){
+          // CSV 데이터를 쉼표로 구분지은 배열로 저장
+          String[] strAry = s.split(",");
+          // 프리컴파일문 사용 
+          SQLiteStatement stmt = db.compileStatement("INSERT INTO ZIPCODE(DATA1,DATA2,DATA3,
+          DATA4,DATA5,DATA6,DATA7,DATA8,DATA9,DATA10,DATA11,DATA12,DATA13,DATA14,DATA15) 
+          values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);");
+          stmt.bindString(1, strAry[0]);
+          stmt.bindString(2, strAry[1]);
+          stmt.bindString(3, strAry[2]);
+          stmt.bindString(4, strAry[3]);
+          stmt.bindString(5, strAry[4]);
+          stmt.bindString(6, strAry[5]);
+          stmt.bindString(7, strAry[6]);
+          stmt.bindString(8, strAry[7]);
+          stmt.bindString(9, strAry[8]);
+          stmt.bindString(10, strAry[9]);
+          stmt.bindString(11, strAry[10]);
+          stmt.bindString(12, strAry[11]);
+          stmt.bindString(13, strAry[12]);
+          stmt.bindString(14, strAry[13]);
+          stmt.bindString(15, strAry[14]);
+          // 데이터 삽입 처리
+          stmt.executeInsert();
+        }
+        // 커밋 처리
+        db.setTransactionSuccessful();
+      } finally {
+        // 트랜잭션 종료
+        db.endTransaction();
+      }
+      reader.close();
+    }catch(IOException e){
+      e.printStackTrace();
+    }
+    // 종료시간 취득
+    long end = System.currentTimeMillis();
+    // 토스트 표시
+    Toast.makeText(this, "Complete Data Entry! " + (int)((end - start) / 1000) + "Sec." 
+        Toast.LENGTH_LONG).show();
+    // 데이터베이스를 삭제한다
+    File file = new File("/data/data/com.example.database11/databases/sample.db");
+    file.delete();
+  }
+  // 데이터베이스 도우미 마감 처리
+  @Override
+  public void onDestroy(){
+    super.onDestroy();
+    helper.close();
+  }
+}

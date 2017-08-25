@@ -1,0 +1,75 @@
+package com.example.screen22;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.text.Editable;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+public class MainActivity extends Activity 
+  implements OnClickListener{
+  EditText textView;
+  Button btn1, btn2, btn3, btn4, btn5;
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+
+    // 각 버튼 컴포넌트의 인스턴스를 취득
+    textView = (EditText)findViewById(R.id.edittext);
+    btn1 = (Button)findViewById(R.id.btn1);
+    btn2 = (Button)findViewById(R.id.btn2);
+    btn3 = (Button)findViewById(R.id.btn3);
+    btn4 = (Button)findViewById(R.id.btn4);
+    btn5 = (Button)findViewById(R.id.btn5);
+
+    // 각각의 리스너 작성
+    btn1.setOnClickListener(this);
+    btn2.setOnClickListener(this);
+    btn3.setOnClickListener(this);
+    btn4.setOnClickListener(this);
+    btn5.setOnClickListener(this);
+  }
+
+  @Override
+  public void onClick(View v) {
+    if(v == btn1){
+    
+      // 모두 선택
+      textView.selectAll();
+      
+    }else if( v == btn2 ){
+    
+      // 텍스트 지정
+      textView.setText("Auto type text");
+      
+    }else if( v == btn3 ){
+
+      // 텍스트 취득
+      Editable text = textView.getText();
+
+      // 토스트 표시
+      Toast.makeText(this, text.toString(), Toast.LENGTH_SHORT).show();
+      
+    }else if( v == btn4 ){
+
+      // 포커스를 맨 위로 이동
+      textView.setSelection(0);
+      
+    }else if( v == btn5 ){
+
+      // 텍스트 취득 
+      Editable text = textView.getText();
+      
+      if( text.toString().length() >= 3 ){
+
+        // 문자열 앞에서부터 3글자 선택
+        textView.setSelection(0,3);
+      }
+    }
+    
+  }
+}

@@ -1,0 +1,23 @@
+package com.example.camera02;
+
+import android.app.Activity;
+import android.hardware.Camera;
+import android.os.Bundle;
+import android.widget.TextView;
+
+public class MainActivity extends Activity {
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+    // 카메라 오픈
+    Camera camera = Camera.open();
+    // 카메라 매개 변수 취득
+    Camera.Parameters params = camera.getParameters();
+    // 텍스트 뷰에 카메라 매개 변수 문자열 지정
+    TextView tv = (TextView) findViewById(R.id.parameters);
+    tv.setText(params.flatten());
+    // 카메라 출시
+    camera.release();
+  }
+}

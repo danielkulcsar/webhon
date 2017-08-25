@@ -1,0 +1,60 @@
+package com.example.wifid02;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import android.net.Wi-fi.WpsInfo;
+import android.net.Wi-fi.p2p.Wi-fiP2pConfig;
+import android.net.Wi-fi.p2p.Wi-fiP2pDevice;
+import android.net.Wi-fi.p2p.Wi-fiP2pDeviceList;
+import android.net.Wi-fi.p2p.Wi-fiP2pManager;
+import android.net.Wi-fi.p2p.Wi-fiP2pManager.ActionListener;
+import android.net.Wi-fi.p2p.Wi-fiP2pManager.Channel;
+import android.net.Wi-fi.p2p.Wi-fiP2pManager.PeerListListener;
+import android.util.Log;
+
+public class PeerListener implements PeerListListener {
+
+  private List<Wi-fiP2pDevice> peerList = new ArrayList<Wi-fiP2pDevice>();
+  private Wi-fiP2pManager manager;
+  private Channel channel;
+
+  public PeerListener(Wi-fiP2pManager manager, Channel channel) {
+    this.manager = manager;
+    this.channel = channel;
+  }
+
+  @Override
+  public void onPeersAvailable(Wi-fiP2pDeviceList peers) {
+
+    // 피어 목록 취득
+    peerList.addAll(peers.getDeviceList());
+    if (peerList.size() > 0) {
+      for (int i = 0; i < peerList.size(); i++) {
+        // 각 피어 디바이스정보 취득
+        Wi-fiP2pDevice device = peerList.get(i);
+
+        if (device.status == Wi-fiP2pDevice.AVAILABLE) {
+
+          Wi-fiP2pConfig config = new Wi-fiP2pConfig();
+          config.deviceAddress = device.deviceAddress;
+          config.wps.setup = WpsInfo.PBC;
+
+          manager.connect(channel, config, new ActionListener() {
+
+            @Override
+            public void onSuccess() {
+              Log.i(MainActivity.TAG, "접속 요청 성공");
+            }
+
+            @Override
+            public void onFailure(int reason) {
+              Log.i(MainActivity.TAG, "접속 요청 실패");
+            }
+          });
+        }
+      }
+    }
+  }
+
+}

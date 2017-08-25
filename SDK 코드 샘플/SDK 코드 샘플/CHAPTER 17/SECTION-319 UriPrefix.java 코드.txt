@@ -1,0 +1,83 @@
+package com.example.nfc02;
+
+public class UriPrefix {
+  /**
+   * NFC Forum 으로 정의되는 "URI Record Type Definition"
+   */
+  public static String getMap(byte bt){
+    if(bt == (byte) 0x00){
+      return "";
+    }else if(bt == (byte) 0x01){
+      return "http://www.";
+    }else if(bt == (byte) 0x02){
+      return "https://www.";
+    }else if(bt == (byte) 0x03){
+      return "http://";
+    }else if(bt == (byte) 0x04){
+      return "https://";
+    }else if(bt == (byte) 0x05){
+      return "tel:";
+    }else if(bt == (byte) 0x06){
+      return "mailto:";
+    }else if(bt == (byte) 0x07){
+      return "ftp://anonymous:anonymous@";
+    }else if(bt == (byte) 0x08){
+      return "ftp://ftp.";
+    }else if(bt == (byte) 0x09){
+      return "ftps://";
+    }else if(bt == (byte) 0x0A){
+      return "sftp://";
+    }else if(bt == (byte) 0x0B){
+      return "smb://";
+    }else if(bt == (byte) 0x0C){
+      return "nfs://";
+    }else if(bt == (byte) 0x0D){
+      return "ftp://";
+    }else if(bt == (byte) 0x0E){
+      return "dav://";
+    }else if(bt == (byte) 0x0F){
+      return "news:";
+    }else if(bt == (byte) 0x10){
+      return "telnet://";
+    }else if(bt == (byte) 0x11){
+      return "imap:";
+    }else if(bt == (byte) 0x12){
+      return "rtsp://";
+    }else if(bt == (byte) 0x13){
+      return "urn:";
+    }else if(bt == (byte) 0x14){
+      return "pop:";
+    }else if(bt == (byte) 0x15){
+      return "sip:";
+    }else if(bt == (byte) 0x16){
+      return "sips:";
+    }else if(bt == (byte) 0x17){
+      return "tftp:";
+    }else if(bt == (byte) 0x18){
+      return "btspp://";
+    }else if(bt == (byte) 0x19){
+      return "btl2cap://";
+    }else if(bt == (byte) 0x1A){
+      return "btgoep://";
+    }else if(bt == (byte) 0x1B){
+      return "tcpobex://";
+    }else if(bt == (byte) 0x1C){
+      return "irdaobex://";
+    }else if(bt == (byte) 0x1D){
+      return "file://";
+    }else if(bt == (byte) 0x1E){
+      return "urn:epc:id:";
+    }else if(bt == (byte) 0x1F){
+      return "urn:epc:tag:";
+    }else if(bt == (byte) 0x20){
+      return "urn:epc:pat:";
+    }else if(bt == (byte) 0x21){
+      return "urn:epc:raw:";
+    }else if(bt == (byte) 0x22){
+      return "urn:epc:";
+    }else if(bt == (byte) 0x23){
+      return "urn:nfc:";
+    }
+    return null;
+  }
+}

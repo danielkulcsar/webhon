@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<people>
+  <person name="Yuji Uchimura" />
+  <person name="Shinya Makino" />
+  <person name="Keiko Inoue" />
+  <person name="Masayo Hayakawa" />
+</people>

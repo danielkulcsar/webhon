@@ -1,0 +1,51 @@
+package com.example.lv04;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.os.Handler;
+import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
+import android.widget.ListView;
+
+public class MainActivity extends Activity {
+  // 리스트뷰 에 표시하는 데이터
+  String[] words = new String[] { 
+     "aaa", "bbb", "ccc", "ddd", "eee", 
+     "fff", "ggg", "hhh", "iii", "jjj", 
+     "kkk", "lll", "mmm", "nnn", "ooo", 
+     "ppp", "qqq", "rrr", "sss", "ttt", 
+     "uuu", "vvv", "www", "xxx", "yyy", "zzz",
+     "111", "222", "333", "444", "555",
+     "666", "777", "888", "999", "000"
+  };
+  ListView lv;
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+     super.onCreate(savedInstanceState);
+     setContentView(R.layout.main);
+     
+     // 리스트 어댑터 작성 
+     ListAdapter la = (ListAdapter) new ArrayAdapter<String>(this, 
+         android.R.layout.simple_list_item_1, words); 
+         
+     // 작성한 리스트 어댑터를 리스트 뷰에 지정
+     lv = (ListView)findViewById(R.id.listview);
+     lv.setAdapter(la);
+     
+     // 100mm초 후에 runnable을 실행
+     handler.postDelayed(runnable, 100);
+  }
+  Handler handler = new Handler();
+  int i = 0;
+  Runnable runnable = new Runnable(){
+       public void run(){
+         if(i<words.length){
+           // i번째 데이터를 선택한다
+           lv.setSelection(i);
+           i++;
+           // 100mm초 후에 runnable을 실행
+           handler.postDelayed(runnable, 100);
+         }
+       }
+      };
+  }

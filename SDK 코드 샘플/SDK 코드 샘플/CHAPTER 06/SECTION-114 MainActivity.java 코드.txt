@@ -1,0 +1,66 @@
+package com.example.maps12;
+
+//MapActivity 가져오기
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
+import com.google.android.maps.GeoPoint;
+import com.google.android.maps.MapActivity;
+import com.google.android.maps.MapView;
+import android.location.Address;
+import android.location.Geocoder;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.TextView;
+
+//Activity의 계승은 MapActivity으로 한다
+public class MainActivity extends MapActivity {
+  // MapView의 이용
+  private MapView mapview;
+  // 지명 검색 클래스 선언
+  Geocoder mGeoCoder;
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+    // MapView 취득
+    mapview = (MapView) findViewById(R.id.mapview);
+    // 줌 컨트롤러를 배치한다
+    mapview.setBuiltInZoomControls(true);
+    mapview.invalidate();
+  }
+  // 'isRouteDisplayed’ 메소드를 구현한다
+  @Override
+  protected boolean isRouteDisplayed() {
+
+    return false;
+  }
+  // 버튼 클릭 시의 작업
+  public void onGetAddress(View view) {
+    // GeoPoint 클래스 취득
+    GeoPoint gp = mapview.getMapCenter();
+    // 위도 취득
+    double lat = gp.getLatitudeE6() / 1E6;
+    // 경도 취득
+    double lng = gp.getLongitudeE6() / 1E6;
+    // Geocoder을 사용하여 주소(지명)을 취득한다
+    StringBuffer buff = new StringBuffer();
+    try {
+      Geocoder geocoder = new Geocoder(this, Locale.getDefault()); 
+      List<Address> addresses = geocoder.getFromLocation(lat, lng, 1);
+      for (Address addr : addresses) {
+        // 주소(지명) 취득 작업
+        int index = addr.getMaxAddressLineIndex();
+        for (int i = 1; i <= index; ++i) {
+          buff.append(addr.getAddressLine(i));
+        }
+      }
+      // 취득한 주소(지명)을 텍스트 뷰에 표시
+      TextView tv = (TextView) findViewById(R.id.text);
+      tv.setText(buff.toString());
+    } catch (IOException e) {
+
+      e.printStackTrace();
+    }
+  }
+}

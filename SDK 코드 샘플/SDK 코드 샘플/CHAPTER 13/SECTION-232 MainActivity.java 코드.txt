@@ -1,0 +1,50 @@
+package com.example.json01;
+
+import java.io.IOException;
+import java.io.InputStream;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.util.Log;
+
+public class MainActivity extends Activity {
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+    String jsonString = "";
+    JSONArray jsons = null;
+    try {
+      jsonString = getStringFromAssets("sample.json");
+      jsons = new JSONArray(jsonString);
+      for (int i = 0; i < jsons.length(); i++) {
+        JSONObject o = jsons.getJSONObject(i);
+
+        int id = o.getInt("id");
+        String message = o.getString("message");
+
+        Log.d("id", String.valueOf(id));
+        Log.d("message", message);
+      }
+    } catch (IOException e) {
+      e.printStackTrace();
+    } catch (JSONException e) {
+      e.printStackTrace();
+    }
+  }
+  public String getStringFromAssets(String fileName)
+    throws IOException{
+    String str = "";
+    InputStream is = getAssets().open( fileName );
+    int size = is.available();
+    byte[] buffer = new byte[size];
+    is.read(buffer);
+    is.close();
+    str = new String(buffer);
+    return str;
+  }
+}

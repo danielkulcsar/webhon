@@ -1,0 +1,77 @@
+package com.example.recmoviefile;
+
+import java.io.IOException;
+import android.app.Activity;
+import android.content.Context;
+import android.media.MediaRecorder;
+import android.os.Bundle;
+import android.view.SurfaceHolder;
+import android.view.SurfaceView;
+
+public class RecMovieFile extends Activity {
+  // 녹화 미리보기에 서페이스가 필요하기 때문에 SurfaceView의 서브 클래스를 정의한다
+  class MovieSurfaceView extends SurfaceView implements
+      SurfaceHolder.Callback {
+    private MediaRecorder mRecorder;
+
+    MovieSurfaceView(Context context) {
+      super(context);
+      SurfaceHolder holder = getHolder();
+      holder.addCallback(this);
+      // 미리보기에 사용하는 서페이스는 푸시 버퍼가 아니면 안된다
+      holder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
+    }
+
+    // 서페이스가 작성되면 불러온다
+    public void surfaceCreated(SurfaceHolder holder) {
+      // MediaRecorder 인스턴스 생성
+      mRecorder = new MediaRecorder();
+
+      // 비디오 입력 소스를 카메라에 설정 
+      mRecorder.setVideoSource(
+          MediaRecorder.VideoSource.CAMERA);
+      // 기록 포맷을 MPEG-4에 설정
+      mRecorder.setOutputFormat(
+          MediaRecorder.OutputFormat.MPEG_4);
+      // 비디오 코덱을 MPEG-4 SP에 설정
+      mRecorder.setVideoEncoder(
+          MediaRecorder.VideoEncoder.MPEG_4_SP);
+      // 미리보기에 사용할 서페이스 설정 
+      mRecorder.setPreviewDisplay(holder.getSurface());
+      // 출력 파일의 경로 지정
+      mRecorder.setOutputFile(
+          "/sdcard/androidsdkrd_sample.mp4");
+
+      try {
+        // 레코더의 준비
+        mRecorder.prepare();
+      } catch (IllegalStateException e) {
+        e.printStackTrace();
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+      // 녹화 시작
+      mRecorder.start();
+    }
+
+    // 서페이스가 손상되면 콜백
+    public void surfaceDestroyed(SurfaceHolder holder) {
+      // 녹화 정지
+      mRecorder.stop();
+      mRecorder.reset();
+      // 사용하지 않는 시점에서 레코더 리소스를 풀어준다
+      mRecorder.release();
+    }
+
+    // 서페이스의 상태 변화하면 콜백
+    public void surfaceChanged(SurfaceHolder holder, int format,
+        int w, int h) {
+    }
+  }
+
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(new MovieSurfaceView(this));
+  }
+}

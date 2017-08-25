@@ -1,0 +1,24 @@
+package com.example.wifimacaddress;
+
+import android.app.Activity;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
+import android.os.Bundle;
+import android.util.Log;
+
+public class WifiMacAddress extends Activity {
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+    // WifiManager 인스턴스를 얻는다
+    WifiManager wifi = (WifiManager) 
+        getSystemService(WIFI_SERVICE);
+    // 현재 활성 연결 정보를 얻는다
+    WifiInfo info = wifi.getConnectionInfo();
+    // MAC 주소를 얻는다
+    String macAddress = info.getMacAddress();
+    Log.i("***", 
+        String.format("MAC Address:%s", macAddress));
+  }
+}

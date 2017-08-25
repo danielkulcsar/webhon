@@ -1,0 +1,28 @@
+package com.example.nfc04;
+
+import android.app.Activity;
+import android.nfc.NfcAdapter;
+import android.os.Bundle;
+import android.util.Log;
+import android.widget.TextView;
+
+public class MainActivity extends Activity {
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+    TextView text = (TextView) findViewById(R.id.text);
+    
+    // NfcAdapter 인스턴스 취득
+    NfcAdapter adapter = NfcAdapter.getDefaultAdapter();
+    
+    // 유효한지 그렇지 않은지를 확인
+    if( adapter.isEnabled() ){
+      text.setText("NFC is enable");
+      Log.i("NFC04","NFC is enable");
+    }else{
+      text.setText("NFC is disable");
+      Log.i("NFC04","NFC is disable");
+    }
+  }
+}

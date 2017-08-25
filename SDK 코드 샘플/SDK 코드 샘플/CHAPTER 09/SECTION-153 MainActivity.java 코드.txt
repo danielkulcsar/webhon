@@ -1,0 +1,22 @@
+package com.example.telephony12;
+
+import android.app.Activity;
+import android.content.Context;
+import android.os.Bundle;
+import android.telephony.TelephonyManager;
+import android.widget.TextView;
+
+public class MainActivity extends Activity {
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+    // 텍스트 뷰 취득
+    TextView tv = (TextView) findViewById(R.id.text);
+    // getSystemService 오브젝트에서 TelephonyManager 이용
+    TelephonyManager telManager = 
+      (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+    // 'getDeviceId()’ 메소드로 단말기의 단말기 고유 식별번호(IMEI) 취득
+    tv.setText("Device Identification Number(IMEI)：" + telManager.getDeviceId());
+  }
+}

@@ -1,0 +1,104 @@
+package com.example.backup01;
+
+import android.app.backup.BackupAgent;
+import android.app.backup.BackupDataInput;
+import android.app.backup.BackupDataOutput;
+import android.os.ParcelFileDescriptor;
+import android.widget.Toast;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.RandomAccessFile;
+
+public class SampleAgent extends BackupAgent {
+  // 편집 버전 지정
+  static final int AGENT_VERSION = 1;
+  // 저장 데이터 문자열 선언
+  String mUserName;
+  // 파일 선언
+  File mDataFile;
+  @Override
+  public void onCreate() {
+    // 파일 생성
+    mDataFile = new File(getFilesDir(), MainActivity.DATA_FILE_NAME);
+  }
+  // 클라우드에 데이터 백업 처리
+  @Override
+  public void onBackup(ParcelFileDescriptor oldState, BackupDataOutput data,
+    ParcelFileDescriptor newState) throws IOException {
+    //  파일을 연다
+    RandomAccessFile file = new RandomAccessFile(mDataFile, "r");
+    // 파일에서 문자열을 읽는다
+    mUserName = file.readLine();
+    boolean doBackup = (oldState == null);
+    if (!doBackup) {
+      doBackup = compareStateFile(oldState);
+    }
+    // 파일의 쓰기 처리
+    if (doBackup) {
+      ByteArrayOutputStream bufStream = new ByteArrayOutputStream();
+      DataOutputStream outWriter = new DataOutputStream(bufStream);
+      outWriter.writeBytes(mUserName);
+      byte[] buffer = bufStream.toByteArray();
+      int len = buffer.length;
+      data.writeEntityHeader("alldata", len);
+      data.writeEntityData(buffer, len);
+    }
+    writeStateFile(newState);
+    // 토스트에 정보를 표시
+    Toast.makeText(this, "Back up data to Cloud", 
+      Toast.LENGTH_LONG).show();
+  }
+  // 상태 비교
+  boolean compareStateFile(ParcelFileDescriptor oldState) {
+    FileInputStream instream = new FileInputStream(oldState.getFileDescriptor());
+    DataInputStream in = new DataInputStream(instream);
+    try {
+      int stateVersion = in.readInt();
+      if (stateVersion > AGENT_VERSION) {
+        return true;
+      }
+      String lastUserName = in.readLine();
+      return (lastUserName != mUserName);
+    } catch (IOException e) {
+      return true;
+    }
+  }
+  // 상태를 기록한다
+  void writeStateFile(ParcelFileDescriptor stateFile) throws IOException {
+    FileOutputStream outstream = new FileOutputStream(stateFile.getFileDescriptor());
+    DataOutputStream out = new DataOutputStream(outstream);
+    out.writeInt(AGENT_VERSION);
+    out.writeBytes(mUserName);
+  }
+  // 클라우드에서의 데이터 목록 처리
+  @Override
+  public void onRestore(BackupDataInput data, int appVersionCode,
+    ParcelFileDescriptor newState) throws IOException {
+    while (data.readNextHeader()) {
+      String key = data.getKey();
+      int dataSize = data.getDataSize();
+      if ("alldata".equals(key)) {
+        byte[] dataBuf = new byte[dataSize];
+        data.readEntityData(dataBuf, 0, dataSize);
+        ByteArrayInputStream baStream = new ByteArrayInputStream(dataBuf);
+        DataInputStream in = new DataInputStream(baStream);
+        mUserName = in.readLine();
+        RandomAccessFile file = new RandomAccessFile(mDataFile, "rw");
+        file.setLength(0L);
+        file.writeBytes(mUserName);
+      } else {
+        data.skipEntityData();
+      }
+    }
+    writeStateFile(newState);
+    // 토스트에 정보 표시
+    Toast.makeText(this, "etrieve data from Cloud", 
+      Toast.LENGTH_LONG).show();
+  }
+}

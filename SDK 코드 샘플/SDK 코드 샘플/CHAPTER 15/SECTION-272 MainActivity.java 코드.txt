@@ -1,0 +1,21 @@
+package com.example.settings08;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.provider.Settings;
+import android.widget.TextView;
+
+public class MainActivity extends Activity {
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+    // 단말기 식별번호 취득
+    String androidId = Settings.Secure.
+      getString(this.getContentResolver(), 
+      Settings.Secure.ANDROID_ID);
+    // 단말기 식별번호를 텍스트 뷰에 표시
+    TextView tv = (TextView) findViewById(R.id.android_id);
+    tv.setText("Device ID No.：" + androidId);
+  }
+}

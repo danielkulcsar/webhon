@@ -1,0 +1,28 @@
+package com.example.widget06;
+
+import android.app.PendingIntent;
+import android.appwidget.AppWidgetManager;
+import android.appwidget.AppWidgetProvider;
+import android.content.Context;
+import android.content.Intent;
+import android.widget.RemoteViews;
+
+public class SampleWidgetProvider extends AppWidgetProvider {
+  @Override
+  public void onUpdate( Context context,
+    AppWidgetManager appWidgetManager, int[] appWidgetIds) {
+
+    // 리모트 뷰 인스턴스 취득
+    RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.main);
+
+    // ShowDialog 액티비티를 기동하는 펜딩 인텐트를 생성
+    Intent intent = new Intent(context, ShowDialog.class);
+    PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
+
+    // 리모트 뷰의 버튼에 붙인다 
+    views.setOnClickPendingIntent(R.id.btn, pendingIntent);
+
+    // 위젯을 갱신
+    appWidgetManager.updateAppWidget(appWidgetIds, views);
+  }
+}

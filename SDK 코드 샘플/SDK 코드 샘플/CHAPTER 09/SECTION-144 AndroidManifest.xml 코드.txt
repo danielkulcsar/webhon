@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+  android:versionCode="1"
+  android:versionName="1.0" package="com.example.telephony03">
+  <application android:icon="@drawable/icon" 
+    android:label="@string/app_name">
+    <!-- receiver태그를 구현하여 수신기 플래스 명 기술 -->
+    <receiver android:name=".CallReceiver">
+      <!-인텐트 필터 목록 등록 -->
+      <intent-filter>
+        <action android:name=
+          "android.intent.action.NEW_OUTGOING_CALL" />
+      </intent-filter>
+    </receiver>
+  </application>
+  <!-전화 발신 후크 허가-->
+  <uses-permission android:name=
+    "android.permission.PROCESS_OUTGOING_CALLS" />
+</manifest>

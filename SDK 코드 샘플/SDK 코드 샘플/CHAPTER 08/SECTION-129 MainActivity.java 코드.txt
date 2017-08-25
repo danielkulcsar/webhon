@@ -1,0 +1,49 @@
+package com.example.gp07;
+
+import android.app.Activity;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.os.Bundle;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+public class MainActivity extends Activity {
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+    
+   // main.xml에서 image ID의 ImageView 오브젝트 취득
+    ImageView img = (ImageView) findViewById(R.id.image);
+    
+    // main.xml에서 text1/text2/text3
+    // 각 ID의 TextView 오브젝트 취득
+    TextView text1 = (TextView) findViewById(R.id.text1);
+    TextView text2 = (TextView) findViewById(R.id.text2);
+    TextView text3 = (TextView) findViewById(R.id.text3);
+    
+    // 리소스 오브젝트 취득
+    Resources res = getResources();
+    
+    // icon.png을 Bitmap으로 변환
+    Bitmap bitmap = BitmapFactory.decodeResource(res, R.drawable.icon);
+      
+    // Bitmap을 ImageVew에 표시
+    img.setImageBitmap(bitmap);
+    
+    // bitmap에서 지정한 위치의 색을 추출한다
+    int color = bitmap.getPixel(10, 10);
+    
+    // 취득한 color에서 빨간색 정보를 추출하여 표시
+    text1.setText( "Red: " + String.valueOf( Color.red(color) ) );
+
+    // 취득한 color에서 초록색 정보를 추출하여 표시
+    text2.setText( "Green: " + String.valueOf( Color.green(color) ) );
+
+    // 취득한 color에서 파란색 정보를 추출하여 표시
+    text3.setText( "Blue: " + String.valueOf( Color.blue(color) ) );
+    
+  }
+}

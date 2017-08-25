@@ -1,0 +1,66 @@
+package com.example.screen40;
+
+import android.app.Activity;
+import android.content.Context;
+import android.os.Bundle;
+import android.os.Handler;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.PopupWindow;
+
+public class MainActivity extends Activity implements OnClickListener {
+  PopupWindow popupWindow;
+  Handler mHandler = new Handler();
+  View view;
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+
+    // LayoutInflater 인스턴스 취득
+    LayoutInflater inflater = (LayoutInflater) getSystemService(
+        Context.LAYOUT_INFLATER_SERVICE);
+
+    // 팝업 뷰를 'opoup.xml’에서 읽어 들임
+    View popupView = (View)inflater.inflate(R.layout.popup, null);
+
+    // 레이아웃 인수 지정
+    popupView.setLayoutParams(new ViewGroup.LayoutParams(
+        ViewGroup.LayoutParams.WRAP_CONTENT,
+        ViewGroup.LayoutParams.WRAP_CONTENT));
+
+    // 팝업 윈도우를 부여한 View 인스턴스 취득
+    view = findViewById(R.id.button);
+
+    // view에 부여된 팝업 윈도우 인스턴스 생성
+    popupWindow = new PopupWindow(view);
+
+    // 팝업 뷰를 팝업 윈도우에 지정 
+    popupWindow.setContentView(popupView);
+
+    // 사이즈(폭) 설정
+    popupWindow.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
+
+    // 사이즈(높이) 설정
+    popupWindow.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
+
+    // 버튼에 리스너 설정
+    Button btn = (Button) findViewById(R.id.button);
+    btn.setOnClickListener(this);
+  }
+
+  @Override
+  public void onClick(View v) {
+    // 버튼을 터치하면 팝업 윈도우 표시·숨김에서 변환
+    if( popupWindow.isShowing() ){
+      popupWindow.dismiss();
+    }else{
+      popupWindow.showAsDropDown(view, 0, 0);
+    }
+  }
+
+}

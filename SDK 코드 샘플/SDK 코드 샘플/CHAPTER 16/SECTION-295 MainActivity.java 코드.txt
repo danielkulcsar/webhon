@@ -1,0 +1,26 @@
+package com.example.account01;
+
+import android.accounts.Account;
+import android.accounts.AccountManager;
+import android.app.Activity;
+import android.os.Bundle;
+import android.util.Log;
+
+public class MainActivity extends Activity {
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+    
+    // AccountManager 인스턴스를 취득
+    AccountManager accountManager = AccountManager.get(this);
+    
+    // 계정 목록의 취득
+    Account[] accounts = accountManager.getAccounts();
+    
+    for (Account account : accounts) {
+      Log.d("Account.name", account.name);
+      Log.d("Account.type", account.type);
+    }
+  }
+}

@@ -1,0 +1,52 @@
+package com.example.screen10;
+
+import android.content.Context;
+import android.view.ActionProvider;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+// 'ActionProvider’ 클래스를 계승한 클래스를 작성
+public class SampleActionProvider extends ActionProvider implements OnClickListener {
+
+  private Context mContext;
+  private EditText edit;
+  private Button btn;
+
+  // 생성자
+  public SampleActionProvider(Context context) {
+    super(context);
+    // 컨텍스트를 유지한다
+    mContext= context;
+  }
+
+　// 액션 뷰 생성 시에 요청
+  @Override
+  public View onCreateActionView() {
+    // 'LayoutInflater’ 인스턴스 취득 
+    LayoutInflater layoutInflater = LayoutInflater.from(mContext);
+
+    // 레이아웃 파일 'sample_action_provider.xml’을 인스턴스화한다 
+    View view = layoutInflater.inflate(R.layout.sample_action_provider, null);
+
+    // EditText 인스턴스 취득
+    edit = (EditText) view.findViewById(R.id.edit);
+    
+    // Button인스턴스 취득 
+    btn = (Button) view.findViewById(R.id.button);
+    
+    // 클릭 리스너 등록
+    btn.setOnClickListener(this);
+    return view;
+  }
+
+  @Override
+  public void onClick(View v) {
+    // 버튼 클릭 시 EditText 를 입력하는 문자열을 토스트로 표시
+    Toast.makeText(mContext, edit.getText(), Toast.LENGTH_SHORT).show();
+  }
+
+}

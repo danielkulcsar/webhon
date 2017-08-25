@@ -1,0 +1,31 @@
+package com.example.gp02;
+
+import java.io.BufferedInputStream;
+import java.io.IOException;
+
+import android.app.Activity;
+import android.content.res.AssetManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Bundle;
+import android.widget.ImageView;
+
+public class MainActivity extends Activity {
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+    ImageView img = (ImageView) findViewById(R.id.image);
+    
+    AssetManager am = getAssets();
+    BufferedInputStream buf;
+    try {
+      buf = new BufferedInputStream(am.open("filename.png"));
+      Bitmap bitmap = BitmapFactory.decodeStream(buf);
+      img.setImageBitmap(bitmap);
+      buf.close();
+    } catch (IOException e) {
+      e.printStackTrace();
+    } 
+  }
+}

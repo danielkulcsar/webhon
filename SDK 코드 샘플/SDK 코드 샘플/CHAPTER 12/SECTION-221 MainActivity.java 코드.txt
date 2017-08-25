@@ -1,0 +1,25 @@
+(SECTION-220의 샘플 프로그램과의 차이점만 게재 )
+package com.example.camera05;
+(중략) 
+    // 서페이스 변경 처리
+    public void surfaceChanged(SurfaceHolder holder, 
+        int format, int width, int height) {
+      // 미리보기 정지
+      camera.stopPreview();
+      // 카메라 파라미터 획득
+      Camera.Parameters params = camera.getParameters();
+      // 파라미터에 미리보기 표시 크기를 설정
+      params.setPreviewSize(800, 480);
+      // 단말기가 지원하는 이미지 크기를 토스트에 표시
+      String pictureSize = params.get("picture-size-values");
+      Toast.makeText(MainActivity.this, 
+      "지원하는 이미지 크기：\n" + pictureSize, Toast.LENGTH_LONG).show();
+      // 매개 변수에 이미지 크기인 그림 크기 설정 
+      // (지원하는 이미지 크기) 
+      params.setPictureSize(3264, 2448);
+      // 매개 변수 세트
+      camera.setParameters(params);
+      // 카메라 미리보기 설정
+      camera.startPreview();
+    }
+(생략)

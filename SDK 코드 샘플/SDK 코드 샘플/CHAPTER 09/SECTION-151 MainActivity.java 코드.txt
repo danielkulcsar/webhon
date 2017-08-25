@@ -1,0 +1,49 @@
+package com.example.telephony10;
+
+import java.io.ByteArrayInputStream;
+import android.app.Activity;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.os.Bundle;
+import android.provider.ContactsContract;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+
+public class MainActivity extends Activity {
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    // 레이아웃 생성
+    LinearLayout layout=new LinearLayout(this);
+    setContentView(layout); 
+    // 커서의 작성(연락처 목록에서 모든 건 취득)
+    Cursor c = managedQuery(
+      ContactsContract.Data.CONTENT_URI,
+      null, null, null, null);
+    while (c.moveToNext()) {
+      String mimeType = 
+      c.getString(c.getColumnIndex(ContactsContract.Data.MIMETYPE));
+      // mimetype의 판별
+      if(mimeType.equals("vnd.android.cursor.item/photo")) {
+        // BLOB형으로 저장되어 있는 사진 데이터(DATA15)를 byte형으로 검색한다
+        byte[] data15 = c.getBlob(
+          c.getColumnIndex(
+            ContactsContract.Contacts.Data.DATA15));
+        if (data15 != null) {
+          // 비트맵 데이터 작성
+          ByteArrayInputStream bytes = 
+            new ByteArrayInputStream(data15);
+          BitmapDrawable bmd = new BitmapDrawable(bytes); 
+          Bitmap bm = bmd.getBitmap();
+          // 이미지 보기를 작성하여 비트맵 데이터 표시
+          ImageView imageView = new ImageView(this);
+          imageView.setImageBitmap(bm);
+          layout.addView(imageView);
+        }
+      }
+    }
+    // 커서를 닫는다
+    c.close();
+  }
+}

@@ -1,0 +1,39 @@
+package com.example.database08;
+
+import android.app.Activity;
+import android.database.sqlite.SQLiteDatabase;
+import android.os.Bundle;
+
+public class MainActivity extends Activity {
+  // 테이블 도우미 작성
+  private DatabaseHelper helper = new DatabaseHelper(this);
+  // 데이터베이스 선언
+  public static SQLiteDatabase db;
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+    // 데이터베이스 오픈
+    db = helper.getWritableDatabase();
+    // SQL문 실행(레코드 추가(INSERT))
+    db.execSQL("INSERT INTO NAME VALUES(1,'UCHIMURA','YUJI');");
+    db.execSQL("INSERT INTO NAME VALUES(2,'NAKAMURA','TARO');");
+    // SQL문 실행(레코드 업그레이드(UPDATE))
+    db.execSQL("UPDATE NAME SET LAST_NAME='UCHIDA' WHERE ID=1;");
+    // SQL문 실행(레코드 삭제(DELETE))
+    db.execSQL("DELETE FROM NAME WHERE ID=2;");
+    // SQL문 실행(테이블 작성(CREATE TABLE))
+    db.execSQL("CREATE TABLE NAME2 (ID INTEGER PRIMARY KEY, LAST_NAME TEXT, 
+    FIRST_NAME TEXT);");
+    db.execSQL("CREATE TABLE NAME3 (ID INTEGER PRIMARY KEY, LAST_NAME TEXT, 
+    FIRST_NAME TEXT);");
+    // SQL문 실행(테이블 삭제(DROP TABLE))
+    db.execSQL("DROP TABLE NAME3;");
+  }
+  // 데이터베이스 도우미 마감 처리
+  @Override
+  public void onDestroy(){
+    super.onDestroy();
+    helper.close();
+  }
+}

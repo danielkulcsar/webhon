@@ -1,0 +1,32 @@
+package com.example.telephony11;
+
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.provider.ContactsContract;
+import android.provider.ContactsContract.CommonDataKinds;
+import android.provider.ContactsContract.Intents.Insert;
+
+public class MainActivity extends Activity {
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+    // 연락처 목록에 데이터를 보내는 인텐트 발행
+    Intent intent = new Intent(Intent.ACTION_INSERT,
+      ContactsContract.Contacts.CONTENT_URI);
+        // 이름
+        intent.putExtra(Insert.NAME, "Yuji Uchimura");
+        // 전화번호
+        intent.putExtra(Insert.PHONE, "1234567890");
+        // 번호 유형
+        intent.putExtra(Insert.PHONE_TYPE, 
+          CommonDataKinds.Phone.TYPE_HOME);
+        // 메일주소
+        intent.putExtra(Insert.EMAIL, "xxxxx@gmail.com");
+      // 연락처 목록 액티비티 시작
+      startActivity(intent);
+      // 액티비티 종료
+      finish();
+  }
+}

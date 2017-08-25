@@ -1,0 +1,29 @@
+package com.example.mediaplayerlock;
+
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+
+public class MainActivity extends Activity implements OnClickListener {
+
+  Button mPlayButton;
+
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+
+    mPlayButton = (Button) findViewById(R.id.play);
+    mPlayButton.setOnClickListener(this);
+  }
+
+  public void onClick(View view) {
+    if (view == mPlayButton){
+      // 재생 버튼 클릭시 서비스 시작
+      startService(new Intent(SampleService.ACTION_PLAY));
+    }
+  }
+}
