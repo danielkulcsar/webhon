@@ -1,0 +1,57 @@
+package com.example.settings16;
+
+import android.app.Activity;
+import android.content.Context;
+import android.media.AudioManager;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.TextView;
+import android.widget.ToggleButton;
+
+public class MainActivity extends Activity {
+  //  토글 버튼의 선언
+  private ToggleButton toggleButton;
+  // AudioManager의 선언
+  private AudioManager mAudio;
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+    // AudioManager의 이용
+    mAudio = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+    // 토글 버튼의 배치
+    toggleButton = (ToggleButton) findViewById(R.id.button);
+    // 토글 버튼의 텍스트를 설정
+    toggleButton.setTextOn("Auto Mode ON");
+    toggleButton.setTextOff("Auto Mode OFF");
+    // 텍스트 뷰에 표시
+    setTextView();
+  }
+  // 토글 버튼 클릭 처리
+  public void onToggleClick(View view) {
+    // 무음모드의 설정 변경
+    // 1:RINGER_MODE_VIBRATE 2:RINGER_MODE_NORMAL 0:RINGER_MODE_SILENT
+    if(toggleButton.isChecked()==true) {
+      mAudio.setRingerMode(0);
+    } else {
+      mAudio.setRingerMode(2);
+    }
+    // 텍스트 뷰에 표시
+    setTextView();
+  }
+  // 텍스트 뷰 표시 처리
+  private void setTextView() {
+    // 무음모드의 설정을 취득한다
+    int silent = mAudio.getRingerMode();
+    if(silent == 0) {
+      // 무음모드가 'ON'이라면 토글 버튼을 ON
+      toggleButton.setChecked(true);
+    } else {
+      // 무음모드가 'OFF'라면 토글 버튼을 OFF
+      toggleButton.setChecked(false);
+    }
+    // 텍스트 뷰에 표시
+    TextView tv = (TextView) findViewById(R.id.text);
+    tv.setText("サAutoMode(0:ON、1,2:OFF）：" + silent);
+  }
+}

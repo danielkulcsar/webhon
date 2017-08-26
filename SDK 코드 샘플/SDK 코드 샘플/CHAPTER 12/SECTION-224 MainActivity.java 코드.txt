@@ -1,0 +1,103 @@
+package com.example.facedetection;
+
+import java.io.IOException;
+
+import android.app.Activity;
+import android.hardware.Camera;
+import android.hardware.Camera.Face;
+import android.hardware.Camera.FaceDetectionListener;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.SurfaceHolder;
+import android.view.SurfaceView;
+import android.view.WindowManager;
+import android.widget.TextView;
+import android.widget.Toast;
+
+public class MainActivity extends Activity {
+  // 카메라 선언
+  private Camera camera;
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+    // 전체 화면 지정
+    getWindow().addFlags(
+        WindowManager.LayoutParams.FLAG_FULLSCREEN);
+    // 카메라 미리보기 화면 설정
+    SurfaceView cameraPreview = 
+      (SurfaceView) findViewById(R.id.preview);
+    // 서페이스 홀더 생성
+    cameraPreview.getHolder().addCallback(finderViewCallback);
+    cameraPreview.getHolder().setType(
+        SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
+  }
+  // 서페이스 홀더 콜백 
+  private SurfaceHolder.Callback finderViewCallback = 
+    new SurfaceHolder.Callback() {
+    //  서페이스 생성 처리 
+    public void surfaceCreated(SurfaceHolder holder) {
+      // 카메라 초기화
+      try {
+        // 카메라 오픈
+        camera = Camera.open();
+        // 미리보기 디스플레이 세트
+        camera.setPreviewDisplay(holder);
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+    }
+    // 서페이스 변경 처리
+    public void surfaceChanged(SurfaceHolder holder, 
+        int format, int width, int height) {
+      // 미리보기 정지
+      camera.stopPreview();
+      // 카메라 매개 변수 취득
+      Camera.Parameters params = camera.getParameters();
+      // 얼굴 탐지 지원 정보 취득
+      if (params.getMaxNumDetectedFaces() > 0) {
+        Toast.makeText(MainActivity.this, "Face Detection: Enabled", 
+            Toast.LENGTH_LONG).show();
+      } else {
+        Toast.makeText(MainActivity.this, "Face Detection: Enabled", 
+            Toast.LENGTH_LONG).show();
+      }
+      // 매개 변수에 미리보기 표시 크기 설정
+      params.setPreviewSize(params.getPreviewSize().width, 
+                            params.getPreviewSize().height);
+      // 매개 변수 세트
+      camera.setParameters(params);
+      // 카메라 미리보기 시작
+      camera.startPreview();
+      // 얼굴 탐지 리스너 
+      camera.setFaceDetectionListener(new FaceDetectionListener() {
+        public void onFaceDetection(Face[] faces, Camera camera) {
+          // 탐지한 얼굴 수를 텍스트 뷰에 표시
+          TextView tv = (TextView) findViewById(R.id.text);
+          tv.setText("Number of Faces Detected:" + faces.length);
+          for (Face face : faces) {
+            // 얼굴 탐지 신뢰 레벨(1부터 100) )
+            Log.i("FaceDetection", "score: " + face.score);
+            // 탐지한 얼굴마다 고유 ID
+            Log.i("FaceDetection", "id: " + face.id);
+            // 얼굴 경계 
+            Log.i("FaceDetection", "rect: (" 
+                + face.rect.left + "," 
+                + face.rect.top + ","
+                + face.rect.right + "," 
+                + face.rect.bottom + ")");
+          }
+        }
+      });
+      // 얼굴 탐지 기능 시작 
+      camera.startFaceDetection();
+    }
+    // 서페이스 해제 처리
+    public void surfaceDestroyed(SurfaceHolder holder) {
+      // 카메라 미리보기 정지
+      camera.stopPreview();
+      // 카메라 릴리스
+      camera.release();
+    }
+  };
+}

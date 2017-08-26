@@ -1,0 +1,40 @@
+package com.example.gp08;
+
+import java.io.IOException;
+import java.io.InputStream;
+
+import android.app.Activity;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapRegionDecoder;
+import android.graphics.Rect;
+import android.os.Bundle;
+import android.widget.ImageView;
+
+public class MainActivity extends Activity {
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+    ImageView imageView = (ImageView)findViewById(R.id.image);
+    
+    Resources res = this.getResources();  
+    InputStream is = res.openRawResource(R.raw.sample);  
+    try {
+      // BitmapRegionDecoder인스턴스 취득
+      BitmapRegionDecoder regionDecoder = BitmapRegionDecoder.newInstance(is, false);
+      
+      // 원본 이미지 왼쪽 절반을 지정한다
+      Rect rect = new Rect(0, 0, regionDecoder.getWidth() / 2, regionDecoder.getHeight() / 2);
+      
+      // rect을 바탕으로 잘라낸 Bitmap을 생성한다
+      Bitmap bitmap = regionDecoder.decodeRegion(rect, null);
+      
+      // 생성한 Bitmap을 표시한다
+      imageView.setImageBitmap(bitmap);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    
+  }
+}

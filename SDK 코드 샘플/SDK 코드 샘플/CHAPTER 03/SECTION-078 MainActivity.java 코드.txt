@@ -1,0 +1,122 @@
+package com.example.lv11;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import android.app.Activity;
+import android.os.Bundle;
+import android.widget.ExpandableListView;
+import android.widget.SimpleExpandableListAdapter;
+
+public class MainActivity extends Activity {
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.main);
+        
+        // ExpandableListView 인스턴스 취득 
+        ExpandableListView listview = (ExpandableListView) findViewById(R.id.list);
+        
+        // 원본 리스트를 저장하는 ArrayList 인스턴스 생성
+        List<Map<String, Object>> parentsList = new ArrayList<Map<String,Object>>();
+        
+        // 부속 리스트를 저장하는 ArrayList 인스턴스 생성 
+        List<List<Map<String, Object>>> childrenList = 
+            new ArrayList<List<Map<String,Object>>>();
+
+        // 원본 리스트를 저장하는 HashMap 인스턴스 작성
+        Map<String, Object> parentData;
+        
+        // ※여기부터 원본 데이터를 생성
+        
+        // 원본 1을 parentsList에 추가
+        parentData = new HashMap<String, Object>();
+        parentData.put("parent_text", "Original１");
+        parentsList.add(parentData);
+        
+        // 원본 2를 parentsList에 추가 
+        parentData = new HashMap<String, Object>();
+        parentData.put("parent_text", "Original２");
+        parentsList.add(parentData);
+        
+        // 부속 데이터를 일시적으로 저장할 Map과 List를 정의
+        Map<String, Object> childData;
+        List<Map<String, Object>> childList;
+        
+        // ※여기부터 Original1에 붙는 부속 데이터 생성 
+        
+        // Original1에 붙어 서브 데이터용 인스턴스 생성
+        childList = new ArrayList<Map<String,Object>>();
+        
+        //  Original1에 붙는 Associate1-1의 데이터 childData를 작성하여 childList에 추가
+        childData = new HashMap<String, Object>();
+        childData.put("child_text", "Associate1-1");
+        childList.add(childData);
+        
+        // Original에 붙는 Associate1-2의 데이터 childData를 작성하여 childList에 추가
+        childData = new HashMap<String, Object>();
+        childData.put("child_text", "Associate1-2");
+        childList.add(childData);
+        
+        // Original1에 붙는 くchildList를 childrenList에 추가
+        childrenList.add(childList);
+  
+        // ※여기부터 Original2에 붙는 부속 데이터 생성
+        
+        // Original2에 붙어 서브 데이터용 인스턴스 생성
+        childList = new ArrayList<Map<String,Object>>();
+        
+        // Original2에 붙는 Associate2-1의 데이터 childData를 작성하여 childList에 추가
+        childData = new HashMap<String, Object>();
+        childData.put("child_text", "Associate2-1");
+        childList.add(childData);
+        
+        // Original2에 붙는 Associate2-2의 데이터 childData를 작성하여 childList에 추가
+        childData = new HashMap<String, Object>();
+        childData.put("child_text", "Associate2-2");
+        childList.add(childData);
+        
+        // Original2에 붙는 くchildList를 childrenList에 추가 
+        childrenList.add(childList);
+
+        // SimpleExpandableListAdapter 인스턴스 생성
+        SimpleExpandableListAdapter adapter = new SimpleExpandableListAdapter(
+            this,
+            parentsList,
+            android.R.layout.simple_expandable_list_item_1,
+            new String []{"parent_text"},
+            new int []{android.R.id.text1},
+            childrenList,
+            R.layout.raw,
+            new String []{"child_text"},
+            new int []{R.id.child_text}
+        );
+        
+        // 작성한 어댑터를 ExpandableListView에 지정한다
+        listview.setAdapter(adapter);
+
+        // 클릭시 리스너를 설정
+        listview.setOnChildClickListener( new ExpandableListView.OnChildClickListener(){
+            @Override
+            public boolean onChildClick(
+                ExpandableListView parent,
+                View v, 
+                int groupPosition, 
+                int childPosition, 
+                long id
+            ) {
+             // 어댑터에서 데이터를 취득하여 토스트로 표시 
+             ExpandableListAdapter adapter = parent.getExpandableListAdapter();
+             Map<String, Object> childMap = (Map<String, Object>) adapter.getChild(
+                groupPosition,
+                childPosition
+             );
+             Toast.makeText(MainActivity.this, 
+                childMap.get("child_text").toString(), 
+                    Toast.LENGTH_SHORT).show();
+              return false;
+            }
+          } );
+    }
+}

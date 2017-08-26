@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">AndroidRecipeCh09</string>
+    <string name="action_settings">Settings</string>
+    <string name="app_title2">Facebook으로사용자 인증</string>
+    <string name="app_title3">Facebook에서 근황을 포스팅하도록</string>
+    <string name="app_title5">Twitter으로 사용자 인증</string>
+    <string name="app_title6">Twitter에서 타임라인을 얻기</string>
+    <string name="app_title8">Google+의 사용자 인증</string>
+    <string name="app_title9">Google+상의 자신의 프로필을 얻기</string>
+    
+    <string name="facebook_appid">가져온 애플리케이션 ID</string>
+    <string name="twitter_consumer_key">여기에 Consumer key를 기술</string>
+    <string name="twitter_consumer_secret">여기에 Consumer secret를 기술</string>
+    
+    <string name="twitter_callback_url_scheme">jp.co.se.android.recipe.chapter09</string>
+    <string name="twitter_callback_url_host">twitter.com</string>
+    <string name="label_login">로그인</string>
+    <string name="label_logout">로그아웃</string>
+    <string name="label_input">메세지를 입력</string>
+    <string name="label_post">포스팅</string>
+    <string name="label_get_timeline">타임라인을 얻기</string>
+    <string name="label_clear_auth">인증 정보를 삭제</string>
+
+</resources>

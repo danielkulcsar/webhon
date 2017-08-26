@@ -1,0 +1,48 @@
+package com.example.gesture03;
+
+import android.app.Activity;
+import android.gesture.Gesture;
+import android.gesture.GestureOverlayView;
+import android.gesture.GestureOverlayView.OnGesturePerformedListener;
+import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.os.Bundle;
+import android.widget.ImageView;
+import android.widget.Toast;
+
+public class MainActivity extends Activity {
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+    
+    // GestureOverlayView ÀÎ½ºÅÏ½º È¹µæ
+    GestureOverlayView gestureOverlay = (GestureOverlayView) findViewById(R.id.parent);
+
+    final ImageView image = (ImageView) findViewById(R.id.image);
+    
+    gestureOverlay.addOnGesturePerformedListener(
+      new OnGesturePerformedListener() {
+
+      // Á¦½ºÃ³·Î ÀÎ½ÄÇÑ µ¥ÀÌÅÍ È¹µæ
+      @Override
+      public void onGesturePerformed(
+          GestureOverlayView paramGestureOverlayView,
+          Gesture paramGesture) {
+      
+          // Á¦½ºÃ³ ÀÌµ¿ ±ËÀûÀ» ÀÌ¹ÌÁö·Î È¹µæ
+          Bitmap bitmap = paramGesture.toBitmap(200, 200, 8, Color.RED);
+          Drawable drawable = new BitmapDrawable(bitmap);
+          image.setBackgroundDrawable(drawable);
+        
+          // ¸Þ½ÃÁö Ç¥½Ã
+          Toast.makeText(MainActivity.this, "Gesture Recognized", 
+            Toast.LENGTH_SHORT).show();
+      }
+      
+    });
+    
+  }
+}

@@ -1,0 +1,2 @@
+아래의 URL에 공개되어 있는 코드 사용
+　http://code.google.com/p/chrometophone/source/browse/tags/2.0.0/android/c2dm/com/google/android/c2dm/C2DMBaseReceiver.java

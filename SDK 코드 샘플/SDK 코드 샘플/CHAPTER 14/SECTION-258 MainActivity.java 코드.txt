@@ -1,0 +1,62 @@
+package com.example.service03;
+
+import android.app.Activity;
+import android.content.ComponentName;
+import android.content.Intent;
+import android.content.ServiceConnection;
+import android.os.Bundle;
+import android.os.IBinder;
+import android.os.RemoteException;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+public class MainActivity extends Activity {
+  // 버튼 선언
+  private Button button;
+  // 에디트 텍스트 선언
+  private EditText edittext;
+  // 서비스 선언
+  private ISampleService service;
+  @Override
+  public void onCreate(Bundle icicle) {
+    super.onCreate(icicle);
+    setContentView(R.layout.main);
+    button = (Button) findViewById(R.id.button);
+    button.setOnClickListener(bindListener);
+    edittext = (EditText) findViewById(R.id.edittext);
+    // 서비스 바인드 처리
+    Intent intent = new Intent(ISampleService.class.getName());
+    bindService(intent, conn, BIND_AUTO_CREATE);
+  }
+  // ServiceConnection 인터페이스를 구현한 클래스 작성
+  private ServiceConnection conn = new ServiceConnection() {
+    public void onServiceConnected(ComponentName componentName, IBinder binder) {
+      // binder에서 서비스 취득
+      service = ISampleService.Stub.asInterface(binder);
+    }
+    public void onServiceDisconnected(ComponentName name) {
+
+    }
+  };
+  // 서비스 메시지 전송 처리
+  private OnClickListener bindListener = new OnClickListener() {
+    public void onClick(View view) {
+      try {
+        // 서비스에 메시지 전송과 서비스로부터의 수신 처리
+        String response = service.setMessage(edittext.getText().toString());
+        Toast.makeText(getBaseContext(), response, Toast.LENGTH_LONG).show();
+      } catch (RemoteException e) {
+        e.printStackTrace();
+      }
+    }
+  };
+  @Override
+  protected void onPause() {
+    super.onPause();
+    // 서비스를 언바인드한다
+    unbindService(conn);
+  }
+}

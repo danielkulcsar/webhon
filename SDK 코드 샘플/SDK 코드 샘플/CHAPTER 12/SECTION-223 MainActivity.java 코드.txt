@@ -1,0 +1,20 @@
+(SECTION-220의 샘플 프로그램과의 차이점만 게재 )
+package com.example.camera07;
+(중략) 
+    // 서페이스 변경 처리 
+    public void surfaceChanged(SurfaceHolder holder, 
+        int format, int width, int height) {
+      // 미리보기 정지
+      camera.stopPreview();
+      // 카메라 매개 변수 취득
+      Camera.Parameters params = camera.getParameters();
+      //  매개 변수에 미리보기 표시 크기 설정 
+      params.setPreviewSize(params.getPreviewSize().width, params.getPreviewSize().height);
+      // 연속 자동초점 설정
+      params.setFocusMode(params.FOCUS_MODE_CONTINUOUS_PICTURE);
+      // 매개변수 세트
+      camera.setParameters(params);
+      // 카메라 미리보기 시작
+      camera.startPreview();
+    }
+(생략)

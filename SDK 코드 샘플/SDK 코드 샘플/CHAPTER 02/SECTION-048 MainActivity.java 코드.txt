@@ -1,0 +1,44 @@
+package com.example.screen32;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.util.Log;
+import android.widget.SeekBar;
+import android.widget.SeekBar.OnSeekBarChangeListener;
+
+public class MainActivity extends Activity 
+  implements OnSeekBarChangeListener {
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+
+    // 슬라이더 인스턴스 취득
+    SeekBar seekBar = (SeekBar) findViewById(R.id.seekbar);
+
+    // 최대 값을 100으로 설정
+    seekBar.setMax(100);
+
+    // 현재 값을 50으로  설정
+    seekBar.setProgress(50);
+
+    // 리스너 설정
+    seekBar.setOnSeekBarChangeListener(this);
+  }
+
+  // 상태에 변화가 있으면 요청하는 이벤트
+  @Override
+  public void onProgressChanged(
+      SeekBar seekBar, 
+      int progress,
+      boolean fromUser) {
+      // 로그 출력
+      Log.d("onProgressChanged", String.valueOf(progress) );
+  }
+
+  @Override
+  public void onStartTrackingTouch(SeekBar seekBar) {}
+
+  @Override
+  public void onStopTrackingTouch(SeekBar seekBar) {}
+}

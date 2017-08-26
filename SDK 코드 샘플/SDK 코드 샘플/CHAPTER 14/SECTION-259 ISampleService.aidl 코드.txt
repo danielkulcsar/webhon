@@ -1,0 +1,11 @@
+package com.example.service04;
+
+import com.example.service04.ISampleCallback;
+
+oneway interface ISampleService {
+  // 콜백 인터페이스 등록 처리
+  void registerCallback(ISampleCallback callback);
+  
+  // 콜백 인터페이스등록 해제 처리
+  void unregisterCallback(ISampleCallback callback);
+}

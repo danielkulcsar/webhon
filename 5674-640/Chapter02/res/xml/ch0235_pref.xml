@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <PreferenceCategory android:title="설정화면" >
+        <jp.co.se.android.recipe.chapter02.Ch0235DialogPreference
+            android:dialogTitle="커스터마이즈 대화상자 타이틀"
+            android:key="customizedialog_key"
+            android:summary="커스터마이즈 대화상자 설명"
+            android:defaultValue="20140102T030405"
+            android:title="커스터마이즈 대화상자 타이틀" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

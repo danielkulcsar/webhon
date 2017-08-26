@@ -1,0 +1,41 @@
+package com.example.content04;
+
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+import android.app.Activity;
+import android.content.Context;
+import android.os.Bundle;
+import android.widget.TextView;
+
+public class MainActivity extends Activity {
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+    // 파일명 지정('/data/data/패키지명/files/'이하) 
+    String FILENAME = "sample.txt";
+    // 파일에 쓰기 내용 
+    String fileString = 
+      "File writing Sample \n This is second line \n This is third line";
+    try {
+      // openFileOutput 호출
+      FileOutputStream fos = 
+        openFileOutput(FILENAME, Context.MODE_WORLD_READABLE);
+      // 파일 쓰기 
+      fos.write(fileString.getBytes());
+      //  텍스트 뷰에 표시  
+      TextView tv = (TextView) findViewById(R.id.text);
+      tv.setText("Written \n FileName ：" + FILENAME);
+      // 파일 닫기
+      fos.close();
+    } catch (FileNotFoundException e) {
+      e.printStackTrace();
+
+    } catch (IOException e) {
+      e.printStackTrace();
+
+    }
+  }
+}

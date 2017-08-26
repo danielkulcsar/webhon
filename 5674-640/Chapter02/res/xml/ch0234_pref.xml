@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <PreferenceCategory android:title="설정화면" >
+        <EditTextPreference
+            android:dialogTitle="편집 대화상자 타이틀"
+            android:key="edittext_key"
+            android:summary="편집 요약"
+            android:title="타이틀: 편집" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

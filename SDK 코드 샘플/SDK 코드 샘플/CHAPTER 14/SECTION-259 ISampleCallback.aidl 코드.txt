@@ -1,0 +1,6 @@
+package com.example.service04;
+
+oneway interface ISampleCallback {
+  // 텍스트 뷰 갱신 처리
+  void updateText(String value);
+}

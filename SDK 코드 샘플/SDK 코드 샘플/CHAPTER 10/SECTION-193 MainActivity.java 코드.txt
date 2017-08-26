@@ -1,0 +1,17 @@
+(SECTION-185의 샘플 프로그램과의 차이점만 게재)
+package com.example.sensor09;
+(중략)
+    // 센서를 지정한다.
+    int SENSOR_NAME = Sensor.TYPE_LINEAR_ACCELERATION;
+    // 센서 값을 얻는 타이밍을 지정한다
+    int SENSOR_DELAY = SensorManager.SENSOR_DELAY_NORMAL;
+(중략) 
+      // 표시 포맷 지정 시작
+      // X축Y축Z축 각각의 회전에 대한 가속도를 구한다 
+      Log.d(
+        "onSensorChanged", 
+        " X: " + String.valueOf( event.values[0] ) +
+        "\tY: " + String.valueOf( event.values[1] ) +
+        "\tZ: " + String.valueOf( event.values[2] )
+        ); // 표시 포맷 지정 종료
+(생략)

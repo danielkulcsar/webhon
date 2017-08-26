@@ -1,0 +1,70 @@
+package com.example.screen38;
+
+import android.content.Context;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.GridView;
+import android.widget.ImageView;
+
+public class ImageAdapter extends BaseAdapter {
+  private Context mContext;
+
+  public ImageAdapter(Context c) {
+    mContext = c;
+  }
+
+  public int getCount() {
+    return mThumbIds.length;
+  }
+
+  public Object getItem(int position) {
+    return null;
+  }
+
+  public long getItemId(int position) {
+    return 0;
+  }
+
+  public View getView(
+    int position,
+    View convertView,
+    ViewGroup parent
+  ) {
+    ImageView imageView;
+    if (convertView == null) {
+      // ImageView 인스턴스 생성
+      imageView = new ImageView(mContext);
+
+      // 레이아웃 파라메타 설정
+      imageView.setLayoutParams(new GridView.LayoutParams(85, 85));
+
+      // 스케일 타입 설정
+      imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+
+      // 패팅 설정
+      imageView.setPadding(8, 8, 8, 8);
+    } else {
+      // ImageView 인스턴스 설정 
+      imageView = (ImageView) convertView;
+    }
+    // 이미지 지정
+    imageView.setImageResource(mThumbIds[position]);
+    return imageView;
+  }
+
+  private Integer[] mThumbIds = {
+      R.drawable.icon, R.drawable.icon,
+      R.drawable.icon, R.drawable.icon,
+      R.drawable.icon, R.drawable.icon,
+      R.drawable.icon, R.drawable.icon,
+      R.drawable.icon, R.drawable.icon,
+      R.drawable.icon, R.drawable.icon,
+      R.drawable.icon, R.drawable.icon,
+      R.drawable.icon, R.drawable.icon,
+      R.drawable.icon, R.drawable.icon,
+      R.drawable.icon, R.drawable.icon,
+      R.drawable.icon, R.drawable.icon,
+      R.drawable.icon, R.drawable.icon,
+  };
+}

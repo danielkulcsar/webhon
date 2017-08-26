@@ -1,0 +1,43 @@
+package com.example.screen03;
+
+import android.app.Activity;
+import android.app.ProgressDialog;
+import android.os.Bundle;
+import android.os.Handler;
+
+public class MainActivity extends Activity {
+  ProgressDialog progressDialog;
+  int DIALOG_DISPLAY_LENGTH = 3000; 
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+
+    // ProgressDialog 인스턴스 생성
+    progressDialog = new ProgressDialog(this);
+
+    // 프로그래스 스타일을 설정
+    progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+
+    // 취소 가능한 설정
+    progressDialog.setCancelable(true);
+
+    // 타이틀 설정
+    progressDialog.setTitle( "Title" );
+
+    // 메시지 설정
+    progressDialog.setMessage( "Message" );
+
+    // 다이얼로그 설정
+    progressDialog.show();
+
+    // 3초 후에 다이얼 로그 삭제
+    new Handler().postDelayed(new Runnable(){ 
+      @Override 
+      public void run() { 
+        progressDialog.dismiss();
+      } 
+     }, DIALOG_DISPLAY_LENGTH); 
+    
+  }
+}

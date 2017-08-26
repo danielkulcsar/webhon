@@ -1,0 +1,66 @@
+package com.example.btheadset;
+
+import java.util.List;
+import android.app.Activity;
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothHeadset;
+import android.bluetooth.BluetoothProfile;
+import android.os.Bundle;
+import android.util.Log;
+
+public class BTHeadset extends Activity {
+  private BluetoothAdapter mBluetoothAdapter;
+  private BluetoothHeadset mBluetoothHeadset;
+  private BluetoothProfile.ServiceListener mProfileListener
+        = new BluetoothProfile.ServiceListener() {
+    // 프로필 프록시와 연결되면 호출된다
+    public void onServiceConnected(int profile,
+        BluetoothProfile proxy) {
+      if (profile == BluetoothProfile.HEADSET) {
+        mBluetoothHeadset = (BluetoothHeadset) proxy;
+        // 연결되어 있는 헤드셋 목록을 얻는다
+        List<BluetoothDevice> connectedDevices =
+            mBluetoothHeadset.getConnectedDevices();
+        for (BluetoothDevice device : connectedDevices) {
+          Log.i("***", device.getName() + " ("
+                  + device.getAddress() + ")");
+          // 여기에서는 STATE_CONNECTED
+          Log.i("***", "connection state: "
+                  + mBluetoothHeadset
+                    .getConnectionState(device));
+          if (mBluetoothHeadset.isAudioConnected(device)) {
+            // 음성 전송 연결이 활성화되어 있다
+            Log.i("***", "SCO audio is connected");
+          }
+        }
+      }
+    }
+
+    // 프로필 프록시와의 연결이 끊어지면 호출된다
+    public void onServiceDisconnected(int profile) {
+      if (profile == BluetoothProfile.HEADSET) {
+        mBluetoothHeadset = null;
+      }
+    }
+  };
+
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+    // BluetoothAdapter 인스턴스를 얻는다
+    mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+    // 프로필 프록시에 연결한다
+    mBluetoothAdapter.getProfileProxy(this, mProfileListener,
+        BluetoothProfile.HEADSET);
+  }
+
+  @Override
+  protected void onDestroy() {
+    super.onDestroy();
+    // 사용하지 않게 된 시점에서 프로필 프록시와의 연결을 닫는다
+    mBluetoothAdapter.closeProfileProxy(BluetoothProfile.HEADSET,
+        mBluetoothHeadset);
+  }
+}

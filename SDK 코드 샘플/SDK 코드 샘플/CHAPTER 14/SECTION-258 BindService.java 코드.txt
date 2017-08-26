@@ -1,0 +1,27 @@
+package com.example.service03;
+
+import android.app.Service;
+import android.content.Intent;
+import android.os.IBinder;
+import android.os.RemoteException;
+import android.widget.Toast;
+
+public class BindService extends Service {
+  @Override
+  public IBinder onBind(Intent intent) {
+    Toast.makeText(this, "Service started", Toast.LENGTH_LONG).show();
+    return mSampleService;
+  }
+  private final ISampleService.Stub mSampleService = new ISampleService.Stub() {
+    public String setMessage(String message) throws RemoteException {
+      // 받은 서비스를 변경하여 반환한다.
+      return "[Received] " + message;
+    }
+  };
+  // 종료시 onDestroy 메소드
+  @Override
+  public void onDestroy() {
+    super.onDestroy();
+    Toast.makeText(this, "Service ended", Toast.LENGTH_LONG).show();
+  }
+}

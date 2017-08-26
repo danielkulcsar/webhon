@@ -1,0 +1,34 @@
+package com.example.gp09;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.view.View;
+import android.view.View.DragShadowBuilder;
+import android.widget.ImageView;
+
+public class MainActivity extends Activity {
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+
+    //  ImageView인스턴스 취득
+    final ImageView imageView = (ImageView) findViewById(R.id.image);
+
+    // LongClick(길게 터치) 리스너를 설정한다
+    imageView.setOnLongClickListener(new View.OnLongClickListener() {
+
+      @Override
+      public boolean onLongClick(View v) {
+
+        // 드래그 그림자 인스턴스 생성
+        DragShadowBuilder shadow = new View.DragShadowBuilder(imageView);
+
+        // 드래그 시작
+        v.startDrag(null, shadow, null, 0);
+
+        return true;
+      }
+    });
+  }
+}

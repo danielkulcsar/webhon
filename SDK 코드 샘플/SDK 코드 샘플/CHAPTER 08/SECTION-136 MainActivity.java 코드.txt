@@ -1,0 +1,21 @@
+package com.example.gp14;
+
+import android.app.Activity;
+import android.opengl.GLSurfaceView;
+import android.os.Bundle;
+
+public class MainActivity extends Activity {
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    
+    // GLSurfaceView 오브젝트 생성
+    GLSurfaceView view = new GLSurfaceView(this);
+    
+    // Renderer를 설정한다
+    view.setRenderer(new SampleOpenGL());
+    
+    // GLSurfaceView를 표시한다
+    setContentView(view);
+  }
+}

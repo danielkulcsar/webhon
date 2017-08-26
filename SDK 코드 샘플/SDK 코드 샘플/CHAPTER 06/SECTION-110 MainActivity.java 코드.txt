@@ -1,0 +1,119 @@
+package com.example.maps08;
+
+import java.util.List;
+
+import com.google.android.maps.GeoPoint;
+import com.google.android.maps.MapActivity;
+import com.google.android.maps.MapController;
+import com.google.android.maps.MapView;
+import com.google.android.maps.Overlay;
+import com.google.android.maps.Projection;
+
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Point;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.os.Bundle;
+import android.widget.TextView;
+
+// Activity의 상속은 'MapActivity'로 한다
+public class MainActivity extends MapActivity 
+  implements LocationListener {
+  // LocationManager 선언
+  LocationManager mLocationManager;
+  // MapController선언
+  MapController mMapController;
+  // 텍스트 뷰 선언
+  TextView tv;
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+    // MapView 이용
+    MapView mapview = (MapView) findViewById(R.id.mapview);
+    // MapController 취득
+    mMapController = mapview.getController();
+    // 줌 컨트롤러를 배치한다
+    mapview.getController().setZoom(15);
+    mapview.setBuiltInZoomControls(true);
+    mapview.invalidate();
+    // 위치 관리자 취득
+    mLocationManager = 
+      (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+    // 위치 정보변경 설정(업데이트 시간： 60초, 업데이트거리： 50m)
+    mLocationManager.requestLocationUpdates(
+      LocationManager.GPS_PROVIDER,
+      60000, 50, this);
+    // 텍스트 뷰 취득
+    tv = (TextView) findViewById(R.id.text);
+    tv.setText("Identifying Current Location…");
+  }
+  // 'isRouteDisplayed’ 메소드를 구현한다
+  @Override
+  protected boolean isRouteDisplayed() {
+    return false;
+  }
+  // 위치 정보가 업데이트된 경우
+  public void onLocationChanged(Location location) {
+
+    GeoPoint gp = new GeoPoint((int)(location.getLatitude()*1E6), 
+      (int)(location.getLongitude()*1E6));
+    // 위도 취득
+    double lat = gp.getLatitudeE6() / 1E6;
+    // 경도 취득
+    double lng = gp.getLongitudeE6() / 1E6;
+    // 지도의 중심위치를 이동한다
+    mMapController.animateTo(gp);
+    // 마지막에 취득한 위도·경도를 텍스트 뷰에 출력
+    tv.setText("Latitude：" + String.valueOf(lat) 
+      + ", Longtitude：" + String.valueOf(lng));
+    // 오버레이에 표시되는 이미지 설정
+    Bitmap icon = BitmapFactory.decodeResource(getResources(), R.drawable.foot);
+    AddOverlay overlay = new AddOverlay(icon, gp);
+    // 맵 뷰 오버레이를 추가한다
+    MapView mapview = (MapView) findViewById(R.id.mapview);
+    List<Overlay> overlays = mapview.getOverlays();
+    overlays.add(overlay);
+    // 맵 뷰 다시 그리기
+    mapview.invalidate();
+  }
+  // 지도에 표시될 오버레이
+  private class AddOverlay extends Overlay {
+    // 그릴 이미지
+    Bitmap mImage;
+    int mOffsetX;
+    int mOffsetY;
+    // 이미지를 표시할 위치
+    GeoPoint mPoint;
+    AddOverlay(Bitmap image, GeoPoint initial) {
+      mImage = image;
+      mOffsetX = 0 - image.getWidth() / 2;
+      mOffsetY = 0 - image.getHeight() / 2;
+      mPoint = initial;
+    }
+    @Override
+    public void draw(Canvas canvas, MapView mapView, boolean shadow) {
+      super.draw(canvas, mapView, shadow);
+      // 화면의 위치와 지도 위치와의 상호변환을 수행한다
+      Projection projection = mapView.getProjection();
+      Point point = new Point();
+      projection.toPixels(mPoint, point);
+      point.offset(mOffsetX, mOffsetY);
+      // 오버레이에 그리기
+      canvas.drawBitmap(mImage, point.x, point.y, null);
+    }
+  }
+  public void onProviderDisabled(String provider) {
+  }
+
+  public void onProviderEnabled(String provider) {
+  }
+
+  public void onStatusChanged(String provider, int status, Bundle extras) {
+  }
+
+}

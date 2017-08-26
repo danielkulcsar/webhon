@@ -1,0 +1,70 @@
+package com.example.service04;
+
+import android.app.Service;
+import android.content.Intent;
+import android.os.Handler;
+import android.os.IBinder;
+import android.os.Message;
+import android.os.RemoteCallbackList;
+import android.os.RemoteException;
+
+public class CallbackService extends Service {
+  // 서비스 지속시간 설정(초)
+  private int count = 10;
+  // 콜백 인터페이스 설정
+  private final RemoteCallbackList<ISampleCallback> list
+    = new RemoteCallbackList<ISampleCallback>();
+  // 핸들러 처리
+  private Handler handler = new Handler() {
+    @Override
+    public void handleMessage(Message msg) {
+      if (msg.what == 1) {
+        int numListeners = list.beginBroadcast();
+        for (int i = 0; i < numListeners; i++) {
+          try {
+            if(count == 0) {
+              list.getBroadcastItem(i)
+            .updateText("Service ended");
+            } else {
+              list.getBroadcastItem(i)
+            .updateText("Time to end of service: " + count + "sec.");
+            }
+          } catch (RemoteException e) {
+          }
+        }
+        list.finishBroadcast();
+        // 1초마다 메시지 송신
+        handler.sendEmptyMessageDelayed(1, 1 * 1000);
+        count--;
+      } else {
+        super.dispatchMessage(msg);
+      }
+    }
+  };
+  @Override
+  public void onCreate() {
+    super.onCreate();
+    handler.sendEmptyMessage(1);
+  }
+  @Override
+  public IBinder onBind(Intent intent) {
+    if(ISampleService.class.getName().equals(intent.getAction())){
+      return sampleSerciceIf;
+    }
+    return null;
+  }
+  // ISampleService 구현
+  private ISampleService.Stub sampleSerciceIf = 
+    new ISampleService.Stub(){
+    public void registerCallback(ISampleCallback callback)
+      throws RemoteException {
+      // 콜백 리스트 등록 처리
+      list.register(callback);
+    }
+    public void unregisterCallback(ISampleCallback callback)
+      throws RemoteException {
+      // 콜백 리스트 등록 해제 처리
+      list.unregister(callback);
+    }
+  };
+}

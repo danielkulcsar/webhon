@@ -1,0 +1,59 @@
+package com.example.maps05;
+
+import com.google.android.maps.GeoPoint;
+import com.google.android.maps.MapActivity;
+import com.google.android.maps.MapView;
+import android.os.Bundle;
+import android.view.View;
+
+// Activity 계승은 'MapActivity’로 한다
+public class MainActivity extends MapActivity {
+  // MapView의 이용
+  MapView mapview;
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+    // MapView의 취득
+    mapview = (MapView) findViewById(R.id.mapview);
+    // 줌 컨트롤러를 배치한다
+    mapview.setBuiltInZoomControls(true);
+    mapview.invalidate();
+  }
+  // 'isRouteDisplayed’ 메소드를 구현한다
+  @Override
+  protected boolean isRouteDisplayed() {
+    return false;
+
+  }
+  // 버튼 클릭시의 처리(후지산)
+  public void onMoveMtFuji(View view) {
+    // 이동처 위도 설정(북위35도21분39초)
+    int lat = (int) ((35.0d + 21.0d / 60 + 39.0d / 3600) * 1E6);
+    // 이동처 경도 설정(동경138도43분39초)
+    int lng = (int) ((138.0d + 43.0d /60 + 39.0d / 3600) * 1E6);
+    // GeoPoint 클래스 취득
+    GeoPoint gp = new GeoPoint(lat,lng);
+    mapview.getController().animateTo(gp);
+  }
+  // 버튼 클릭 시의 처리(오키나와)
+  public void onMoveOkinawa(View view) {
+    // 이동처 위도 설정(북위26도13분00초)
+    int lat = (int) ((26.0d + 13.0d / 60 + 00.0d / 3600) * 1E6);
+    // 이동처 경도 설정(동경127도70분00초)
+    int lng = (int) ((127.0d + 41.0d /60 + 00.0d / 3600) * 1E6);
+    // GeoPoint 클래스 취득
+    GeoPoint gp = new GeoPoint(lat,lng);
+    mapview.getController().animateTo(gp);
+  }
+  // 버튼 클릭시 처리(삿뽀로)
+  public void onMoveSapporo(View view) {
+    // 이동처 위도 설정(북위43도04분00초)
+    int lat = (int) ((43.0d + 04.0d / 60 + 00.0d / 3600) * 1E6);
+    // 이동처 경도 설정(동경141도21분00초)
+    int lng = (int) ((141.0d + 21.0d /60 + 00.0d / 3600) * 1E6);
+    // GeoPoint 클래스 취득
+    GeoPoint gp = new GeoPoint(lat,lng);
+    mapview.getController().animateTo(gp);
+  }
+}

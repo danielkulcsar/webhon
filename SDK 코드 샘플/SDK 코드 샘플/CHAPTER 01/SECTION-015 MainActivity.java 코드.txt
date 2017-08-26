@@ -1,0 +1,20 @@
+import android.app.Activity;
+import android.os.Bundle;
+import android.util.Log;
+
+public class MainActivity extends Activity {
+
+// 로그 출력시의 태그 설정 
+  private static final String TAG = "LogOutput";
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+// 로그 출력
+    Log.e(TAG, "ERROR!");  // 에러
+    Log.w(TAG, "WARN!");  // 경고
+    Log.i(TAG, "INFO!");  // 정보
+    Log.d(TAG, "DEBUG!");  // 디버그
+    Log.v(TAG, "VERBOSE!");  // Verbose(위의 어떤 것에도 맞지 않음)
+  }
+}

@@ -1,0 +1,29 @@
+package com.example.screen37;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.widget.CalendarView;
+import android.widget.CalendarView.OnDateChangeListener;
+import android.widget.Toast;
+
+public class MainActivity extends Activity implements OnDateChangeListener {
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+    
+    CalendarView calendarView = (CalendarView) findViewById(R.id.calendarView);
+    
+    // 리스너 지정
+    calendarView.setOnDateChangeListener(this);
+  }
+
+  @Override
+  public void onSelectedDayChange(CalendarView view, int year, int month,
+      int dayOfMonth) {
+    // 선택한 날짜가 선택될 때 날짜를 토스트로 표시
+    Toast.makeText(this, String.format("%04d/%02d/%02d", 
+      year, month + 1, dayOfMonth), Toast.LENGTH_SHORT).show();
+    
+  }
+}

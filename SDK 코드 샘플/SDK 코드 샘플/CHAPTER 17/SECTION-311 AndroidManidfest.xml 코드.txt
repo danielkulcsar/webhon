@@ -1,0 +1,7 @@
+<manifest xmlns£ºandroid="http£º//schemas.android.com/apk/res/android"
+    package="com.example.etc04"
+    android£ºversionCode="1"
+    android£ºversionName="1.0"
+    android£ºinstallLocation="auto"
+    >
+</manifest>

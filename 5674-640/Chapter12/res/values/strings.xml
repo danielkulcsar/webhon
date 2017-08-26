@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Chapter12</string>
+    <string name="action_settings">Settings</string>
+    <string name="app_title1">앱 종료 후에도 일정 시간 처리를 계속하기</string>
+    <string name="app_title2">일정 시간 후에 이벤트를 발생시키기</string>
+    <string name="app_title3">이미지 표시를 비동기로 </string>
+    <string name="text_start">시작</string>
+
+</resources>

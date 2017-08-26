@@ -1,0 +1,28 @@
+package com.example.download;
+
+import android.app.Activity;
+import android.app.DownloadManager;
+import android.net.Uri;
+import android.os.Bundle;
+import android.util.Log;
+
+public class Download extends Activity {
+  private DownloadManager mDownloadManager;
+
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+    // 다운로드 관리자 인스턴스를 얻는다
+    mDownloadManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
+    // 다운로드 대상인 데이터의 Uri 생성
+    // (parse에 전달할 URL을 적절한 형태로 대체할 것)
+    Uri uri = Uri.parse("http://example.com/sample.txt");
+    // URI에 대한 다운로드 요청 생성
+    DownloadManager.Request request = new DownloadManager.Request(uri);
+    // 다운로드 요청을 큐에 등록
+    long id = mDownloadManager.enqueue(request);
+    // 다운로드 ID를 로그에 출력
+    Log.i("***", "Download ID:" + id);
+  }
+}

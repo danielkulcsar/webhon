@@ -1,0 +1,35 @@
+package com.example.settings18;
+
+import java.util.Locale;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.widget.TextView;
+
+public class MainActivity extends Activity {
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+    // 디폴트 로케일 검색
+    Locale locale = Locale.getDefault();
+    // 국가 코드 검색
+    String Country = locale.getCountry();
+    // 국가 이름 검색
+    String DisplayCountry = locale.getDisplayCountry();
+    // IS03국가 코드 검색
+    String ISO3Country = locale.getISO3Country();
+    // 언어 코드 검색
+    String Language = locale.getLanguage();
+    // 언어 명칭 검색
+    String DisplayLanguage = locale.getDisplayLanguage();
+    // 텍스트 뷰에 현재의 지역·언어 정보를 표시
+    TextView tv = (TextView) findViewById(R.id.text);
+    tv.setText("Current Location, Language\n\n" 
+        + "Country Code：" + Country + "\n"
+        + "Coutnry：" + DisplayCountry + "\n"
+        + "IS03Country Code：" + ISO3Country + "\n"
+        + "Language Code：" + Language + "\n"
+        + "Language：" + DisplayLanguage);
+  }
+}

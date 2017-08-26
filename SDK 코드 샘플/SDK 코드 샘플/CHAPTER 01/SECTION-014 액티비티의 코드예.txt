@@ -1,0 +1,15 @@
+import android.app.Activity;
+import android.os.Bundle;
+import android.widget.TextView;
+
+public class basic02 extends Activity {
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+    TextView textview1 = (TextView) findViewById(R.id.textview1);
+    textview1.setTextColor(
+        getResources().getColor(R.color.magenta)
+    );
+  }
+}

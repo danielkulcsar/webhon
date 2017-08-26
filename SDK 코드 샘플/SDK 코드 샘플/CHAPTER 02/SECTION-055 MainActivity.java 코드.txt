@@ -1,0 +1,31 @@
+package com.example.screen39;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.widget.Gallery;
+
+public class MainActivity extends Activity{
+  // 갤러리에 이미지를 표시하는 아이콘 목록
+  int[] imgs = new int[] { 
+    R.drawable.icon,
+    R.drawable.icon,
+    R.drawable.icon,
+    R.drawable.icon,
+    R.drawable.icon,
+    R.drawable.icon,
+    R.drawable.icon,
+    R.drawable.icon,
+    R.drawable.icon,
+  };
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+
+    // Gallery 인스턴스 취득
+    Gallery gallery = (Gallery) findViewById(R.id.gallery);
+
+    // 어댑터 세트
+    gallery.setAdapter(new ImageAdapter(this, imgs));
+  }
+}

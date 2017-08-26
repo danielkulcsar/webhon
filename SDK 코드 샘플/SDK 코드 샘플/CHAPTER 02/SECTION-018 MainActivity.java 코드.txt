@@ -1,0 +1,50 @@
+package com.example.screen02;
+
+import android.app.Activity;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Bundle;
+
+public class MainActivity extends Activity {
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+
+    // Notification클릭 시 여는 URL
+    String url = "http://www.google.com/";
+    Uri uri = Uri.parse( url );
+
+    // Notification클릭 시 PendingIntent를 생성
+    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+    PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0); 
+
+    // NotificationManager인스턴스를 취득
+    NotificationManager nManager = 
+      (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+    // Notification인스턴스를 생성
+    Notification notification = new Notification();
+
+    // 플래그 설정
+    notification.flags = Notification.FLAG_AUTO_CANCEL;
+    // 이이콘 설정
+    notification.icon = R.drawable.icon;
+    // 알림 텍스트 설정
+    notification.tickerText = "text notification";
+    // Notification 바를 열 때 표시되는 내용을 설정
+    notification.setLatestEventInfo(
+      getApplicationContext(), 
+      "Title", 
+      "Message",
+      pendingIntent
+    );
+    
+    // Notification을 표시
+    nManager.notify(1,notification);
+  }
+}

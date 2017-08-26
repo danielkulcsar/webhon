@@ -1,0 +1,58 @@
+package com.example.gp15;
+
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.nio.IntBuffer;
+import javax.microedition.khronos.egl.EGLConfig;
+import javax.microedition.khronos.opengles.GL10;
+import android.opengl.GLSurfaceView.Renderer;
+import android.opengl.GLU;
+
+// Renderer를 상속받는 SampleOpenGL 작성
+public class SampleOpenGL implements Renderer {
+
+  // 프레임 표시할 때 여기에서 구현한다
+  @Override
+  public void onDrawFrame(GL10 gl) {
+  
+    // 표시할 정점 위치를 정한다
+    int[] vertex = {
+      100 * 0x10000, 100 * 0x10000,  // 첫 번째 위치
+      200 * 0x10000, 200 * 0x10000,  // 두번째 위치
+      300 * 0x10000, 400 * 0x10000,  // 세 번째 위치
+      100 * 0x10000, 300 * 0x10000   // 네 번째 위치
+    };
+    
+    // vertex를 바탕으로 표시할 위치를 잡는다
+    ByteBuffer bytebuffer = ByteBuffer.allocateDirect( vertex.length * 4 );
+    bytebuffer.order( ByteOrder.nativeOrder() );
+    IntBuffer intbuffer = bytebuffer.asIntBuffer();
+    intbuffer.put( vertex );
+    intbuffer.position( 0 );
+
+    // 작성할 점 크기 지정
+    gl.glPointSize( 5 );
+    // 표시할 정점을 GL에 설정한다
+    gl.glVertexPointer( 2, GL10.GL_FIXED, 0, intbuffer );
+    // 첫 번째 위치에서 두 번째, 세 번째, 네 번째 위치
+    // 각 점을 통과하는 직선을 그린다
+    // (GL10.GL_LINES로 하여 두개의 선을 긋는다)
+    gl.glDrawArrays( 
+      GL10.GL_LINE_STRIP, 0, vertex.length / 2 );
+  }
+
+  // Surface가 변경되었을 때의 구현을 여기에서 수행한다
+  @Override
+  public void onSurfaceChanged(
+    GL10 gl, int width, int height) {
+    // 뷰포트 재설정
+    gl.glViewport( 0, 0, width, height );
+    // 2D로 그리기 위한 선언
+    GLU.gluOrtho2D( gl, 0.0f, width, 0.0f, height );
+    // VERTEX_ARRAY를 활성화한다
+    gl.glEnableClientState( GL10.GL_VERTEX_ARRAY );
+  }
+  // Surface가 작성되었을 때의 구현
+  @Override
+  public void onSurfaceCreated(GL10 gl, EGLConfig config) {}
+}

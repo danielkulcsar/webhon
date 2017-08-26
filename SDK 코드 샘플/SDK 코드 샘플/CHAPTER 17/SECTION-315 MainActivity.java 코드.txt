@@ -1,0 +1,46 @@
+package com.example.etc08;
+
+import android.app.Activity;
+import android.database.sqlite.SQLiteCursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.os.Bundle;
+import android.os.StrictMode;
+import android.os.StrictMode.VmPolicy;
+import android.os.StrictMode.VmPolicy.Builder;
+import android.util.Log;
+import android.view.View;
+
+public class MainActivity extends Activity {
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    
+    // VmPolicy.Builder 인스턴스 생성
+    Builder builder = new StrictMode.VmPolicy.Builder();
+    
+    // 감지 가능한 모든 의심스러운 상태를 감지
+    builder.detectAll();
+    
+    // 정책 위반 시에 로그출력
+    builder.penaltyLog();
+    
+    // 정책 위반 시에 종료
+    builder.penaltyDeath();
+    
+    //  ThreadPolicy 인스턴스 생성
+    VmPolicy policy = builder.build();
+    
+    // 스레드 정책을 설정
+    StrictMode.setVmPolicy(policy);
+
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+
+  }
+  
+  // 버튼을 누를 때 실행되는 처리
+  public void longFunction(View view){
+    Helper helper = new Helper(this);
+    SQLiteDatabase db = helper.getReadableDatabase();
+    SQLiteCursor c = (SQLiteCursor)db.rawQuery("SELECT * FROM sample", null);
+  }
+}

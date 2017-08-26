@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">AndroidRecipeCh04</string>
+    <string name="action_settings">Settings</string>
+    <string name="app_name1">앱의 버전 구하기</string>
+    <string name="app_name2">폰에 설치된 앱의 목록 구하기</string>
+    <string name="app_name3">액션에 대응하는 앱의 목록 구하기</string>
+    <string name="app_name4">회전해도 Activity를 파괴하지 않도록 하기</string>
+    <string name="app_name5">최근 사용한 앱에 포함시키지 않기</string>
+    <string name="app_name6">액티비티 간의 연동하기</string>
+    <string name="app_name7">Widget 작성하기</string>
+    <string name="app_name8">Widget 클릭 시 처리하기</string>
+    <string name="app_name9">Service 작성하기</string>
+    <string name="app_name10">Activity와 Service를 연동하기</string>
+    <string name="app_name11">Fragment 만들기</string>
+    <string name="app_name12">DialogFragment 만들기</string>
+    <string name="app_name13">로더 만들기</string>
+    <string name="hello_world">Hello, World!</string>
+    <string name="app_name14">Localizing with Resources</string>
+    <string name="ch0406_label_string">전달 문자열</string>
+    <string name="ch0406_label_senddata">다른 Activity에 문자열 전달</string>
+    <string name="ch0406_label_recievedata">문자열을 수신</string>
+    <string name="ch0406_label_result">수신한 문자열</string>
+    <string name="ch0406_label_backactivity">이전 Activity로 돌아가기</string>
+    <string name="ch0406_input_int">01234567890</string>
+    <string name="ch0406_input_string">예: ABCDEFG</string>
+    <string name="ch0411_btn_add_code">코드를 추가</string>
+    <string name="ch0411_btn_add_xml">XML에 추가</string>
+    <string name="ch0411_btn_delete">삭제</string>
+    <string name="ch0414_label_next">전환</string>
+
+</resources>

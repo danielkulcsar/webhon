@@ -1,0 +1,16 @@
+(SECTION-185의 샘플 프로그램과의 차이점만 게재)
+package com.example.sensor07;
+(중략) 
+    // 센서를 지정한다 
+    int SENSOR_NAME = Sensor.TYPE_GYROSCOPE;
+    // 센서 값을 구하는 타이밍을 지정한다
+    int SENSOR_DELAY = SensorManager.SENSOR_DELAY_GAME;
+(중략) 
+      // 표시 포맷 지정 시작
+       Log.d(
+          "onSensorChanged", 
+          " X: " + String.valueOf( event.values[0] * 57 ) +
+          "\tY: " + String.valueOf( event.values[1] * 57 ) +
+          "\tZ: " + String.valueOf( event.values[2] * 57 )
+        ); // 표시 포맷 지정 종료
+（省略）

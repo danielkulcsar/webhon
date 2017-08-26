@@ -1,0 +1,65 @@
+package com.example.gesture04;
+
+import android.app.Activity;
+import android.content.Intent;
+import android.gesture.Gesture;
+import android.gesture.GestureLibraries;
+import android.gesture.GestureLibrary;
+import android.gesture.GestureOverlayView;
+import android.gesture.GestureOverlayView.OnGesturePerformedListener;
+import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.Toast;
+
+public class MainActivity extends Activity {
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+    
+    // 제스처 정의 데이터 파일에서 
+    // GestureLibrary 인스턴스 취득
+    final GestureLibrary glib = GestureLibraries.fromPrivateFile(this, "gestures.dat");
+    
+    // GestureOverlayView 인스턴스 취득
+    GestureOverlayView gestureOverlay = (GestureOverlayView) findViewById(R.id.parent);
+
+    gestureOverlay.addOnGesturePerformedListener(
+      new OnGesturePerformedListener() {
+
+      // 체스처로서 인식한 데이터 취득 
+      @Override
+      public void onGesturePerformed(
+          GestureOverlayView paramGestureOverlayView,
+          Gesture paramGesture) {
+        
+          // GetureName이라는 이름의 체스처를 추가
+          glib.addGesture("GetureName", paramGesture);
+        
+          // 제스처 정의 데이터 저장 
+          glib.save();
+        
+          // 메시지 표시
+          Toast.makeText(MainActivity.this, "Gesture Saved", 
+            Toast.LENGTH_SHORT).show();
+      }
+      
+    });
+    
+    Button button = (Button) findViewById(R.id.button);
+    
+    // 버튼 클릭시에 동작(제스처) 인식용 화면에 짜깁기
+    button.setOnClickListener(
+      new OnClickListener(){
+      @Override
+      public void onClick(View paramView) {
+        Intent intent = new Intent(MainActivity.this, DetectActivity.class);
+        Gesture04.this.startActivity(intent);
+      }
+    });
+
+  }
+
+}

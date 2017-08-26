@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns£ºandroid="http£º//schemas.android.com/apk/res/android"
+  android£ºlayout_width="wrap_content"
+  android£ºlayout_height="wrap_content"
+  android£ºorientation="horizontal"
+  >
+<TextView
+  android£ºlayout_width="wrap_content"
+  android£ºlayout_height="wrap_content"
+  android£ºtext="This is"
+/> 
+<TextView
+  android£ºlayout_width="wrap_content"
+  android£ºlayout_height="wrap_content"
+  android£ºtext="External XML" File
+  android£ºbackground="#CCCCCC"
+  android£ºtextColor="#FF0000"
+/> 
+</LinearLayout>

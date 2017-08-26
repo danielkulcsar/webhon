@@ -1,0 +1,23 @@
+package com.example.maps03;
+
+import com.google.android.maps.MapActivity;
+import com.google.android.maps.MapView;
+import android.os.Bundle;
+
+public class MainActivity extends MapActivity {
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+    // MapView의 이용
+    final MapView mapview = (MapView) findViewById(R.id.mapview);
+    // 줌 콘트롤러를 배치한다
+    mapview.setBuiltInZoomControls(true);
+    mapview.invalidate();
+  }
+  //  'isRouteDisplayed’ 메소드를 구현한다
+  @Override
+  protected boolean isRouteDisplayed() {
+    return false;
+  }
+}

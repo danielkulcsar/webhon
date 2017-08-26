@@ -1,0 +1,17 @@
+package com.example.gp10;
+
+import android.app.Activity;
+import android.os.Bundle;
+
+public class MainActivity extends Activity {
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    
+    // 작성한 사용자 지정 뷰의 오브젝트 생성
+    CustomView cView = new CustomView( this );
+    
+    // 생성한 사용자 지정 뷰를 표시한다
+    setContentView(cView);
+  }
+}

@@ -1,0 +1,66 @@
+package com.example.maps09;
+
+import com.google.android.maps.GeoPoint;
+import com.google.android.maps.MapActivity;
+import com.google.android.maps.MapController;
+import com.google.android.maps.MapView;
+
+import android.content.Context;
+import android.location.Location;
+import android.location.LocationManager;
+import android.os.Bundle;
+import android.widget.TextView;
+
+// Activity의 상속은 'MapActivity’로 한다
+public class MainActivity extends MapActivity {
+  // LocationManager 선언
+  LocationManager mLocationManager;
+  // MapController 선언
+  MapController mMapController;
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+    // MapView 이용
+    MapView mapview = (MapView) findViewById(R.id.mapview);
+    // 위치 설정
+    mMapController = mapview.getController();
+    // 줌 컨트롤러를 배치한다
+    mapview.getController().setZoom(15);
+    mapview.setBuiltInZoomControls(true);
+    mapview.invalidate();
+    // 위치 관리자 취득
+    mLocationManager = 
+    (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+  }
+  @Override
+  public void onResume() {
+    super.onResume();
+    // 마지막에 취득한 위치 정보 취득
+    Location location = mLocationManager
+      .getLastKnownLocation(LocationManager.GPS_PROVIDER);
+    // 텍스트 뷰 취득
+    TextView tv = (TextView) findViewById(R.id.text);
+    if (location != null) {
+      GeoPoint gp = new GeoPoint((int)(location.getLatitude()*1E6), 
+          (int)(location.getLongitude()*1E6));
+        // 위도 취득
+        double lat = gp.getLatitudeE6() / 1E6;
+        // 경도 취득
+        double lng = gp.getLongitudeE6() / 1E6;
+        // 지도를 검색한 위치로 이동
+        mMapController.animateTo(gp);
+        // 마지막에 검색한 위도·경도를 텍스트 뷰에 출력
+        tv.setText("Latitude：" + String.valueOf(lat) 
+          + ", Longtitude：" + String.valueOf(lng));
+    } else {
+      tv.setText("Location Not Available");
+    }
+  }
+  // 'isRouteDisplayed’ 메소드를 구현한다
+  @Override
+  protected boolean isRouteDisplayed() {
+    return false;
+
+  }
+}

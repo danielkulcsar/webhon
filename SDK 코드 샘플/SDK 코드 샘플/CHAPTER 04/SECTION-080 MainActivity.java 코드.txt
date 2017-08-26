@@ -1,0 +1,24 @@
+package com.example.wv02;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.webkit.WebView;
+
+public class MainActivity extends Activity {
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+      super.onCreate(savedInstanceState);
+      
+      // WebView 인스턴스 생성
+      WebView webview = new WebView(this);
+      
+      // JavaScript를 유효하게 한다
+      webview.getSettings().setJavaScriptEnabled(true);
+      
+      // setContentView에 작성한 Web 뷰를 설정한다 
+      setContentView(webview);
+      
+      // 'assets’ 폴더 안에 있는 'index.html’ 파일을 Web 뷰에서 읽음
+      webview.loadUrl("file:///android_asset/index.html");
+    }
+}

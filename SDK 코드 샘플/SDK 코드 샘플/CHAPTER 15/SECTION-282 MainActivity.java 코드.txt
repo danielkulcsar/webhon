@@ -1,0 +1,50 @@
+package com.example.settings17;
+
+import android.app.Activity;
+import android.content.ContentResolver;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.TextView;
+import android.widget.ToggleButton;
+
+public class MainActivity extends Activity {
+  // 토글 버튼의 선언
+  private ToggleButton toggleButton;
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+    // 토글 버튼의 배치
+    toggleButton = (ToggleButton) findViewById(R.id.button);
+    // 토글 버튼의 텍스트를 설정
+    toggleButton.setTextOn("Sync ON");
+    toggleButton.setTextOff("Sync OFF");
+    // 텍스트 뷰에 표시
+    setTextView();
+  }
+  // 토글 버튼 클릭 처리
+  public void onToggleClick(View view) {
+    if(toggleButton.isChecked()==true) {
+      ContentResolver.setMasterSyncAutomatically(true);
+    } else {
+      ContentResolver.setMasterSyncAutomatically(false);
+    }
+    // 텍스트 뷰에 표시
+    setTextView();
+  }
+  // 텍스트 뷰 표시 처리
+  private void setTextView() {
+    // 데이터의 동기화 기능 설정을 확인한다
+    boolean autoSync = ContentResolver.getMasterSyncAutomatically(); 
+    if(autoSync == true) {
+      // 동기화 기능의 설정이 'ON’이면 토글 버튼을 ON
+      toggleButton.setChecked(true);
+    } else {
+      // 동기화 기능 설정이 'OFF’이면 토글 버튼을 OFF
+      toggleButton.setChecked(false);
+    }
+    // 텍스트 뷰에 표시
+    TextView tv = (TextView) findViewById(R.id.text);
+    tv.setText("Auto Sync(true:ON、false:OFF)：" + autoSync);
+  }
+}

@@ -1,0 +1,53 @@
+package com.example.powermanagement01;
+
+import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.Bundle;
+import android.widget.TextView;
+
+public class MainActivity extends Activity {
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+  }
+  
+  @Override
+  protected void onResume() {
+    super.onResume();
+    // 인텐트 필드의 등록
+    IntentFilter filter = new IntentFilter();
+    // 인텐트 필드에 ACTION_BATTERY_CHANGED 액션을 추가
+    filter.addAction(Intent.ACTION_BATTERY_CHANGED);
+    // 브로드캐스트 리시버를 등록한다
+    registerReceiver(mBroadcastReceiver, filter);
+  }
+  
+  @Override
+  protected void onPause() {
+    super.onPause();
+    // 브로드캐스트 리시버를 제거한다
+    unregisterReceiver(mBroadcastReceiver);
+  }
+  
+  // 브로드캐스트 리시버의 구현
+  private BroadcastReceiver mBroadcastReceiver = 
+    new BroadcastReceiver() {
+    public void onReceive(Context context, Intent intent) {
+      String action = intent.getAction();
+      // 인텐트 액션이 'ACTION_BATTERY_CHANGED’인 경우
+      if (action.equals(Intent.ACTION_BATTERY_CHANGED)) {
+        // 배터리 잔량의 취득
+        int level = intent.getIntExtra("level", 0);
+        // 배터리 최대 값 취득
+        int scale = intent.getIntExtra("scale", 0);
+        // 배터리 잔량을 텍스트 뷰에 표시
+        TextView tv = (TextView) findViewById(R.id.text);
+        tv.setText("Battery：" + ((float)level / (float)scale * 100) + " (%)");
+      }
+    }
+  };
+}

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Chapter05</string>
+    <string name="action_settings">Settings</string>
+    <string name="app_title1">탭/더블 탭 구현하기</string>
+    <string name="app_title2">회전 여부 알아내기</string>
+    <string name="app_title3">스와이프 구현하기</string>
+    <string name="app_title4">롱 탭(길게 클릭) 구현하기</string>
+    <string name="app_title5">이미지의 임의의 사각 영역에 클릭 구현하기</string>
+    <string name="app_title6">[돌아가기] 버튼 구현하기</string>
+    <string name="app_title7">[홈] 버튼 구현하기</string>
+    <string name="app_title8">[음량] 버튼 구현하기</string>
+
+</resources>

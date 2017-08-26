@@ -1,0 +1,47 @@
+package com.example.screen36;
+
+import java.util.Calendar;
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.TimePickerDialog;
+import android.os.Bundle;
+import android.widget.TextView;
+import android.widget.TimePicker;
+
+public class MainActivity extends Activity {
+  AlertDialog.Builder alertDialogBuilder;
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+
+    // TextView 인스턴스 취득 (결과 표시용)
+    final TextView textview = (TextView) findViewById(R.id.textview);
+
+    // 캘린더 인스턴스 취득
+    Calendar date = Calendar.getInstance();
+
+    // TimePickerDialog 인스턴스 생성
+    TimePickerDialog timePickerDialog =
+      new TimePickerDialog(
+        this,
+        new TimePickerDialog.OnTimeSetListener() {
+          @Override
+          public void onTimeSet(TimePicker view,
+              int hourOfDay, int minute) {
+
+            // 세트된 시각을 취득하여 textview에 반영
+            textview.setText(hourOfDay + ":" + minute);
+          }
+        },
+        date.get(Calendar.HOUR_OF_DAY),
+        date.get(Calendar.MINUTE),
+        true
+      );
+
+    // 타이틀 세트
+    timePickerDialog.setTitle("Title");
+    // 다이얼로그 표시
+    timePickerDialog.show();
+  }
+}

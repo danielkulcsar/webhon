@@ -1,0 +1,44 @@
+package com.example.maps04;
+
+import com.google.android.maps.GeoPoint;
+import com.google.android.maps.MapActivity;
+import com.google.android.maps.MapView;
+
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Toast;
+
+//Activity의 계승은 'MapActivity’로 한다
+public class MainActivity extends MapActivity {
+  // MapView의 이용
+  private MapView mapview;
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+    // MapView의 취득
+    mapview = (MapView) findViewById(R.id.mapview);
+    // 줌 컨트롤러를 배치한다
+    mapview.setBuiltInZoomControls(true);
+    mapview.invalidate();
+  }
+  // 'isRouteDisplayed’ 메소드를 구현한다
+  @Override
+  protected boolean isRouteDisplayed() {
+    return false;
+  }
+
+  // 버튼 클릭시의 작업
+  public void onGetCenter(View view) {
+    // GeoPoint클래스 작업
+    GeoPoint gp = mapview.getMapCenter();
+    // 위도 취득
+    double lat = gp.getLatitudeE6() / 1E6;
+    // 경도 취득
+    double lng = gp.getLongitudeE6() / 1E6;
+
+    // 취득한 위도·경도를 토스트에 정보 표시
+    Toast.makeText(this, "Center\nLatitude：" + lat + "\nLongtitude：" + lng, 
+      Toast.LENGTH_LONG).show();
+  }
+}

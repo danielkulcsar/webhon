@@ -1,0 +1,62 @@
+package com.example.lv09;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.util.Log;
+import android.util.SparseBooleanArray;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+
+//OnScrollListener를 implements한다
+public class MainActivity extends Activity implements OnItemClickListener{
+  // 리스트뷰를 표시하는 데이터 
+  String[] words = new String[] { 
+      "aaa", "bbb", "ccc", "ddd", "eee", 
+      "fff", "ggg", "hhh", "iii", "jjj", 
+      "kkk", "lll", "mmm", "nnn", "ooo", 
+      "ppp", "qqq", "rrr", "sss", "ttt", 
+      "uuu", "vvv", "www", "xxx", "yyy", "zzz",
+      "111", "222", "333", "444", "555",
+      "666", "777", "888", "999", "000"
+  };
+  ListView lv;
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+      super.onCreate(savedInstanceState);
+      setContentView(R.layout.main);
+      
+      // 리스트 어댑터 작성
+      ArrayAdapter<String> adp = new ArrayAdapter<String>(this, 
+          android.R.layout.simple_list_item_multiple_choice, words); 
+          
+      //　작성한 리스트 어댑터를 리스트뷰에 지정한다 
+      lv = (ListView)findViewById(R.id.listview);
+      
+      // 어댑터 등록
+      lv.setAdapter(adp);
+      
+      // 클릭 이벤트 취득
+      lv.setOnItemClickListener(this);
+      
+      // Listview 내부의 View가 포커스 되지 않게 한다 
+      lv.setItemsCanFocus(false); 
+    
+      // 다중 선택을 할 수 있도록 한다 
+      lv.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE); 
+  }
+  // onItemClick을 오바라이드한다 
+  @Override
+  public void onItemClick( AdapterView<?> parent, View view, int position, long id) {
+    
+    // 선택 상태 취득
+    SparseBooleanArray checked = lv.getCheckedItemPositions();
+      
+    // words 배열의 선택 상태를 모두 로그로 출력
+    for (int i = 0; i < words.length; i++) {
+      Log.d("ListViewTest", words[i] + ": " + checked.get(i));
+    }
+  }
+}

@@ -1,0 +1,47 @@
+package com.example.gesture02;
+
+import android.app.Activity;
+import android.gesture.Gesture;
+import android.gesture.GestureLibraries;
+import android.gesture.GestureLibrary;
+import android.gesture.GestureOverlayView;
+import android.gesture.GestureOverlayView.OnGesturePerformedListener;
+import android.os.Bundle;
+import android.widget.Toast;
+
+public class MainActivity extends Activity {
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+    
+    // 제스처 정의 데이터 파일에서 
+    // GestureLibrary 인스턴스 구함 
+    final GestureLibrary glib = GestureLibraries.fromPrivateFile(this, "gestures.dat");
+    
+    // GestureOverlayView 인스턴스 구함 
+    GestureOverlayView gestureOverlay = (GestureOverlayView) findViewById(R.id.parent);
+
+    gestureOverlay.addOnGesturePerformedListener(
+      new OnGesturePerformedListener() {
+
+      // 제스처로 인식한 데이터 취득
+      @Override
+      public void onGesturePerformed(
+          GestureOverlayView paramGestureOverlayView,
+          Gesture paramGesture) {
+        
+          // GetureName라는 이름의 제스처 추가
+          glib.addGesture("GetureName", paramGesture);
+        
+          // 제스처 정의 데이터를 저장
+          glib.save();
+        
+          // 메시지를 표시
+          Toast.makeText(MainActivity.this, "Gesture Saved",
+            Toast.LENGTH_SHORT).show();
+      }
+      
+    });
+  }
+}

@@ -1,0 +1,48 @@
+package com.example.gesture01;
+
+import android.app.Activity;
+import android.gesture.Gesture;
+import android.gesture.GestureOverlayView;
+import android.gesture.GestureOverlayView.OnGesturePerformedListener;
+import android.os.Bundle;
+import android.util.Log;
+import android.widget.TextView;
+
+public class MainActivity extends Activity {
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+
+    // GestureOverlayView 인스턴스를 구함 
+    GestureOverlayView gestureOverlay = 
+      (GestureOverlayView) findViewById(R.id.parent);
+
+    final TextView text = (TextView) findViewById(R.id.text);
+
+    gestureOverlay.addOnGesturePerformedListener(
+      new OnGesturePerformedListener() {
+
+      // 제스처라고 인식한 데이터를 얻음
+      @Override
+      public void onGesturePerformed(
+          GestureOverlayView paramGestureOverlayView,
+          Gesture paramGesture) {
+          Log.v("Gesture", "onGesturePerformed");
+          Log.v("--id", String.valueOf( paramGesture.getID() ));
+          Log.v("--length", String.valueOf( paramGesture.getLength() ));
+          Log.v("--getStrokesCount", String.valueOf( paramGesture.getStrokesCount() ));  
+        
+          text.setText( 
+          String.format(
+            "id:%s\nlength:%s\ngetStrokesCount:%s", 
+            paramGesture.getID(),
+            paramGesture.getLength(),
+            paramGesture.getStrokesCount()
+          )
+        );
+      }
+      
+    });
+  }
+}

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Chapter01</string>
+    <string name="action_settings">Settings</string>
+    <string name="app_title1">문자열에 HTML 링크를 표시</string>
+    <string name="app_title2">긴 문자열을 생략하여 표시</string>
+    <string name="app_title3">문자 스타일 변경</string>
+    <string name="app_title4">문자 배치 변경</string>
+    <string name="app_title5">프로그레스 바 사용</string>
+    <string name="app_title6">프로그레스 바 커스터마이즈</string>
+    <string name="app_title7">버튼을 사용</string>
+    <string name="app_title8">버튼 상태에 따라 이미지 변경</string>
+    <string name="app_title9">버튼에 이미지 설정</string>
+    <string name="app_title10">토글/스위치 사용</string>
+    <string name="app_title11">토글/스위치 커스터마이스</string>
+    <string name="app_title12">체크박스 사용</string>
+    <string name="app_title13">라디오버튼 사용</string>
+    <string name="app_title14">시크 바 사용</string>
+    <string name="app_title15">시크 바 세로로 표시</string>
+    <string name="app_title16">시크 바 커스터마이즈</string>
+    <string name="app_title17">비밀번호 입력</string>
+    <string name="app_title18">입력 힌트 표시</string>
+    <string name="app_title19">입력 문자 제한</string>
+    <string name="app_title20">입력 단어 자동완성 기능 사용</string>
+    <string name="app_title21">입력 단어 자동완성 커스터마이즈</string>
+    <string name="app_title22">레이팅 바 사용</string>
+    <string name="app_title23">스피너 사용</string>
+    <string name="app_title24">스피너 커스터마이즈</string>
+    <string name="app_title25">줌 컨트롤 사용</string>
+    <string name="app_title26">줌 빠르기 변경</string>
+    <string name="app_title27">날짜 피커 사용</string>
+    <string name="app_title28">날짜 피커 초기화</string>
+    <string name="app_title29">날짜 피커 표시 항목 제한</string>
+    <string name="app_title30">날짜 피커 대화상자에 표시</string>
+    <string name="app_title31">이미지 뷰에 이미지 표시</string>
+    <string name="app_title32">이미지 뷰에 이미지를 축소하여 표시</string>
+    <string name="app_title33">화면보다 큰 이미지를 스크롤</string>
+    <string name="app_title34">이미지 회전</string>
+    <string name="app_title35">이미지에 액자 설정</string>
+    <string name="app_title36">이미지 로딩 중에 로딩상태를 설정</string>
+    <string name="ch0110_toggle_shift">ToggleButton : %s</string>
+    <string name="ch0110_switch_shift">Switch : %s</string>
+    <string name="ch0126_label_zoomspeed">줌 속도</string>
+    <string name="ch0126_label_zoomspeedFast">빠르게</string>
+    <string name="ch0126_label_zoomspeedSlow">느리게</string>
+    <string name="ch0127_picker_getdate">날짜 얻기</string>
+    <string name="ch0130_picker_datepickerdialog">날짜 피커 대화상자를 표시</string>
+    <string name="ch0129_picker_hidecalendar">달력 숨기기</string>
+    <string name="ch0129_picker_hideyear">연도 숨기기</string>
+    <string name="ch0129_picker_hidemonth">월 숨기기</string>
+    <string name="ch0129_picker_hideday">일 숨기기</string>
+</resources>

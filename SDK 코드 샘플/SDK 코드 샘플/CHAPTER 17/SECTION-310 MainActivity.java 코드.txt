@@ -1,0 +1,26 @@
+package com.example.etc03;
+
+import android.app.Activity;
+import android.content.res.Configuration;
+import android.os.Bundle;
+import android.util.Log;
+
+public class MainActivity extends Activity {
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+  }
+  @Override
+  public void onConfigurationChanged(Configuration config) {
+    super.onConfigurationChanged(config);
+    switch(config.hardKeyboardHidden){
+      case Configuration.HARDKEYBOARDHIDDEN_NO:
+        Log.v("Sample", "키보드가 열려있는 상태");
+        break;
+      case Configuration.HARDKEYBOARDHIDDEN_YES:
+        Log.v("Sample", "키보드가 닫혀 있는 상태");
+        break;
+    }
+  }
+}

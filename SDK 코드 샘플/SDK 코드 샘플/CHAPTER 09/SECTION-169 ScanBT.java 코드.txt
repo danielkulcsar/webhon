@@ -1,0 +1,59 @@
+package com.example.scanbt;
+
+import android.app.Activity;
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.Bundle;
+import android.util.Log;
+
+public class ScanBT extends Activity {
+  private BluetoothAdapter mBluetoothAdapter;
+  // 디바이스가 발견된 것을 알려주는 인텐트를 받기 위한
+  // 브로드캐스트 수신기 정의
+  private final BroadcastReceiver mReceiver =
+  new BroadcastReceiver() {
+    @Override
+    public void onReceive(Context context, Intent intent) {
+      String action = intent.getAction();
+      // 디바이스가 발견됨(이름이 밝혀졌다)
+      if (BluetoothDevice.ACTION_FOUND.equals(action)) {
+        // 인텐트에 포함될 Bluetooth 디바이스 오브젝트를 얻는다
+        BluetoothDevice device = intent.getParcelableExtra(
+            BluetoothDevice.EXTRA_DEVICE);
+        // 디바이스명과 MAC 주소를 로그에 출력
+        Log.i("***", "Found:" + device.getName() + "("
+            + device.getAddress() + ")");
+      }
+    }
+  };
+
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+
+    // Bluetooth 인텐트 필터 작성
+    IntentFilter filter = new IntentFilter(
+        BluetoothDevice.ACTION_FOUND);
+    // 브로드캐스트 리시버 등록
+    registerReceiver(mReceiver, filter);
+
+    // BluetoothAdapter 인스턴스를 얻는다
+    mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+    // 주변 Bluetooth 디바이스 검색 시작
+    mBluetoothAdapter.startDiscovery();
+  }
+
+  @Override
+  protected void onDestroy() {
+    super.onDestroy();
+    // 디바이스 검색 중지
+    mBluetoothAdapter.cancelDiscovery();
+    // 사용하지 않게 된 시점에서 브로드캐스트 리시버 등록 해제
+    unregisterReceiver(mReceiver);
+  }
+}

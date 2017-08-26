@@ -1,0 +1,24 @@
+package com.example.w01;
+
+import java.io.IOException;
+
+import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Bundle;
+
+public class MainActivity extends Activity {
+   @Override
+   public void onCreate(Bundle savedInstanceState) {
+     super.onCreate(savedInstanceState);
+     setContentView(R.layout.main);
+     // 파일을 지정 장소에서 취득하여 Bitmap으로 변환한다
+     Bitmap img = BitmapFactory.decodeFile("/sdcard/sample.jpg");
+     try {
+       // setWallpaper로 앞의 Bitmap을 지정한다
+       setWallpaper(img);
+     } catch (IOException e) {
+       e.printStackTrace();
+     } // 여기까지
+   }
+}

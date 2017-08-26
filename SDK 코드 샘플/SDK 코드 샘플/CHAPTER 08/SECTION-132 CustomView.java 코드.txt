@@ -1,0 +1,39 @@
+package com.example.gp10;
+
+import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.view.View;
+
+public class CustomView extends View{
+
+  public CustomView(Context context) {
+    super(context);
+  }
+  
+  // 표시할 때 Canvas 상태를 여기에서 처리한다
+  protected void onDraw(Canvas canvas)
+  {
+    super.onDraw(canvas);
+     
+    // 리소드 오브젝트 취득
+    Resources res = getResources();
+    
+    // icon.png를 Bitmap으로 변환
+    Bitmap bitmap = BitmapFactory.decodeResource(res, R.drawable.icon);
+    
+    // 배경을 흰색으로 한다
+    canvas.drawColor(Color.WHITE);
+    
+    // 페인트오브젝트 생성
+    Paint paint = new Paint();
+    
+    // Canvas에 생성한 Bitmap을 왼쪽 위에 표시
+    canvas.drawBitmap(bitmap, 0, 0, paint);
+
+  }
+}

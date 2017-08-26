@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <style
+    name="StyleSample"
+    parent="@android£ºstyle/TextAppearance.Medium">
+    <item name="android£ºlayout_width">fill_parent</item>
+    <item name="android£ºlayout_height">wrap_content</item>
+    <item name="android£ºtextColor">#FF0000</item>
+    <item name="android£ºbackground">#FFFFFF</item>
+    <item name="android£ºtextStyle">bold</item>
+    <item name="android£ºtextSize">20dip</item>
+  </style>
+</resources>

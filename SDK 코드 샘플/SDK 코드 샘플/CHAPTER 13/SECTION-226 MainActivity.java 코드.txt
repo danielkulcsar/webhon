@@ -1,0 +1,50 @@
+package com.example.content01;
+
+import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.Toast;
+
+public class MainActivity extends Activity {
+  // 기본 설정 선언 
+  public SharedPreferences sharedpreferences;
+  // EditText, CheckBox 선언 
+  private EditText editText;
+  private CheckBox checkBox;
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+    // 에디터 텍스트와 체크박스 취득
+    editText = (EditText)findViewById(R.id.edittext);
+    checkBox = (CheckBox)findViewById(R.id.checkbox);
+    // SharedPreferences 오브젝트 취득
+    sharedpreferences = 
+      getSharedPreferences("content01", Context.MODE_PRIVATE);
+  }
+  // 쓰기 버튼 클릭 처리 
+  public void onClickWrite(View v) {
+    // 기본 설정의 쓰기
+    SharedPreferences.Editor editor = sharedpreferences.edit();
+    editor.putString("DATA1", editText.getText().toString());
+    editor.putBoolean("DATA2", checkBox.isChecked());
+    editor.commit();
+    Toast.makeText(this, 
+      "Data written, screen cleaned", 
+      Toast.LENGTH_LONG).show();
+    editText.setText(null);
+    checkBox.setChecked(false);
+  }
+  // 읽기 버튼 클릭 처리 
+  public void onClickRead(View v) {
+    // 기본 설정에서의 읽기
+    editText.setText(sharedpreferences.getString("DATA1", "NONE"));
+    checkBox.setChecked(sharedpreferences.getBoolean("DATA2", false));
+    Toast.makeText(this, 
+      "Data read!", Toast.LENGTH_LONG).show();
+  }
+}

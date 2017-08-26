@@ -1,0 +1,27 @@
+package com.example.pm04;
+
+import java.util.List;
+
+import android.app.Activity;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
+import android.os.Bundle;
+import android.util.Log;
+
+public class MainActivity extends Activity {
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+    
+    // 패키지 관리자 인스턴스를 취득
+    PackageManager pm = getPackageManager();
+
+    // 설치된 어플리케이션 목록을 취득
+    List<ApplicationInfo> list =
+      pm.getInstalledApplications(PackageManager.GET_META_DATA);
+    for(int i=0 ; i<list.size() ; i++){ 
+      Log.d("Application", list.get(i).packageName );
+    } 
+  }
+}

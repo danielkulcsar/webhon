@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns£ºandroid="http£º//schemas.android.com/apk/res/android"
+  android£ºorientation="vertical"
+  android£ºlayout_width="fill_parent"
+  android£ºlayout_height="fill_parent"
+  >
+<TextView  
+  android£ºlayout_width="fill_parent" 
+  android£ºlayout_height="wrap_content" 
+  android£ºtext="almond"
+  android£ºbackground="@color/almond"
+  android£ºid="@+id/textview1"
+  />
+<TextView  
+  android£ºlayout_width="fill_parent" 
+  android£ºlayout_height="wrap_content" 
+  android£ºtext="amethyst"
+  android£ºbackground="@color/amethyst"
+  />
+<TextView  
+  android£ºlayout_width="fill_parent" 
+  android£ºlayout_height="wrap_content" 
+  android£ºtext="coral"
+  android£ºbackground="@color/coral"
+  />
+<TextView  
+  android£ºlayout_width="fill_parent" 
+  android£ºlayout_height="wrap_content" 
+  android£ºtext="desert"
+  android£ºbackground="@color/desert"
+  />
+</LinearLayout>

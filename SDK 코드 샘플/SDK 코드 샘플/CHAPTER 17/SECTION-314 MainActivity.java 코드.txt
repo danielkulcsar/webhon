@@ -1,0 +1,51 @@
+package com.example.etc07;
+
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.os.StrictMode;
+import android.os.StrictMode.ThreadPolicy;
+import android.os.StrictMode.ThreadPolicy.Builder;
+import android.view.View;
+
+public class MainActivity extends Activity {
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    
+    // ThreadPolicy.Builder 인스턴스 생성
+    Builder builder = new StrictMode.ThreadPolicy.Builder();
+    
+    // 감지 가능한 모든 의심스러운 상태를 감지
+    builder.detectAll();
+    
+    // 정책 위반시 로그 출력
+    builder.penaltyLog();
+    
+    // ThreadPolicy인스턴스 생성
+    ThreadPolicy policy = builder.build();
+    
+    // 스레드 정책을 설정
+    StrictMode.setThreadPolicy(policy);
+
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+
+  }
+  
+  // 버튼 클릭 시 실행되는 정책 위반 처리
+  public void longFunction(View view){
+    try {
+      FileOutputStream out = new FileOutputStream("error_sample.txt");
+      while (true){
+        out.write(1);
+      }
+    } catch (FileNotFoundException e) {
+      e.printStackTrace();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+}

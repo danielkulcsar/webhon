@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="hello">Hello World, MainActivity!</string>
+  <string name="app_name">Sample</string>
+  <string name="btn_write">Write</string>
+  <string name="btn_read">Read</string>
+  <string name="text_string">DATA1(String Type)</string>
+  <string name="text_bool">DATA2(Boolean Type)</string>
+</resources>

@@ -1,0 +1,16 @@
+(SECTION-185의 샘플 프로그램과의 차이점만 게재)
+package com.example.sensor05;
+(중략) 
+    // 센서를 지정한다 
+    int SENSOR_NAME = Sensor.TYPE_PROXIMITY;
+    // 센서 값을 구하는 타이밍을 지정한다 
+    int SENSOR_DELAY = SensorManager.SENSOR_DELAY_FASTEST;
+(중략) 
+      // 표시 포맷 지정 시작 
+      // getMaximumRange의 값과 같은 경우는 센서에서 멀다 
+      if( event.values[0] == event.sensor.getMaximumRange() ){
+        Log.d("onSensorChanged", "센서에서 멀다");
+      }else{
+        Log.d("onSensorChanged", "센서에서 가깝다");
+      } // 표시 포맷 지정 종료
+(생략)

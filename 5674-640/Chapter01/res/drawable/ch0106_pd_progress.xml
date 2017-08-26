@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
+
+  <!-- 프로그레스 값을 나타내지 않는 영역 -->
+  <item android:id="@android:id/background">
+    <shape>
+      <gradient
+        android:angle="270"
+        android:endColor="@color/FlatDarkCyan"
+        android:startColor="@color/FlatLightCyan" />
+    </shape>
+  </item>
+  <!-- 프로그레스 값을 나타내는 영역 -->
+  <item android:id="@android:id/progress">
+    <clip>
+      <shape>
+        <gradient
+          android:angle="270"
+          android:endColor="@color/FlatDarkBlue"
+          android:startColor="@color/FlatLightBlue" />
+      </shape>
+    </clip>
+  </item>
+
+</layer-list>

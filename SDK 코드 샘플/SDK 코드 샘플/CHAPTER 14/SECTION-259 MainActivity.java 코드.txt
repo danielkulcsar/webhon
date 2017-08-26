@@ -1,0 +1,81 @@
+package com.example.service04;
+
+import android.app.Activity;
+import android.content.ComponentName;
+import android.content.Intent;
+import android.content.ServiceConnection;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.IBinder;
+import android.os.Message;
+import android.os.RemoteException;
+import android.widget.TextView;
+
+public class MainActivity extends Activity {
+  // 서비스 인터페이스 선언
+  private ISampleService serviceIf;
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+    // 서비스로의 바인드 처리
+    Intent intent = new Intent(ISampleService.class.getName());
+    bindService(intent, con, BIND_AUTO_CREATE);
+  }
+  @Override
+  protected void onDestroy() {
+    super.onDestroy();
+    // 콜백 등록 해제 처리
+    try {
+      serviceIf.unregisterCallback(callback);
+    } catch (RemoteException e) {
+      e.printStackTrace();
+    }
+    // 서비스의 언바인드 처리
+    unbindService(con);
+  }
+  // 서비스 접속
+  private ServiceConnection con = new ServiceConnection(){
+    // 서비스 접속 처리
+    public void onServiceConnected(ComponentName name, 
+      IBinder service) {
+      // 서비스 인터페이스 취득
+      serviceIf = ISampleService.Stub.asInterface(service);
+      try {
+        serviceIf.registerCallback(callback);
+      } catch (RemoteException e) {
+        e.printStackTrace();
+      }
+    }
+    // 서비스 단절 처리
+    public void onServiceDisconnected(ComponentName name) {
+      serviceIf = null;
+    }
+  };
+  // 핸들러 메시지 수신 처리
+  private Handler handler = new Handler(){
+    @Override
+    public void handleMessage(Message msg) {
+      // 메시지 출력
+      TextView textView = (TextView)findViewById(R.id.text);
+      String text = (String)msg.obj;
+      textView.setText(text);
+      if(text.equals("Service ended")) {
+        // 콜백 등록 해제 처리
+        try {
+          serviceIf.unregisterCallback(callback);
+        } catch (RemoteException e) {
+          e.printStackTrace();
+        }
+      }
+    }
+  };
+  // 콜백 인터페이스 구현
+  private ISampleCallback callback = 
+    new ISampleCallback.Stub(){
+    public void updateText(String value) throws RemoteException {
+      // 수신한 메시지를 화면에 설정
+      handler.sendMessage(Message.obtain(handler, 0, value));
+    }
+  };
+}

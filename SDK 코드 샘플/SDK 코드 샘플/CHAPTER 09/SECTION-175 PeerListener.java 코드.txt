@@ -1,0 +1,55 @@
+package com.example.wifid01;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import android.net.Wi-fi.p2p.Wi-fiP2pDevice;
+import android.net.Wi-fi.p2p.Wi-fiP2pDeviceList;
+import android.net.Wi-fi.p2p.Wi-fiP2pManager.PeerListListener;
+import android.util.Log;
+
+public class PeerListener implements PeerListListener {
+
+  private List<Wi-fiP2pDevice> peerList = new ArrayList<Wi-fiP2pDevice>();
+
+  @Override
+  public void onPeersAvailable(Wi-fiP2pDeviceList peers) {
+    
+    // 피어 목록 취득
+    peerList.addAll(peers.getDeviceList());
+    if (peerList.size() > 0) {
+      for (int i = 0; i < peerList.size(); i++) {
+        // 각 피어의 디바이스정보 취득
+        Wi-fiP2pDevice device = peerList.get(i);
+
+        Log.i(MainActivity.TAG, "디바이스명: " + device.deviceName);
+        Log.i(MainActivity.TAG, "디바이스 주소: " + device.deviceAddress);
+        /**
+         * 디바이스 유형을 바탕으로 연결 대상을 필터링하거나 할 때 이용한다
+         * 예를 들면, 인쇄 기능을 이용하는 경우는 프린터에만 연결하는 등
+         * 
+         * 10-0050F204-5 는 듀얼모드 스마트폰
+         */
+        Log.i(MainActivity.TAG, "기본장치유형: " + device.primaryDeviceType);
+        
+        switch(device.status){
+          case Wi-fiP2pDevice.AVAILABLE:
+            Log.i(MainActivity.TAG, "status: AVAILABLE");
+            break;
+          case Wi-fiP2pDevice.CONNECTED:
+            Log.i(MainActivity.TAG, "status: CONNECTED");
+            break;
+          case Wi-fiP2pDevice.FAILED:
+            Log.i(MainActivity.TAG, "status: FAILED");
+            break;
+          case Wi-fiP2pDevice.INVITED:
+            Log.i(MainActivity.TAG, "status: INVITED");
+            break;
+          case Wi-fiP2pDevice.UNAVAILABLE:
+            Log.i(MainActivity.TAG, "status: UNAVAILABLE");
+            break;
+        }
+      }
+    }
+  }
+}

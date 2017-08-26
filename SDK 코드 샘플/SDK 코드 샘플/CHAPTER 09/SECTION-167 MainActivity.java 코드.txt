@@ -1,0 +1,54 @@
+package com.example.location03;
+
+import android.app.Activity;
+import android.content.Context;
+import android.location.GpsStatus;
+import android.location.GpsStatus.Listener;
+import android.location.LocationManager;
+import android.os.Bundle;
+import android.util.Log;
+
+public class MainActivity extends Activity implements Listener {
+  LocationManager loc;
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+    // LocationManager 인스턴스 취득
+    loc = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+    // GPS 상태 리스너 설정
+    loc.addGpsStatusListener(this);
+  }
+  
+  @Override
+  protected void onDestroy() {
+    super.onDestroy();
+    
+    // GPS 상태 리스너 해제
+    loc.removeGpsStatusListener(this);
+  }
+  
+  // GPS 상태가 변경되었을 때 호출된다.
+  @Override
+  public void onGpsStatusChanged(int event) {
+    switch(event){
+      // GPS 이벤트 시작 시
+      case GpsStatus.GPS_EVENT_STARTED:
+        Log.i("onGpsStatusChanged", "GPS_EVENT_STARTED");
+        break;
+        
+      // GPS 이벤트 종료 시
+      case GpsStatus.GPS_EVENT_STOPPED:
+        Log.i("onGpsStatusChanged", "GPS_EVENT_STOPPED");
+        break;
+      // 수정 데이터 수신 시
+      case GpsStatus.GPS_EVENT_FIRST_FIX:
+        Log.i("onGpsStatusChanged", "GPS_EVENT_FIRST_FIX");
+        break;
+      // GPS 정보 취득 시
+      case GpsStatus.GPS_EVENT_SATELLITE_STATUS:
+        Log.i("onGpsStatusChanged", "GPS_EVENT_SATELLITE_STATUS");
+        break;
+    }
+  }
+}

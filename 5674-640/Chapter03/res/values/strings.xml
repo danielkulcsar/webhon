@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Chapter03</string>
+    <string name="action_settings">Settings</string>
+    <string name="app_title1">LinearLayout 사용</string>
+    <string name="app_title2">TableLayout 사용</string>
+    <string name="app_title3">GridLayout 사용</string>
+    <string name="app_title4">FrameLayout 사용</string>
+    <string name="app_title5">RelativeLayout 사용</string>
+    <string name="app_title6">View에 여백주기</string>
+    <string name="app_title7">View를 균등하게 배치</string>
+    <string name="app_title8">자동 조절 여백주기</string>
+    <string name="app_title9">레이아웃을 다른 곳에 사용</string>
+    <string name="app_title10">배경 바꾸기</string>
+    <string name="app_title11">크기 바꾸기</string>
+    <string name="app_title12">탭 화면 만들기</string>
+    <string name="app_title13">내비게이션 드로워 만들기</string>
+    <string name="app_title14">스와이프 시 다음화면 만들기</string>
+    <string name="label_view">View</string>
+    <string name="label_background">배경</string>
+    <string name="label_margin">마진</string>
+    <string name="label_padding">패딩</string>
+    <string name="label_margineven">자동 조절 여백주기</string>
+    <string name="label_table_normal">표준</string>
+    <string name="label_table_column">컬럼 조작하기</string>
+    <string name="label_table_table">테이블 조작하기</string>
+    <string name="label_table_repeat">테이블 반복하기</string>
+    <string name="label_view01">View01</string>
+    <string name="label_view02">View02</string>
+    <string name="label_view03">View03</string>
+    <string name="label_view04">View04</string>
+    <string name="label_view05">View05</string>
+    <string name="label_view06">View06</string>
+    <string name="label_view07">View07</string>
+    <string name="label_view08">View08</string>
+    <string name="label_view09">View09</string>
+    <string name="label_view10">View10</string>
+    <string name="label_top">TOP</string>
+    <string name="label_left">LEFT</string>
+    <string name="label_bottom">BOTTOM</string>
+    <string name="label_right">RIGHT</string>
+    <string name="label_include_normal">일반적인 레이아웃을 사용한 재사용</string>
+    <string name="label_include_merge">Merge를 사용한 재사용</string>
+    <string name="label_even_horizonal">가로로 균등하게</string>
+    <string name="label_even_vertical">세로로 균등하게</string>
+    <string name="ch0313_drawer_open">Open navigation drawer</string>
+    <string name="ch0313_drawer_close">Close navigation drawer</string>
+
+</resources>

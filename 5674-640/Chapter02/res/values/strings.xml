@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Chapter02</string>
+    <string name="action_settings">Settings</string>
+    <string name="app_title1">ListView에 목록 표시</string>
+    <string name="app_title2">GridView에 그리드 표시</string>
+    <string name="app_title3">ExpandListView 계층 표시</string>
+    <string name="app_title4">ListView 헤더・푸터 설정</string>
+    <string name="app_title5">ListView 인덱스 설정</string>
+    <string name="app_title6">ListView 표시항목을 커스텀 레이아웃으로 표시</string>
+    <string name="app_title7">목록 끝까지 스크롤 시 자동으로 항목 추가</string>
+    <string name="app_title8">항목을 세로로 스크롤</string>
+    <string name="app_title9">항목을 가로로 스크롤</string>
+    <string name="app_title10">고속 스크롤 추가</string>
+    <string name="app_title11">버튼이 있는 대화상자 표시</string>
+    <string name="app_title12">텍스트 입력 대화상자 표시</string>
+    <string name="app_title13">체크 대화상자 표시</string>
+    <string name="app_title14">커스텀 레이아웃 대화상자 표시</string>
+    <string name="app_title15">대화상자 테마 변경</string>
+    <string name="app_title16">대화상자 타이틀 제거</string>
+    <string name="app_title17">모달 대화상자 표시</string>
+    <string name="app_title18">ActionBar 타이틀 변경</string>
+    <string name="app_title19">ActionBar 타이틀 아이콘 변경</string>
+    <string name="app_title20">ActionBar 돌아가기 버튼 추가</string>
+    <string name="app_title21">ActionBar 타이틀 폰트 변경</string>
+    <string name="app_title22">ActionBar에 메뉴 표시</string>
+    <string name="app_title23">ActionBar에 탭 추가</string>
+    <string name="app_title24">ActionBar 스타일 변경</string>
+    <string name="app_title25">ActionBar에 Spinner 배치</string>
+    <string name="app_title26">메뉴 표시 제어</string>
+    <string name="app_title27">메뉴 동적 변경</string>
+    <string name="app_title28">메뉴에 체크 박스 설정</string>
+    <string name="app_title29">설정 화면 작성</string>
+    <string name="app_title30">텍스트 설정 추가</string>
+    <string name="app_title31">선택형 선택 추가</string>
+    <string name="app_title32">체크형 선택 추가</string>
+    <string name="app_title33">설정 명칭과 설명을 변경</string>
+    <string name="app_title34">설정 변경 시 처리</string>
+    <string name="app_title35">설정 대화상자 커스터마이즈</string>
+    <string name="app_title36">프레퍼런스 커스터마이즈</string>
+    <string name="ch0210_label_usefastscroll">고속 스크롤</string>
+
+</resources>

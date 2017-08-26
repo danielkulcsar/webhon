@@ -1,0 +1,40 @@
+package com.example.etc06;
+
+import android.app.Activity;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.os.Bundle;
+import android.util.Log;
+
+public class MainActivity extends Activity {
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+    boolean debugFlag = isDebugAble();
+    if(debugFlag){
+      Log.d("Sample","Debug mode");
+    }else{
+      Log.d("Sample","Non debug mode");
+    }
+  }
+  private boolean isDebugAble(){
+    PackageManager pm = getPackageManager();
+    ApplicationInfo appInfo = null;
+    try {
+      appInfo = pm.getApplicationInfo(getPackageName(), 0);
+    } catch (NameNotFoundException e) {
+      e.printStackTrace();
+    }
+    if(
+      ( appInfo.flags & ApplicationInfo.FLAG_DEBUGGABLE ) 
+      == 
+      ApplicationInfo.FLAG_DEBUGGABLE
+    ){
+      return true;
+    }else{
+      return false;
+    }
+  }
+}

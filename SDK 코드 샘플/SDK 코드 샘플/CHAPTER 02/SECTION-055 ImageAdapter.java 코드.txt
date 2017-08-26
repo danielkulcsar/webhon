@@ -1,0 +1,66 @@
+package com.example.screen39;
+
+import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Log;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.Gallery;
+import android.widget.ImageView;
+
+public class ImageAdapter extends BaseAdapter {
+  private Context myContext;
+  private int[] imgs;
+  public ImageAdapter(Context c, int[] imgs) {
+    this.myContext = c;
+    this.imgs = imgs;
+  }
+
+  public int getCount() {
+    return imgs.length;
+  }
+
+  public Object getItem(int position) {
+    Log.d("getItem", String.valueOf(position));
+    return position;
+  }
+  
+  public long getItemId(int position) {
+    return position;
+  }
+  
+  public View getView(
+    int position, 
+    View convertView, 
+    ViewGroup parent
+  ) {
+    // ImageView 인스턴스 생성
+    ImageView image = new ImageView(this.myContext);
+
+    // 리소스 파일 취득
+    Resources res = this.myContext.getResources();
+
+    // 비트맵 갱신
+    Bitmap bitmap = BitmapFactory.decodeResource(
+      res, imgs[position]
+    );
+
+    // 이미지 지정
+    image.setImageBitmap(bitmap);
+
+    // 스케일 타입 지정
+    image.setScaleType(ImageView.ScaleType.FIT_XY);
+
+    // 레이아웃 파라메타 지정
+    image.setLayoutParams(
+      new Gallery.LayoutParams(
+          100,
+          100
+      )
+    );
+    return image;
+  }
+ }

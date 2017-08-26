@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+  package="com.example.powermanagement03"
+  android:versionCode="1"
+  android:versionName="1.0">
+  <application android:icon="@drawable/icon" 
+    android:label="@string/app_name">
+    <!-- receiver태그를 구현하고 리시버 클래스명을 기술 -->
+    <receiver android:name=".ConnectedReceiver">
+      <!-인텐트 필드 리스트를 등록 -->
+      <intent-filter>
+        <action android:name=
+          "android.intent.action.ACTION_POWER_CONNECTED" />
+      </intent-filter>
+    </receiver>
+  </application>
+</manifest>

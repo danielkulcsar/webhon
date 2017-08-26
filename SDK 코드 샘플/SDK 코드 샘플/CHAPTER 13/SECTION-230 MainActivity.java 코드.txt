@@ -1,0 +1,53 @@
+package com.example.content05;
+
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import android.app.Activity;
+import android.content.Context;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.os.Bundle;
+import android.text.SpannableStringBuilder;
+import android.widget.TextView;
+
+public class MainActivity extends Activity {
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+    // 읽을 파일명 지정
+    String FILENAME = "sample.txt";
+    // SpannableStringBuilder인스턴스 생성
+    SpannableStringBuilder spannable = 
+      new SpannableStringBuilder();
+    // 파일의 쓰기와 읽기 
+    try {
+      // 읽을 파일이 있는 패키지 명 지정 
+      Context ctxt = 
+        createPackageContext("com.example.content05", 0);
+      // 파일 스트림 호출 
+      FileInputStream fis = ctxt.openFileInput("sample.txt");
+      // 파일 읽기 
+      BufferedReader reader = 
+        new BufferedReader(new InputStreamReader(fis));
+      String line;
+      while ((line = reader.readLine()) != null) {
+        // 텍스트 추가。
+        spannable.append(line + "\n");
+      }
+      // 파일 닫기
+      fis.close();
+      // 텍스트 뷰에 표시 
+      TextView tv = (TextView) findViewById(R.id.text);
+      tv.setText("FileName：" + FILENAME + "\nFile Contents：\n" + spannable);
+    } catch (NameNotFoundException e) {
+      e.printStackTrace();
+    } catch (FileNotFoundException e) {
+      e.printStackTrace();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+}

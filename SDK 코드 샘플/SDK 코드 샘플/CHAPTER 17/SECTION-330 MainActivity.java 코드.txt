@@ -1,0 +1,54 @@
+package com.example.analytics01;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.view.View;
+
+import com.google.android.apps.analytics.GoogleAnalyticsTracker;
+
+public class MainActivity extends Activity {
+
+  GoogleAnalyticsTracker tracker;
+
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+
+    // GoogleAnalyticsTracker 인스턴스 취득
+    tracker = GoogleAnalyticsTracker.getInstance();
+
+    // 속성 ID를 지정하여 세션 시작
+    tracker.startNewSession("UA-**********", this);
+
+    setContentView(R.layout.main);
+
+    // 페이지 뷰를 센다
+    tracker.trackPageView("/main_page");
+
+    // Google Analytics 서버에 지금까지의 추적 데이터를 전송
+    tracker.dispatch();
+    
+  }
+
+  public void clickEvent(View v) {
+    
+    // 추적할 이벤트 정보나 값을 지정한다
+    tracker.trackEvent(
+        "Clicks", // 카테고리
+        "Button", // 액션
+        "clicked", // 라벨
+        1 // 값
+      );
+
+    // Google Analytics 서버에 지금까지의 추적 데이터를 전송
+    tracker.dispatch();
+  }
+
+  @Override
+  protected void onDestroy() {
+    super.onDestroy();
+
+    // 세션을 종료한다
+    tracker.stopSession();
+  }
+}

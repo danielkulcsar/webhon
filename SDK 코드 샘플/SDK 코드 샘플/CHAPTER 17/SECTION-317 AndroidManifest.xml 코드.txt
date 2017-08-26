@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest
+  xmlns：android="http：//schemas.android.com/apk/res/android"
+  package="com.example.etc10"
+  android：versionCode="1"
+  android：versionName="1.0">
+    
+  <!-다른 어플리케이션에서 액세스할 수 없도록 권한 설정-->  
+  <permission
+    android：name="com.example.etc10.permission.C2D_MESSAGE"
+    android：protectionLevel="signature" />
+  <uses-permission
+    android：name="com.example.etc10.permission.C2D_MESSAGE" />
+
+  <!-- C2DM의 등록과 삭제를 하기 위한 권한 추가 -->
+  <uses-permission
+    android：name="com.google.android.c2dm.permission.RECEIVE" />
+  <uses-permission android：name="android.permission.WAKE_LOCK" />
+
+  <application
+    android：icon="@drawable/icon"
+    android：label="@string/app_name">
+  <activity 
+    android：name=".MainActivity"
+    android：label="@string/app_name">
+    <intent-filter>
+      <action android：name="android.intent.action.MAIN" />
+      <category
+        android：name="android.intent.category.LAUNCHER" />
+    </intent-filter>
+  </activity>
+
+  <!--
+    c2dm라이브러리를 사용하려면
+    com.google.android.c2dm.C2DMBaseReceiver를 계승했다
+    C2DMReceiver 클래스가 필요하다
+  -->
+
+  <service android：name=".C2DMReceiver" />
+      
+  <!--
+    C2DM만 메시지 송신 가능
+    android:permission을 설정하지 않는 경우
+    다른 어플리케이션에서 호출이 가능해진다
+  --> 
+  <receiver 
+    android：name="com.google.android.c2dm.C2DMBroadcastReceiver"
+    android：permission="com.google.android.c2dm.permission.SEND">
+  <intent-filter>
+    <action
+      android：name="com.google.android.c2dm.intent.RECEIVE" />
+    <category android：name="com.sample.etc10" />
+  </intent-filter>
+  <!-- registration_id의 수신 -->
+  <intent-filter>
+    <action
+    android：name="com.google.android.c2dm.intent.REGISTRATION" />
+    <category android：name="com.sample.etc10" />
+  </intent-filter>
+  </receiver>
+  </application>
+  <uses-sdk android：minSdkVersion="8" />
+</manifest> 

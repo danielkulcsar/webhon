@@ -1,0 +1,46 @@
+package com.example.screen35;
+
+import java.util.Calendar;
+import android.app.Activity;
+import android.app.DatePickerDialog;
+import android.os.Bundle;
+import android.widget.TextView;
+
+public class MainActivity extends Activity {
+  DatePickerDialog datePickerDialog;
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+
+    // TextView 인스턴스 취득(결과 표시용)
+    final TextView textview = (TextView) findViewById(R.id.textview);
+
+    // 캘린더 인스턴스 취득 
+    Calendar date = Calendar.getInstance();
+
+    // DatePickerDialog 인스턴스 생성
+    DatePickerDialog datePickerDialog = new DatePickerDialog(
+      this,
+      new DatePickerDialog.OnDateSetListener() {
+        @Override
+        public void onDateSet(
+          android.widget.DatePicker view,
+          int year, int monthOfYear,
+          int dayOfMonth
+        ) {
+
+          // 지정된 날짜를 취득하여 textview에 반영
+          textview.setText(year + ", " + (monthOfYear + 1) + ", " + dayOfMonth);
+        }
+      },
+      date.get(Calendar.YEAR),
+      date.get(Calendar.MONTH), date.get(Calendar.DATE) );
+
+    // 타이틀 지정
+    datePickerDialog.setTitle("Title");
+
+    // 다이얼로그 표시
+    datePickerDialog.show();
+  }
+}

@@ -1,0 +1,66 @@
+package com.example.lvl01;
+
+import com.android.vending.licensing.AESObfuscator;
+import com.android.vending.licensing.LicenseChecker;
+import com.android.vending.licensing.ServerManagedPolicy;
+import android.app.Activity;
+import android.os.Bundle;
+import android.provider.Settings.Secure;
+
+public class MainActivity extends Activity {
+  private LCCallback LCCallback;
+  private LicenseChecker checker;
+  
+  // 20개의 무작위 요소를 준비(AES 암호화할 때 사용)
+  private static final byte[] salt = new byte[] {
+    55, -9, 60, -12, -73, -88, 11, -22, 98, 123,
+    -114, -1, 33, -29, -74, -80, -43, 26, -47, 64
+  };
+  
+  // 공개 키(https://play.google.com/apps/publish/v2/에서 취득)
+  String PUBLIC_KEY 
+        = "***********************************************************************"
+        + "***********************************************************************"
+        + "***********************************************************************"
+        + "***********************************************************************"
+        + "***********************************************************************"
+        + "*************************************";
+
+  @Override
+  public void onCreate(Bundle savedInstanceState) {  
+    super.onCreate(savedInstanceState);
+    
+    // LCCallback 인스턴스 생성
+    LCCallback = new LCCallback(this);
+    
+    // 단말기마다 고유 값 취득
+    String deviceId = 
+      Secure.getString(
+        this.getContentResolver(),
+        Secure.ANDROID_ID
+      );
+    
+    // LicenseChecker 인스턴스 생성
+    checker = new LicenseChecker(
+      this, 
+      new ServerManagedPolicy(
+        this,
+        new AESObfuscator(
+          salt, 
+          this.getPackageName(), 
+          deviceId
+        )
+      ),
+      PUBLIC_KEY
+    );
+
+    // 라이선스를 점검한다
+    checker.checkAccess(LCCallback);
+  }
+  
+  @Override
+  protected void onDestroy(){
+    super.onDestroy();
+    checker.onDestroy();
+  }
+}
