@@ -1,0 +1,16 @@
+package com.example.screen49;
+
+import android.app.Fragment;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+public class Fragment002 extends Fragment{
+  @Override
+  public View onCreateView(LayoutInflater inflater, ViewGroup container,
+      Bundle savedInstanceState) {
+    // 표시하는 레이아웃 'sub2.xml’을 지정
+    return inflater.inflate(R.layout.sub2, null, false);
+  }
+}

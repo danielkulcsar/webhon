@@ -1,0 +1,48 @@
+package com.example.clipbd02;
+
+import android.app.Activity;
+import android.content.ClipData;
+import android.content.ClipData.Item;
+import android.content.ClipboardManager;
+import android.content.Context;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Toast;
+
+public class MainActivity extends Activity {
+  ClipboardManager mClipboard;
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+    
+    // 클립보드 매니저 인스턴스를 취득 
+    mClipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+    
+    // 'Sample 'Text’ 라벨을 붙여 텍스트 데이터라는 클립 데이터 인스턴스를 작성
+    ClipData clipData = ClipData.newPlainText("Sample Text","Text Data");
+    
+    // 클립보드에 복사 
+    mClipboard.setPrimaryClip(clipData);
+    
+  }
+  
+  public void onClickButton(View view){
+    
+    // 클립보드에 데이터가 있는 것을 확인
+    if(mClipboard.hasPrimaryClip()){
+
+      // 클립보드 데이터 취득 
+      ClipData clip = mClipboard.getPrimaryClip();
+      
+      // 첫 번째 아이템 취득
+      Item item = clip.getItemAt(0);
+      
+      // 취득한 아이템에서 텍스트 정보 취득
+      String text = (String) item.getText();
+
+      // 클립보드에서 취득한 텍스트를 토스트에 표시
+      Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
+    }
+  }
+}

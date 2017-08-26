@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  android:orientation="vertical"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent">
+  <LinearLayout
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <!-- Admin 유효 버튼 -->
+    <Button
+      android:id="@+id/enable"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="@string/enable"
+      />
+    <!-- Admin 무효 버튼 -->
+    <Button
+      android:id="@+id/disable"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="@string/disable"
+      />
+  </LinearLayout>
+  <LinearLayout
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <!-- 단말기 초기화 버튼 -->
+    <Button
+      android:id="@+id/wipe_data"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="@string/wipe_data"
+      />
+  </LinearLayout>
+</LinearLayout>

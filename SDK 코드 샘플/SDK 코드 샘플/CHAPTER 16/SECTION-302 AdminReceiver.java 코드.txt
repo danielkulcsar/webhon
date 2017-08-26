@@ -1,0 +1,98 @@
+package com.example.admin04;
+
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.admin.DeviceAdminReceiver;
+import android.app.admin.DevicePolicyManager;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+
+public class AdminReceiver extends DeviceAdminReceiver {
+  public static class Controller extends Activity {
+    // 디바이스 정책 관리자 선언
+    DevicePolicyManager mDPM;
+    // 컨포넌트 네임의 선언
+    ComponentName mDeviceAdmin;
+    // 유효/무효 버튼의 선언
+    Button mEnableButton;
+    Button mDisableButton;
+    // 단말기 초기화 버튼 선언
+    Button mWipeDataButton;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+      super.onCreate(savedInstanceState);
+      // 디바이스 정책 관리자 구현
+      mDPM = (DevicePolicyManager)getSystemService(Context.DEVICE_POLICY_SERVICE);
+      // 컨포넌트 네임에 'Controller’ 클래스 지정
+      mDeviceAdmin = new ComponentName(Controller.this, AdminReceiver.class);
+      setContentView(R.layout.main);
+      // Admin 유효 버튼, 리스너 설정
+      mEnableButton = (Button)findViewById(R.id.enable);
+      mEnableButton.setOnClickListener(mEnableListener);
+      // Admin 무효 버튼, 리스너 설정
+      mDisableButton = (Button)findViewById(R.id.disable);
+      mDisableButton.setOnClickListener(mDisableListener);
+      // 단말기 초기화 버튼, 리스너 설정
+      mWipeDataButton = (Button)findViewById(R.id.wipe_data);
+      mWipeDataButton.setOnClickListener(mWipeDataListener);
+    }
+    void updateButtonStates() {
+      // Device policy manager이 유효하면 버튼을 유효로
+      boolean active = mDPM.isAdminActive(mDeviceAdmin);
+      if (active) {
+        mEnableButton.setEnabled(false);
+        mDisableButton.setEnabled(true);
+        mWipeDataButton.setEnabled(true);
+      } else {
+        mEnableButton.setEnabled(true);
+        mDisableButton.setEnabled(false);
+        mWipeDataButton.setEnabled(false);
+      }
+    }
+    @Override
+    protected void onResume() {
+      super.onResume();
+      updateButtonStates();
+    }
+    // 유효 버튼
+    private OnClickListener mEnableListener = new OnClickListener() {
+      public void onClick(View v) {
+        // 기기 관리자 설정 액티비티 시작
+        Intent intent = new Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN);
+        intent.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, mDeviceAdmin);
+        startActivity(intent);
+      }
+    };
+    // 무효 버튼
+    private OnClickListener mDisableListener = new OnClickListener() {
+      public void onClick(View v) {
+        mDPM.removeActiveAdmin(mDeviceAdmin);
+        updateButtonStates();
+      }
+    };
+    // 단말기 초기화 버튼
+    private OnClickListener mWipeDataListener = new OnClickListener() {
+      public void onClick(View v) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(Controller.this);
+        builder.setMessage("Reset Device？");
+        builder.setPositiveButton("はい", new DialogInterface.OnClickListener() {
+          public void onClick(DialogInterface dialog, int which) {
+            boolean active = mDPM.isAdminActive(mDeviceAdmin);
+            if (active) {
+              // 단말기 초기화
+              mDPM.wipeData(0);
+            }
+          }
+        });
+        builder.setNegativeButton("No", null);
+        builder.show();
+      }
+    };
+  }
+}

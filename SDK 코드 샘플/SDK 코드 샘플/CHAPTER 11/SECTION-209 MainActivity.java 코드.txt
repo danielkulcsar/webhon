@@ -1,0 +1,93 @@
+package com.example.audio01;
+
+import android.app.Activity;
+import android.media.MediaPlayer;
+import android.media.audiofx.Visualizer;
+import android.os.Bundle;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
+
+public class MainActivity extends Activity {
+
+  private MediaPlayer mMediaPlayer;
+  private Visualizer mVisualizer;
+
+  private LinearLayout mLinearLayout;
+  private VisualizerView mVisualizerView;
+
+  @Override
+  public void onCreate(Bundle icicle) {
+    super.onCreate(icicle);
+
+    setContentView(R.layout.main);
+    mLinearLayout = (LinearLayout) findViewById(R.id.parent);
+
+    // 미디어 플레이어 작성
+    mMediaPlayer = MediaPlayer.create(this, R.raw.music);
+
+    // 비주얼 라이저 뷰 인스턴스 생성
+    mVisualizerView = new VisualizerView(this);
+    
+    // 비주얼 라이저 뷰 크기 지정
+    mVisualizerView.setLayoutParams(
+      new ViewGroup.LayoutParams(
+        ViewGroup.LayoutParams.FILL_PARENT,
+        ViewGroup.LayoutParams.FILL_PARENT
+      )
+    );
+    
+    // 비주얼 라이저 뷰를 추가 
+    mLinearLayout.addView(mVisualizerView);
+
+    // 비주얼 라이저 오브젝트를 생성해서 
+    // 작성한 미디어 플레이어에 붙이면
+    mVisualizer = new Visualizer(mMediaPlayer.getAudioSessionId());
+    
+    // 캡처 사이즈 설정
+    mVisualizer.setCaptureSize(
+      Visualizer.getCaptureSizeRange()[1]);
+    
+    // 리스너 세트
+    mVisualizer.setDataCaptureListener(new Visualizer.OnDataCaptureListener() {
+        public void onWaveFormDataCapture(
+          Visualizer visualizer, 
+          byte[] bytes,
+          int samplingRate) {
+          mVisualizerView.updateVisualizer(bytes);
+      }
+
+      public void onFftDataCapture(
+        Visualizer visualizer, 
+        byte[] bytes, 
+        int samplingRate) {}
+    }, Visualizer.getMaxCaptureRate() / 2, true, false);
+
+    // 비주얼라이저 활성화
+    mVisualizer.setEnabled(true);
+
+    // 재생 종료를 감지할 리스너 세트
+    mMediaPlayer.setOnCompletionListener(
+      new MediaPlayer.OnCompletionListener() {
+      public void onCompletion(MediaPlayer mediaPlayer) {
+        
+        // 비주얼 라이저 해제
+        mVisualizer.setEnabled(false);
+      }
+    });
+
+    // 재생 시작 
+    mMediaPlayer.start();
+  }
+
+  @Override
+  protected void onPause() {
+    super.onPause();
+    
+    // 오브젝트 해제
+    if (isFinishing() && mMediaPlayer != null) {
+      mVisualizer.release();
+      mMediaPlayer.release();
+      mMediaPlayer = null;
+    }
+  }
+}

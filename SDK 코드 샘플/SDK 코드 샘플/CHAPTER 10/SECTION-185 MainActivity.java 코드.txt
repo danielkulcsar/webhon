@@ -1,0 +1,72 @@
+package com.example.sensor01;
+
+import android.app.Activity;
+import android.content.Context;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
+import android.os.Bundle;
+import android.util.Log;
+
+public class MainActivity extends Activity 
+  implements SensorEventListener {
+  private SensorManager sensorManager;
+
+    // 센서를 지정한다 
+    int SENSOR_NAME = Sensor.TYPE_ACCELEROMETER;
+    // 센서값 을 얻는 타이밍을 지정한다
+    int SENSOR_DELAY = SensorManager.SENSOR_DELAY_NORMAL;
+
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+    
+    // SensorManager 인스턴스를 취득 
+    sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+
+  }
+
+// Sensor 인스턴스 취득과 센서 리스너 등록 시작 
+  @Override
+  protected void onResume() {
+    super.onResume();
+
+    // 가속도 센서를 지정하여 Sensor 인스턴스를 취득
+    Sensor sensor = sensorManager.getDefaultSensor(SENSOR_NAME);
+    // 센서 리스너에 등록
+    sensorManager.registerListener(this, sensor, SENSOR_DELAY);
+  }
+  
+  @Override
+  protected void onPause() {
+    super.onPause();
+    
+    // 센서 리스너를 해제 
+    sensorManager.unregisterListener(this);
+    
+  }
+
+  @Override
+  public void onAccuracyChanged(Sensor sensor, int accuracy) {
+    
+    // 정밀도가 변경되었을 때 요청
+    
+  }
+  @Override
+  public void onSensorChanged(SensorEvent event) {
+
+    // 센서 타입 취득 여부 확인
+    if( event.sensor.getType() == SENSOR_NAME ){
+      // 표시 포맷 지정 시작 
+      // X축 Y 축 Z축 각각의 가속도를 얻음
+      Log.d(
+        "onSensorChanged", 
+        " x: " + String.valueOf( event.values[0] ) +
+        "\ty: " + String.valueOf( event.values[1] ) +
+        "\tz: " + String.valueOf( event.values[2] )
+      ); // 표시 포맷 지정 종료 
+    }
+  } 
+}

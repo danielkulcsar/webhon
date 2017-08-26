@@ -1,0 +1,18 @@
+package com.example.database01;
+
+import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
+
+public class DatabaseHelper extends SQLiteOpenHelper {
+  public DatabaseHelper(Context context) {
+    // 스토리지(로컬파일)에 DB작성
+    super(context, "sample.db", null, 1);
+  }
+  @Override
+  public void onCreate(SQLiteDatabase db) {
+  }
+  @Override
+  public void onUpgrade(SQLiteDatabase arg0, int arg1, int arg2) {
+  }
+}

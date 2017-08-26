@@ -1,0 +1,32 @@
+package com.example.wv15;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.webkit.HttpAuthHandler;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
+
+public class MainActivity extends Activity {
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        WebView webview = new WebView(this);
+        webview.getSettings().setJavaScriptEnabled(true);
+        setContentView(webview);
+        webview.loadUrl("http://sample.com/auth.php");
+        
+        // WebViewClient를 Web 뷰에 등록한다
+        webview.setWebViewClient(new WebViewClient(){
+         @Override
+         public void onReceivedHttpAuthRequest(
+           WebView view,
+           HttpAuthHandler handler,
+           String host,
+           String realm){
+    
+           // 사용자 이름과 패스워드를 자동으로 보낸다
+           handler.proceed("user name", "password");
+         }
+        });
+    }
+}

@@ -1,0 +1,43 @@
+package com.example.settings01;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.util.DisplayMetrics;
+import android.util.Log;
+import android.view.Display;
+import android.view.WindowManager;
+
+public class MainActivity extends Activity {
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    
+    WindowManager wm = getWindowManager();
+    Display display = wm.getDefaultDisplay();
+    DisplayMetrics metrics = new DisplayMetrics();
+    display.getMetrics(metrics);
+    setContentView(R.layout.main);
+    
+    Log.d("Sample", "density: " + metrics.density);  
+    Log.d("Sample", "densityDpi: " + metrics.densityDpi);  // 1.6이후
+    Log.d("Sample", "scaledDensity: " + metrics.scaledDensity);  
+    Log.d("Sample", "widthPixels: " + metrics.widthPixels);  
+    Log.d("Sample", "heightPixels: " + metrics.heightPixels);  
+    Log.d("Sample", "xdpi: " + metrics.xdpi);  
+    Log.d("Sample", "ydpi:" + metrics.ydpi);
+    switch( metrics.densityDpi ){
+      case DisplayMetrics.DENSITY_LOW:
+        Log.d("Sample", "DisplayMetrics.DENSITY_LOW");
+        break;
+      case DisplayMetrics.DENSITY_MEDIUM:
+        Log.d("Sample", "DisplayMetrics.DENSITY_MEDIUM");
+        break;
+      case DisplayMetrics.DENSITY_HIGH:
+        Log.d("Sample", "DisplayMetrics.DENSITY_HIGH");
+        break;
+      case DisplayMetrics.DENSITY_XHIGH:
+        Log.d("Sample", "DisplayMetrics.DENSITY_XHIGH");  // 2.3 이후
+        break;
+    }
+  }
+}

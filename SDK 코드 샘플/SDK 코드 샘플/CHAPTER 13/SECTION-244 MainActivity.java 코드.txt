@@ -1,0 +1,44 @@
+package com.example.database04;
+
+import android.app.Activity;
+import android.content.ContentValues;
+import android.database.sqlite.SQLiteDatabase;
+import android.os.Bundle;
+
+public class MainActivity extends Activity {
+  // 데이터베이스 도우미 작성
+  private DatabaseHelper helper = new DatabaseHelper(this);
+  // 데이터베이스 선언
+  public static SQLiteDatabase db;
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+    // 데이터베이스 오픈
+    db = helper.getWritableDatabase();
+    // 레코드 추가 처리
+    ContentValues values = new ContentValues();
+    values.put("DATA1", "13105");
+    values.put("DATA2", "113");
+    values.put("DATA3", "1130033");
+    values.put("DATA4", "Seoul");
+    values.put("DATA5", "Mapo-gu");
+    values.put("DATA6", "Mok-dong");
+    values.put("DATA7", "Seoul");
+    values.put("DATA8", "Youngdeungpo-gu");
+    values.put("DATA9", "Youido-dong");
+    values.put("DATA10", "0");
+    values.put("DATA11", "0");
+    values.put("DATA12", "1");
+    values.put("DATA13", "0");
+    values.put("DATA14", "0");
+    values.put("DATA15", "0");
+    db.insert("ZIPCODE", null, values);
+  }
+  // 데이터베이스 도우미 마감 처리
+  @Override
+  public void onDestroy(){
+    super.onDestroy();
+    helper.close();
+  }
+}

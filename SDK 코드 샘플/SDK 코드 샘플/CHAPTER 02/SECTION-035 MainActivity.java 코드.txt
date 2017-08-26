@@ -1,0 +1,17 @@
+package com.example.screen19;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.widget.TextView;
+
+public class MainActivity extends Activity {
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+    // TextView 인스턴스 취득
+    TextView textview = (TextView)findViewById(R.id.textview);
+    textview.setHeight(30);    // 높이를 설정
+    textview.setWidth(30);     // 폭을 설정
+  }
+}

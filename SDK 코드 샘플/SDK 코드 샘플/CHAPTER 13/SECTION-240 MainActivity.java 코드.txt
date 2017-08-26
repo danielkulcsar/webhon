@@ -1,0 +1,37 @@
+package com.example.eventintent;
+
+import java.util.Calendar;
+
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.provider.CalendarContract;
+
+public class MainActivity extends Activity {
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+    Calendar cal = Calendar.getInstance();
+    cal.set(2012, 3, 22, 20, 0); // 시작 날짜 지정
+    long beginTime = cal.getTimeInMillis();
+    cal.set(2012, 3, 22, 21, 0); // 종료 날짜 지정
+    long endTime = cal.getTimeInMillis();
+    Intent intent = new Intent(Intent.ACTION_INSERT)
+      // 이벤트를 추가하는 URI 지정
+      .setData(CalendarContract.Events.CONTENT_URI)
+      // 이벤트 시작 날짜
+      .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, beginTime)
+      // 이벤트 종료 날짜
+      .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endTime)
+      // 종일 플래그
+      .putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY , false)
+      // 이벤트 제목
+      .putExtra(CalendarContract.Events.TITLE, "Question")
+      // 이벤트 내용 
+      .putExtra(CalendarContract.Events.DESCRIPTION, "About Relese Date")
+      // 이벤트 장소
+      .putExtra(CalendarContract.Events.EVENT_LOCATION, "Meeting room #3");
+    startActivity(intent);
+  }
+}

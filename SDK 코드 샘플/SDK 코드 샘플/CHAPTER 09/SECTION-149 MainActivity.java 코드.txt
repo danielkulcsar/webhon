@@ -1,0 +1,47 @@
+package com.example.telephony08;
+
+import android.app.Activity;
+import android.database.Cursor;
+import android.net.Uri;
+import android.os.Bundle;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+
+public class MainActivity extends Activity {
+  
+  // SIM 카드에 액세스하는 URI 정의
+  
+  // Android 1.6인 경우는 'icc/adn’ 사용
+  static final Uri URI_SIM = Uri.parse("content://icc/adn");
+  // Android 1. 6이외의 경우는 'sim/adn’ 사용
+  //static final Uri URI_SIM = Uri.parse("content://sim/adn");
+  
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+    // 'ArrayAdapter’ 클래스를 이용하여 오브젝트 생성
+    ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+      this, android.R.layout.simple_list_item_1);
+    // SIM 카드 정보 취득
+    Cursor c = 
+      getContentResolver().query(URI_SIM, null, null, null, null);
+    // 커서 조작
+    if (c.moveToFirst()) {
+      do {
+        // _id, name, number  순서로 정보 취득
+        String SimAddress = 
+          c.getString(2) + "|" +   // ID
+          c.getString(0) + "|" +   // 이름
+          c.getString(1);      // 전화번호
+        // 어댑터에 추가
+        adapter.add(SimAddress);
+      } while (c.moveToNext());
+    }
+    c.close();
+    // 목록 보기 설정
+    ListView listView = (ListView) findViewById(R.id.listview);
+    // 목록 보기 어댑터를 설정한다
+    listView.setAdapter(adapter);
+  }
+}

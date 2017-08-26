@@ -1,0 +1,51 @@
+package com.example.telephony05;
+
+import android.app.Activity;
+import android.content.Context;
+import android.os.Bundle;
+import android.telephony.TelephonyManager;
+import android.widget.TextView;
+
+public class MainActivity extends Activity {
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+    // 텍스트뷰 취득
+    TextView tv = (TextView) findViewById(R.id.text);
+    // getSystemService 오브젝트에서 TelephonyManager 이용
+    TelephonyManager telManager = 
+    (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+    // 'getSimState’ 메소드로  SIM 카드의 유무(상태) 파악
+    int status = telManager.getSimState();
+    String text = null;
+    switch(status) {
+    case 0:
+      // 0: SIM_STATE_UNKNOWN(SIM 상태 불명)
+      text = "SIM Unknown";
+      break;
+    case 1:
+      // 1: SIM_STATE_ABSENT(SIM 미삽입)
+      text = "No SIM Installed";
+      break;
+    case 2:
+      // 2: SIM_STATE_PIN_REQUIRED(PIN 입력대기)
+      text = "Wait for PIN";
+      break;
+    case 3:
+      // 3: SIM_STATE_PUK_REQUIRED(PUK 입력대기)
+      text = "Wait for PUK";
+      break;
+    case 4:
+      // 4: SIM_STATE_NETWORK_LOCKED(잠금 상태)
+      text = "Locked";
+      break;
+    case 5:
+      // 5: SIM_STATE_READY(이용 가능 상태)
+      text = "Ready";
+      break;
+    }
+    // 텍스트뷰에 SIM 카드 상태 출력
+    tv.setText("SIM Sataus：" + text);
+  }
+}

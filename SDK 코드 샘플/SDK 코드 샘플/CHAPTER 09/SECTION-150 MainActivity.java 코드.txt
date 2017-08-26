@@ -1,0 +1,76 @@
+package com.example.telephony09;
+
+import android.app.Activity;
+import android.database.Cursor;
+import android.os.Bundle;
+import android.provider.ContactsContract;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+
+public class MainActivity extends Activity {
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+    // 표시 문자열
+    String strContact = null;
+    // 'ArrayAdapter' 클래스를 이용하여 오브젝트 생성
+    ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+      this, android.R.layout.simple_list_item_1);
+    // Cursor 생성(연락처 목록에서 모든 건 취득)
+    Cursor c = managedQuery(
+      ContactsContract.Contacts.CONTENT_URI,
+      null, null, null, null);
+    while (c.moveToNext()) {
+      // 연락처 ID 취득
+      String id;
+      id = c.getString(
+        c.getColumnIndex(
+          ContactsContract.Contacts._ID));
+      String[] where_args = { id };
+      // 이름 취득
+      String name = c.getString(c.getColumnIndex("display_name"));
+      // 취득한 ID와 이름을 strContact에 추가 기록
+      strContact = id + " " + name;
+      // 전화번호 취득(WHERE조건에 CONTACT_ID 지정)
+      Cursor phones = managedQuery(
+        ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+        null,
+        ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ? ",
+        where_args, null);
+      while (phones.moveToNext()) {
+        // 전화번호 취득
+        String phoneNumber = phones.getString(
+          phones.getColumnIndex(
+          ContactsContract.CommonDataKinds.Phone.NUMBER));
+        // 취득한 전화번호를 strContact에 추가
+        strContact = strContact + "\n " + phoneNumber;
+      }
+      phones.close();
+      // 메일 주소 취득(WHERE 조건에 CONTACT_ID 지정)
+      Cursor emails = managedQuery(
+        ContactsContract.CommonDataKinds.Email.CONTENT_URI,
+        null,
+        ContactsContract.CommonDataKinds.Email.CONTACT_ID
+        + " = " + id,
+        null, null);
+      while (emails.moveToNext()) {
+        // 메일 주소 취득
+        String email = emails.getString(
+          emails.getColumnIndex(
+            ContactsContract.CommonDataKinds.Email.DATA));
+        // 취득한 메일 주소를 strContact에 추가
+        strContact = strContact + "\n " + email;
+      }
+      emails.close();
+      // strContact을 어댑터에 데이터 설정
+      adapter.add(strContact);
+    }
+    // 커서를 닫는다
+    c.close();
+    // 목록보기 설정
+    ListView listView = (ListView) findViewById(R.id.listview);
+    // 목록보기 어댑터를 설정한다
+    listView.setAdapter(adapter);
+  }
+}

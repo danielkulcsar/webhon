@@ -1,0 +1,101 @@
+package com.example.audio02;
+
+import android.app.Activity;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.media.audiofx.Equalizer;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.SeekBar;
+import android.widget.TextView;
+
+public class MainActivity extends Activity {
+
+  private MediaPlayer mMediaPlayer;
+  private Equalizer mEqualizer;
+  private LinearLayout mLinearLayout;
+
+  @Override
+  public void onCreate(Bundle icicle) {
+    super.onCreate(icicle);
+
+    setVolumeControlStream(AudioManager.STREAM_MUSIC);
+
+    setContentView(R.layout.main);
+    mLinearLayout = (LinearLayout) findViewById(R.id.parent);
+
+    // 미디어 플레이어 작성
+    mMediaPlayer = MediaPlayer.create(this, R.raw.music);
+
+    // 이퀄라이저 오브젝트를 생성하여 작성한 미디어 플레이어를 붙인다
+    mEqualizer = new Equalizer(0, mMediaPlayer.getAudioSessionId());
+    
+    // 이퀄라이저를 사용한다
+    mEqualizer.setEnabled(true);
+    
+    // 주파수 수를 얻음
+    short bands = mEqualizer.getNumberOfBands();
+    
+    // 이퀄라이저 최댓값과 최솟값 취득 
+    final short minEQLevel = mEqualizer.getBandLevelRange()[0];
+    final short maxEQLevel = mEqualizer.getBandLevelRange()[1];
+
+    LayoutInflater inflater = getLayoutInflater();
+    View view;
+    // 이퀄라이저 몇 분 반복
+    for (short i = 0; i < bands; i++) {
+      final short band = i;
+      view = inflater.inflate(R.layout.equalizer, null); 
+      // 주파수 표시 
+      TextView freqTextView = (TextView) view.findViewById(R.id.band);
+      freqTextView.setText( (mEqualizer.getCenterFreq(band) / 1000) + " Hz");
+      // 최솟값 표시
+      TextView minDbTextView = (TextView) view.findViewById(R.id.min);
+      minDbTextView.setText((minEQLevel / 100) + " dB");
+      // 최댓값 표시 
+      TextView maxDbTextView = (TextView) view.findViewById(R.id.max);
+      maxDbTextView.setText((maxEQLevel / 100) + " dB");
+      // 검색 막대 표시
+      SeekBar bar = (SeekBar) view.findViewById(R.id.seek);
+      // 최댓값 설정 
+      bar.setMax(maxEQLevel - minEQLevel);
+      // 현재 상태 지정
+      bar.setProgress(mEqualizer.getBandLevel(band));
+
+      // 리스너 설정 
+      bar.setOnSeekBarChangeListener(
+        new SeekBar.OnSeekBarChangeListener() {
+        public void onProgressChanged(
+          SeekBar seekBar, 
+          int progress,
+          boolean fromUser) {
+          
+          // 이퀄라이저 레벨 변경
+          mEqualizer.setBandLevel(band, (short) (progress + minEQLevel));
+        }
+
+        public void onStartTrackingTouch(SeekBar seekBar) {}
+        public void onStopTrackingTouch(SeekBar seekBar) {}
+      });
+      // 새로운 뷰에 추가 
+      mLinearLayout.addView(view);
+    }
+
+    // 재생 시작 
+    mMediaPlayer.start();
+  }
+  
+  @Override
+  protected void onPause() {
+    super.onPause();
+    
+    // 오브젝트 해제 
+    if (isFinishing() && mMediaPlayer != null) {
+      mEqualizer.release();
+      mMediaPlayer.release();
+      mMediaPlayer = null;
+    }
+  }
+}

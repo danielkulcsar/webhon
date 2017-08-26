@@ -1,0 +1,25 @@
+package com.example.database03;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.database.sqlite.SQLiteDatabase;
+
+public class MainActivity extends Activity {
+  // 데이터베이스 도우미 작성
+  private DatabaseHelper helper = new DatabaseHelper(this);
+  // 데이터베이스 선언
+  public static SQLiteDatabase db;
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+    // 데이터베이스 오픈
+    db = helper.getWritableDatabase();
+  }
+  // 데이터베이스 도우미 마감 처리
+  @Override
+  public void onDestroy(){
+    super.onDestroy();
+    helper.close();
+  }
+}

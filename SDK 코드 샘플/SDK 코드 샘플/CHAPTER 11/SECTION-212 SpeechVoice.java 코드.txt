@@ -1,0 +1,58 @@
+package com.example.speechvoice;
+
+import java.util.Locale;
+import android.app.Activity;
+import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+
+public class SpeechVoice extends Activity implements
+    TextToSpeech.OnInitListener {
+  private Button mExecuteButton;
+  private TextToSpeech mTts;
+
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+
+    // TextToSpeech 인스턴스 작성
+    mTts = new TextToSpeech(this, this);
+
+    this.mExecuteButton =
+      (Button) findViewById(R.id.execute_button);
+    mExecuteButton.setOnClickListener(new OnClickListener() {
+      public void onClick(View v) {
+        String welcomToAn_ = "Welcome to Android.";
+        String androidIsAn_ = "Android is an open-source "
+            + "software stack for mobile devices.";
+        // 텍스트 읽기를 실행한다
+        mTts.speak(welcomToAn_, TextToSpeech.QUEUE_FLUSH,
+            null);
+        mTts.speak(androidIsAn_, TextToSpeech.QUEUE_ADD,
+            null);
+      }
+    });
+  }
+
+  // TextToSpeech.OnInitListener의 구현
+  public void onInit(int status) {
+    // onInit은 음성 합성 엔진 초기화가 끝나면 불러온다
+    if (status == TextToSpeech.SUCCESS) {
+      // 여기에서는 음성 합성에 사용할 언어를 미국 영어로 설정하고 있다
+      if (mTts.isLanguageAvailable(Locale.US) >= 
+          TextToSpeech.LANG_AVAILABLE) {
+        mTts.setLanguage(Locale.US);
+      }
+    }
+  }
+
+  @Override
+  protected void onDestroy() {
+    super.onDestroy();
+    // 사용하지 않은 시점에서 TextToSpeech를 종료한다 
+    mTts.shutdown();
+  }
+}

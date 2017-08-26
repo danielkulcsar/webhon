@@ -1,0 +1,27 @@
+package com.example.screen13;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnLongClickListener;
+import android.widget.Button;
+import android.widget.Toast;
+
+public class MainActivity extends Activity
+implements OnLongClickListener{
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+    Button button = (Button) findViewById(R.id.button);
+
+ // 리스너 등록
+    button.setOnLongClickListener(this);
+  }
+  // 롱클릭 했을 때 실행
+  @Override
+  public boolean onLongClick(View v) {
+    Toast.makeText(this, "onLongClick", Toast.LENGTH_SHORT).show();
+    return false;
+  }
+}

@@ -1,0 +1,33 @@
+package com.example.gpssetting;
+
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
+
+public class GpsSetting extends Activity {
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+
+    // 현재 유효한 위치정보 공급자 명을 얻는다
+    String providers = 
+      android.provider.Settings.Secure.getString(
+            getContentResolver(),
+            android.provider.Settings.Secure.
+            LOCATION_PROVIDERS_ALLOWED);
+    Log.i("***", "LOCATION_PROVIDERS_ALLOWED:" + providers);
+
+    // 공급자 이름에 GPS가 포함되어 있지 않으면
+    if (providers.indexOf("gps", 0) == -1) {
+
+      // 위치 정보 설정을 호출하는 인텐트 작성
+      Intent intent = new Intent(android.provider.Settings.
+          ACTION_LOCATION_SOURCE_SETTINGS);
+
+      // 활동 시작
+      startActivity(intent);
+    }
+  }
+}

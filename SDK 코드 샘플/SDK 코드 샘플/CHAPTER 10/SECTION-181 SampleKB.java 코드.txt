@@ -1,0 +1,113 @@
+package com.example.kb03;
+
+import java.util.ArrayList;
+import android.inputmethodservice.InputMethodService;
+import android.inputmethodservice.Keyboard;
+import android.inputmethodservice.KeyboardView;
+import android.view.View;
+import android.view.inputmethod.InputConnection;
+
+public class SampleKB extends InputMethodService
+  implements KeyboardView.OnKeyboardActionListener{
+  
+  private Keyboard keyboard;
+  private KeyboardView mInputView;
+  private ArrayList<String> list;
+  private CandidateView mCandidateView;
+  
+  // 여기서 초기 설정을 한다 
+  @Override
+  public void onInitializeInterface() {
+    // 'keyboard.xml’의 레이아웃으로 인스턴스를 생성
+    keyboard = new Keyboard(this, R.xml.keyboard);
+  }
+
+  @Override
+  public View onCreateInputView() {
+    mInputView = (KeyboardView) getLayoutInflater().inflate(R.layout.main, null);
+    mInputView.setOnKeyboardActionListener(this);
+    mInputView.setKeyboard(keyboard);
+    return mInputView;
+  }
+
+  @Override
+  public void onKey(int primaryCode, int[] keyCodes) {
+    InputConnection ic = getCurrentInputConnection();
+    list = new ArrayList<String>();
+    switch (primaryCode) {
+      case 1:
+        ic.setComposingText("1", 1);
+        
+        // 후보에 추가한다
+        list.add("1");
+        list.add("11");
+        list.add("111");
+        
+        // CandidatesView를 표시한다
+        setCandidatesViewShown(true);
+        break;
+      case 2:
+        ic.setComposingText("a", 1);
+        
+        // 후보에 추가한다
+        list.add("a");
+        list.add("ab");
+        list.add("abc");
+        
+        // CandidatesView를 표시한다
+        setCandidatesViewShown(true);
+        break;
+      case 3:
+        
+        // CandidatesView를 표시하지 않는다 
+        setCandidatesViewShown(false);
+        break;
+    }
+    
+    // 후보를 CandidateView에 반영한다
+    if (mCandidateView != null) {
+      mCandidateView.setSuggestions(list, true, true);
+    }
+  }
+  
+  @Override
+  public View onCreateCandidatesView() {
+    // CandidateView 인스턴스를 생성
+    mCandidateView = new CandidateView(this);
+    return mCandidateView;
+  }
+
+  // 후보를 터치하여 선택할 때 불러들임
+  public void pickSuggestionManually(int index) {
+    
+    // 몇번째가 선택되었는가 index로 취득할 수 있기 때문에
+    // list에서 해당 데이터를 취득하여 코미트한다 
+    getCurrentInputConnection().commitText(list.get(index), 1);
+    if (mCandidateView != null) {
+      
+      // 후보를 클리어한다
+      mCandidateView.clear();
+    }
+  }
+  
+  @Override
+  public void onPress(int primaryCode) {}
+
+  @Override
+  public void onRelease(int primaryCode) {}
+
+  @Override
+  public void onText(CharSequence text) {}
+
+  @Override
+  public void swipeDown() {}
+
+  @Override
+  public void swipeLeft() {}
+
+  @Override
+  public void swipeRight() {}
+
+  @Override
+  public void swipeUp() {}
+}

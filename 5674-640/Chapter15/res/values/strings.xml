@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Chapter15</string>
+    <string name="action_settings">Settings</string>
+    <string name="app_name1">신규로 작성한 디렉터리에 파일을 저장</string>
+    <string name="app_name2">파일을 읽기</string>
+    <string name="app_name3">애플리케이션의 설정값을 저장</string>
+    <string name="app_name4">리소스에서 파일을 읽기</string>
+    <string name="app_name5">임시 파일을 이용</string>
+    <string name="app_name6">음악 정보로 액세스</string>
+    <string name="app_name7">연락처로 액세스</string>
+    <string name="app_name8">컨텐츠 프로바이더를 작성</string>
+    <string name="app_name9">컨텐츠 프로바이더 처리를 고속화</string>
+    <string name="app_name10">컨텐츠 프로바이더 내의 데이터 변경을 검출</string>
+    <string name="app_name11">컨텐츠 프로바이더에 퍼미션을 설정</string>
+    <string name="app_name12">JSON을 파싱</string>
+    <string name="app_name13">XML을 파싱</string>
+    <string name="ch1501_hint">써 넣을 내용을 입력해주세요.</string>
+    <string name="ch1501_button">쓰기</string>
+    <string name="ch1501_message">내용을 썼습니다</string>
+    <string name="ch1502_button">읽기</string>
+    <string name="ch1503_check1">사과</string>
+    <string name="ch1503_check2">귤</string>
+    <string name="ch1505_create">임시 파일 작성</string>
+    <string name="ch1508_insert">추가</string>
+    <string name="ch1509_insert">데이터 등록</string>
+    <string name="ch1510_insert">추가</string>
+
+</resources>

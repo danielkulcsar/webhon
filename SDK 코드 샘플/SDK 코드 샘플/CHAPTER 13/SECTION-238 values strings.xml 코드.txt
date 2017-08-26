@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="app_name">Sample</string>
+  <string name="bookmark">Bookmark</string>
+  <string name="history">Bookmark History</string>
+  <string name="clear_history">Delete History</string>
+</resources>

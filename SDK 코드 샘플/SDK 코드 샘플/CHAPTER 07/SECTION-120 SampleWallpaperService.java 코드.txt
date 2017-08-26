@@ -1,0 +1,59 @@
+package com.example.w04;
+
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Matrix;
+import android.graphics.Paint;
+import android.os.Handler;
+import android.service.wallpaper.WallpaperService;
+import android.view.SurfaceHolder;
+
+public class SampleWallpaperService extends WallpaperService {
+ 
+ private final Handler mHandler = new Handler();
+ 
+ @Override
+ public Engine onCreateEngine() {
+   return new LiveWallpaperEngine();
+ }
+ // Engine을 상속받는 LiveWallpaperEngine 작성
+ class LiveWallpaperEngine extends Engine {
+     private Bitmap bg;
+     LiveWallpaperEngine() {
+       bg = BitmapFactory.decodeResource (getResources(), R.drawable.sky);
+     }
+     @Override
+     public void onCreate(SurfaceHolder surfaceHolder) {
+        super.onCreate(surfaceHolder);
+     }
+     private final Runnable runLiveWallPaper = new Runnable() {
+        public void run() {
+           drawFrame();
+        }
+     };
+     @Override
+     public void onVisibilityChanged(boolean visible) {
+        if (visible) {
+           drawFrame();
+        } else {
+           mHandler.removeCallbacks(runLiveWallPaper);
+        }
+     }
+     void drawFrame() {
+        final SurfaceHolder holder = getSurfaceHolder();
+
+        Canvas c = null;
+        try {
+           c = holder.lockCanvas();
+           if (c != null) {
+            c.drawBitmap(bg, new Matrix(), new Paint());
+           }
+        } finally {
+           if (c != null) holder.unlockCanvasAndPost(c);
+        }
+
+     }
+     
+ }
+}

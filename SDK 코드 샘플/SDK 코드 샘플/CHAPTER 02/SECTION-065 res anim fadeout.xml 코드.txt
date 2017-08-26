@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<alpha xmlns£ºandroid="http£º//schemas.android.com/apk/res/android"
+     android£ºinterpolator="@android£ºanim/accelerate_interpolator"
+     android£ºfromAlpha="1.0"
+     android£ºtoAlpha="0.0"
+     android£ºduration="@android£ºinteger/config_longAnimTime" />

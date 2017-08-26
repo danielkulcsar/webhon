@@ -1,0 +1,75 @@
+package com.example.audio01;
+
+import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Rect;
+import android.view.View;
+
+public class VisualizerView extends View {
+  private byte[] mBytes;
+  private float[] mPoints;
+  private Rect mRect = new Rect();
+
+  private Paint mForePaint = new Paint();
+
+  // 생성자
+  public VisualizerView(Context context) {
+    super(context);
+    init();
+  }
+
+  private void init() {
+    mBytes = null;
+
+    // 선 굵기 지정
+    mForePaint.setStrokeWidth(5f);
+    
+    // 앤티 앨리어싱을 활성화
+    mForePaint.setAntiAlias(true);
+    
+    // 빨간색으로 설정
+    mForePaint.setColor(Color.RED);
+  }
+
+  public void updateVisualizer(byte[] bytes) {
+    mBytes = bytes;
+    
+    // 강제적으로 다시 그리기
+    invalidate();
+  }
+
+  @Override
+  protected void onDraw(Canvas canvas) {
+    super.onDraw(canvas);
+
+    if (mBytes == null) {
+      return;
+    }
+
+    if (mPoints == null || mPoints.length < mBytes.length * 4) {
+      mPoints = new float[mBytes.length * 4];
+    }
+    
+    // 그리기 영역 지정
+    mRect.set(0, 0, getWidth(), getHeight());
+
+    // 표시할 라인의 정점 좌표 작성
+    for (int i = 0; i < mBytes.length - 1; i++) {
+      mPoints[i * 4] = mRect.width()
+          * i / (mBytes.length - 1);
+      mPoints[i * 4 + 1] = mRect.height() / 2
+          + ((byte) (mBytes[i] + 128))
+          * (mRect.height() / 2) / 128;
+      mPoints[i * 4 + 2] = mRect.width()
+          * (i + 1) / (mBytes.length - 1);
+      mPoints[i * 4 + 3] = mRect.height() / 2
+          + ((byte) (mBytes[i + 1] + 128))
+          * (mRect.height() / 2) / 128;
+    }
+    
+    // 선 그리기
+    canvas.drawLines(mPoints, mForePaint);
+  }
+}

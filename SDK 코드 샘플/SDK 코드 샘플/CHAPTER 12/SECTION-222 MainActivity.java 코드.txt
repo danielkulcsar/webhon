@@ -1,0 +1,21 @@
+(SECTION-220의 샘플 프로그램과의 차이점만 게재)
+package com.example.camera06;
+(중략)
+    // 서페이스 생성처리 
+    public void surfaceCreated(SurfaceHolder holder) {
+      // 카메라 초기화
+      try {
+        int camNum = Camera.getNumberOfCameras();
+        Log.i("Number of cameras", ""+camNum);
+        
+        // 카메라 오픈
+        camera = Camera.open( CameraInfo.CAMERA_FACING_FRONT );
+        // 미리보기 디스플레이 세트
+        camera.setPreviewDisplay(holder);
+        // 각도 변경
+        camera.setDisplayOrientation(90);
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+    }
+(생략)

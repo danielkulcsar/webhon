@@ -1,0 +1,63 @@
+package com.example.calendarcontract;
+
+import java.text.Format;
+import android.app.Activity;
+import android.database.Cursor;
+import android.os.Bundle;
+import android.provider.CalendarContract;
+import android.text.format.DateFormat;
+import android.view.View;
+import android.widget.TextView;
+
+public class MainActivity extends Activity {
+  // 커서
+  private Cursor mCursor;
+  
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+    // 캘린더에서 취득할 항목 설정
+    String[] COLS = new String[] {CalendarContract.Events.DTSTART, 
+                                  CalendarContract.Events.TITLE};
+    // 커서 취득
+    mCursor = getContentResolver().query(
+        CalendarContract.Events.CONTENT_URI, COLS, null, null, null);
+    // 첫 번째 일정 표시
+    SetTextView(0);
+  }
+  
+  private void SetTextView(int id) {
+    // 텍스트 뷰
+    TextView tv = (TextView)findViewById(R.id.data);
+    // 인수에 의한 처리 배분
+    switch(id) {
+    case 0:
+      mCursor.moveToFirst();
+      break;
+    case 1:
+      if(!mCursor.isFirst()) mCursor.moveToPrevious();
+      break;
+    case 2:
+      if(!mCursor.isLast()) mCursor.moveToNext();
+      break;
+    }
+    // 날짜 형식 취득
+    Format df = DateFormat.getDateFormat(this);
+    // 시간 형식 취득
+    Format tf = DateFormat.getTimeFormat(this);
+    // 텍스트 뷰의 값 세트
+    tv.setText(df.format(mCursor.getLong(0)) + " " 
+        + tf.format(mCursor.getLong(0)) + " " + mCursor.getString(1));
+  }
+  
+  // '앞 일정' 클릭 시
+  public void onClickPrev(View v) {
+    SetTextView(1);
+  }
+  
+  // '다음 일정' 클릭 시
+  public void onClickNext(View v) {
+    SetTextView(2);
+  }
+}

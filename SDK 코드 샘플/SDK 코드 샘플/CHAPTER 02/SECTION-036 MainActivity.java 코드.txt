@@ -1,0 +1,20 @@
+package com.example.screen20;
+
+import android.app.Activity;
+import android.graphics.Typeface;
+import android.os.Bundle;
+import android.widget.TextView;
+
+public class MainActivity extends Activity {
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+    // TextView 인스턴스를 취득
+    TextView textview = (TextView)findViewById(R.id.textview);
+    // 글꼴 설정
+    textview.setTypeface(Typeface.SERIF, Typeface.BOLD_ITALIC);
+    // 문자 사이즈 지정
+    textview.setTextSize(50);
+  }
+}

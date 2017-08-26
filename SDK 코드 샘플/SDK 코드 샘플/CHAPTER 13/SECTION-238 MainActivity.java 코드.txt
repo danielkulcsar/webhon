@@ -1,0 +1,67 @@
+package com.example.content11;
+
+import android.app.Activity;
+import android.database.Cursor;
+import android.os.Bundle;
+import android.provider.Browser;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+
+public class MainActivity extends Activity {
+  // ArrayAdapter 선언
+  ArrayAdapter<String> adapter;
+  // ListView 선언
+  ListView listView;
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+    // ArrayAdapter 클래스를 이용하여 오브젝트 생성
+    adapter = new ArrayAdapter<String>(
+      this, android.R.layout.simple_list_item_1);
+    // 목록보기 어댑터를 설정한다
+    listView = (ListView) findViewById(R.id.listview);
+  }
+  // 북마크 정보 취득 처리
+  public void onClickBookmark(View view) {
+    // ArrayAdapter의 클리어
+    adapter.clear();
+    // 검색 결과 커서 인터페이스 
+    Cursor c = Browser.getAllBookmarks(getContentResolver());
+    int index = c.getColumnIndex(Browser.BookmarkColumns.URL);
+    while (c.moveToNext()) {
+      adapter.add(c.getString(index));
+    }
+    c.close();
+    listView.setAdapter(adapter);
+  }
+  // 브라우저의 기록(북마크를 포함한)정보 취득 처리
+  public void onClickHistory(View view) {
+    // ArrayAdapter의 클리어
+    adapter.clear();
+    // 검색 결과 커서 인터페이스
+    Cursor c = Browser.getAllVisitedUrls(getContentResolver());
+    int index = c.getColumnIndex(Browser.SearchColumns.URL);
+    while (c.moveToNext()) {
+      adapter.add(c.getString(index));
+    }
+    c.close();
+    listView.setAdapter(adapter);
+  }
+  // 브라우저의 기록 정보 삭제 처리
+  public void onClickClearHistory(View view) {
+    // 기록 삭제
+    Browser.clearHistory(getContentResolver());
+    // ArrayAdapter의 클리어
+    adapter.clear();
+    // 검색 결과 커서 인터페이스
+    Cursor c = Browser.getAllVisitedUrls(getContentResolver());
+    int index = c.getColumnIndex(Browser.SearchColumns.URL);
+    while (c.moveToNext()) {
+      adapter.add(c.getString(index));
+    }
+    c.close();
+    listView.setAdapter(adapter);
+  }
+}

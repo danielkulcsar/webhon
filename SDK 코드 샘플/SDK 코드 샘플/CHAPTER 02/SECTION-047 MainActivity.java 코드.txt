@@ -1,0 +1,32 @@
+package com.example.screen31;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.widget.RatingBar;
+import android.widget.RatingBar.OnRatingBarChangeListener;
+import android.widget.Toast;
+
+public class MainActivity extends Activity
+  implements OnRatingBarChangeListener {
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+
+    // RatingBar인스턴스 취득
+    RatingBar rBar = (RatingBar) findViewById(R.id.ratingbar);
+
+    // 리스너 설정
+    rBar.setOnRatingBarChangeListener(this);
+  }
+
+  // 레이팅이 변경될 때 발생하는 이벤트 
+  @Override
+  public void onRatingChanged(
+      RatingBar ratingBar, 
+      float rating,
+      boolean fromUser) {
+    // 레이팅 값을 토스트로 표시
+    Toast.makeText( this, String.valueOf(rating), Toast.LENGTH_SHORT).show();
+  }
+}

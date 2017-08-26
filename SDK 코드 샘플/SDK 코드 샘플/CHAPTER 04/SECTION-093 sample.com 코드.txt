@@ -1,0 +1,34 @@
+<?php
+ 
+$username = null;
+$password = null;
+ 
+if £¨ isset£¨$_SERVER£Û'PHP_AUTH_USER'£Ý£© £© {
+  $username = $_SERVER£Û'PHP_AUTH_USER'£Ý;
+  $password = $_SERVER£Û'PHP_AUTH_PW'£Ý;
+} elseif £¨ isset£¨$_SERVER£Û'HTTP_AUTHENTICATION'£Ý£© £© {
+  if £¨
+    strpos£¨
+      strtolower£¨$_SERVER£Û'HTTP_AUTHENTICATION'£Ý£©,
+      'basic'
+    £© === 0
+  £©{
+    list£¨$username,$password£© = 
+    explode£¨'£º',
+    base64_decode£¨
+    substr£¨$_SERVER£Û'HTTP_AUTHORIZATION'£Ý, 6£©£©£©;
+  }    
+}
+if £¨is_null£¨$username£©£© {
+   
+    header£¨'WWW-Authenticate£º Basic realm="My Realm"'£©;
+    header£¨'HTTP/1.0 401 Unauthorized'£©;
+    echo 'Canceled!';
+   
+    die£¨£©;
+   
+} else {
+    echo "<p>Username£º {$username}</p>";
+    echo "<p>Password£º {$password}</p>";
+}
+?>

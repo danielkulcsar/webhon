@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns£ºandroid="http£º//schemas.android.com/apk/res/android"
+    package="com.example.w05"
+    android£ºversionCode="1"
+    android£ºversionName="1.0">
+    <application 
+     android£ºicon="@drawable/icon" 
+     android£ºlabel="@string/app_name">
+    <service
+       android£ºname="com.example.w05.SampleWallpaperService"
+       android£ºlabel="LiveWallpaper"
+       android£ºpermission="android.permission.BIND_WALLPAPER"
+       >
+      <intent-filter>
+      <action
+         android£ºname="android.service.wallpaper.WallpaperService" />
+      </intent-filter>
+   <meta-data
+     android£ºname="android.service.wallpaper"
+     android£ºresource="@xml/livewallpaper"
+     />
+     </service>
+   </application>
+</manifest> 

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Chapter17</string>
+    <string name="app_title2">앱 내 과금을 구현</string>
+    <string name="app_title3">광고를 표시</string>
+
+</resources>

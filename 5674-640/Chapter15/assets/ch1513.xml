@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+    <channel>
+        <title>뉴스 RSS 샘플</title>
+        <link>http://android-recipe.herokuapp.com/</link>
+        <description>이것은 RSS 샘플입니다.</description>
+        <language>ja</language>
+        <pubDate>Mon, 10 Feb 2015 13:01:22 +0900</pubDate>
+        <item>
+            <title>뉴스 1</title>
+            <link>http://android-recipe.herokuapp.com/pages/1</link>
+            <pubDate>Mon, 10 Feb 2015 11:06:35 +0900</pubDate>
+            <description><![CDATA[뉴스 1의 내용입니다.]]></description>
+        </item>
+        <item>
+            <title>뉴스 ２</title>
+            <link>http://android-recipe.herokuapp.com/pages/2</link>
+            <pubDate>Mon, 10 Feb 2015 12:38:06 +0900</pubDate>
+            <description><![CDATA[뉴스 ２의 내용입니다.]]></description>
+        </item>
+        <item>
+            <title>뉴스 ３</title>
+            <link>http://android-recipe.herokuapp.com/pages/3</link>
+            <pubDate>Mon, 10 Feb 2015 12:17:42 +0900</pubDate>
+            <description><![CDATA[뉴스 ３의 내용입니다.]]></description>
+        </item>
+    </channel>
+</rss>

@@ -1,0 +1,45 @@
+package com.example.screen17;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.animation.CycleInterpolator;
+import android.view.animation.ScaleAnimation;
+import android.widget.Button;
+
+public class MainActivity extends Activity
+implements OnClickListener{
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+
+    // 버튼 객체의 터치 이벤트를 취득하도록 한다
+    Button button = (Button) findViewById(R.id.button);
+    button.setOnClickListener(this);
+  }
+
+  @Override
+  public void onClick(View v) {
+
+    // 사이즈를 변경하기 위해 애니메이션 정의
+    ScaleAnimation scale = new ScaleAnimation(
+        0.5f,
+        5.0f,
+        0.5f,
+        5.0f,
+        v.getWidth() / 2,
+        v.getHeight() / 2
+    );
+    
+    // 애니메이션하는 시간 정의
+    scale.setDuration(200);
+    
+    // 반복 횟수를 설정
+    scale.setInterpolator( new CycleInterpolator(0.5f) );
+
+    // 애니메이션 시작
+    v.startAnimation(scale);
+  }
+}

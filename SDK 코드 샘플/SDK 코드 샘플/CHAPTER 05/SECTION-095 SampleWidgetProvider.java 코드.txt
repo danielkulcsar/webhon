@@ -1,0 +1,7 @@
+package com.example.widget01;
+
+import android.appwidget.AppWidgetProvider;
+
+public class SampleWidgetProvider extends AppWidgetProvider {
+  // 표시만 있기 때문에 내용은 없다 
+}

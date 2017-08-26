@@ -1,0 +1,17 @@
+(SECTION-185의 샘플 프로그램과 차이만을 게제)
+package com.example.sensor03;
+(중략)
+    // 서비스를 지정한다.
+    int SENSOR_NAME = Sensor.TYPE_MAGNETIC_FIELD;
+    // 센서의 값을 취득하려면 타이밍을 지정
+    int SENSOR_DELAY = SensorManager.SENSOR_DELAY_NORMAL ;
+(중략)
+      // 표시 포멧의 지정 개시
+      // X축 Y축 Z축 각각의 자기를 취득
+      Log.d(
+        "onSensorChanged", 
+        " x: " + String.valueOf( event.values[0] ) +
+        "\ty: " + String.valueOf( event.values[1] ) +
+        "\tz: " + String.valueOf( event.values[2] )
+      );// 표시 포맷 지정을 종료
+(중략)

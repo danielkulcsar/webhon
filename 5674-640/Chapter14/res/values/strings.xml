@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Chapter14</string>
+    <string name="action_settings">Settings</string>
+    <string name="app_title1">SMS를 송신</string>
+    <string name="app_title2">메일을 송신</string>
+    <string name="app_title3">첨부 파일이 있는 메일을 송신</string>
+    <string name="app_title4">텍스트 데이터를 공유</string>
+    <string name="app_title5">클립 보드에 복사한 텍스트를 얻기</string>
+    <string name="app_title6">갤러리를 호출</string>
+    <string name="app_title7">카메라를 호출</string>
+    <string name="app_title8">지도를 검색</string>
+    <string name="app_title9">Youtube 동영상을 검색</string>
+    <string name="app_title10">LINE에 메세지 보내기</string>
+    <string name="app_title11">캘린더 정보를 읽기</string>
+    <string name="app_title12">이벤트를 캘린더에 등록</string>
+    <string name="app_title13">Intent에서 알람을 설정</string>
+    <string name="ch1401_label_notfound_app">대응 앱이 발견되지 않았습니다</string>
+    <string name="ch1401_label_input_empty">항목이 입력되지 않았습니다</string>
+    <string name="ch1402_label_input_empty">항목이 입력되지 않았습니다</string>
+    <string name="ch1403_label_input_empty">항목이 입력되지 않았습니다</string>
+    <string name="ch1404_label_input_empty">항목이 입력되지 않았습니다</string>
+    <string name="ch1408_label_input_empty">항목이 입력되지 않았습니다</string>
+    <string name="ch1409_label_input_empty">항목이 입력되지 않았습니다</string>
+    <string name="ch1410_label_input_empty">항목이 입력되지 않았습니다</string>
+    <string name="ch1401_label_hint_body">본문을 입력 예：안녕</string>
+    <string name="ch1401_label_intent_sms">SMS 연동</string>
+    <string name="ch1401_label_hint_phone">수신처를 입력 예: 010-1234-5678</string>
+    <string name="ch1402_label_hint_address">수신처를 입력 예: ceo@k2apps.kr</string>
+    <string name="ch1402_label_hint_subject">제목을 입력 예: 루루씨에게</string>
+    <string name="ch1402_label_select_attach">첨부</string>
+    <string name="ch1402_label_intent_mail">메일 연동</string>
+    <string name="ch1403_label_wite_test">abcdefghejklmnopqrstuvwxyz</string>
+    <string name="ch1404_label_input_word">여기에 입력</string>
+    <string name="ch1404_label_intent_text">텍스트 연동</string>
+    <string name="ch1405_label_use_clipboard">클립보드에서 텍스트를 얻기</string>
+    <string name="ch1406_label_use_gallery">갤러리 앱을 이용한다</string>
+    <string name="ch1407_label_use_camera">카메라 앱을 이용한다</string>
+    <string name="ch1408_label_intent_map">Google 맵 연동</string>
+    <string name="ch1409_label_intent_youtube">Youtube 연동</string>
+    <string name="ch1410_label_use_line">LINE으로 보내기</string>
+
+</resources>

@@ -1,0 +1,46 @@
+package com.example.screen47;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
+import android.view.Window;
+
+public class MainActivity extends Activity {
+  int PROGRESS_INTERBAL = 100; 
+  int progress = 0;
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+
+    // 프로그레스 바를 이용할 수 있게 한다
+    requestWindowFeature(Window.FEATURE_PROGRESS);
+
+    // 프로그레스 바 표시
+    setProgressBarVisibility(true);
+    
+    setContentView(R.layout.main);
+
+    // 100mm초 후에 runnable 실행
+    handler.postDelayed(runnable, PROGRESS_INTERBAL); 
+  }
+  Handler handler = new Handler();
+  Runnable runnable = new Runnable(){ 
+    @Override 
+    public void run() {
+      // 프로그레스 값 지정
+      setProgress(progress);
+
+      //프로그레스 값 증가
+      progress += PROGRESS_INTERBAL;
+
+      // 로그 출력
+      Log.d("LOG","progress: " + String.valueOf(progress));
+
+      // 프로그레스 값이 10000이하의 경우 반복 
+      if(progress <= 10000){
+        handler.postDelayed(runnable, PROGRESS_INTERBAL);
+      }
+    } 
+  };
+}

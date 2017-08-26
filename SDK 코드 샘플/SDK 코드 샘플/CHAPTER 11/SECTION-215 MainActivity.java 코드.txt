@@ -1,0 +1,31 @@
+package com.example.mediafile02;
+
+import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.media.MediaMetadataRetriever;
+import android.os.Bundle;
+import android.widget.ImageView;
+
+public class MainActivity extends Activity {
+
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+      
+    // MediaMetadataRetriever 인스턴스 생성 
+    MediaMetadataRetriever media = new MediaMetadataRetriever();
+    
+    // 데이터 소스를 지정한다 
+    media.setDataSource("http://www.example.com/sample.mp4");
+
+    // 시간(마이크로초)을 지정해서 해당하는 프레임 부근의 이미지를 획득
+    Bitmap bitmap = media.getFrameAtTime(10000000,
+      MediaMetadataRetriever.OPTION_PREVIOUS_SYNC);
+    
+    ImageView image = (ImageView) findViewById(R.id.image);
+    image.setBackgroundDrawable( new BitmapDrawable(bitmap) );
+    
+  }
+}

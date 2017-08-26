@@ -1,0 +1,74 @@
+package com.example.kb02;
+
+import android.inputmethodservice.InputMethodService;
+import android.inputmethodservice.Keyboard;
+import android.inputmethodservice.KeyboardView;
+import android.view.KeyEvent;
+import android.view.View;
+
+public class SampleKB extends InputMethodService implements
+  KeyboardView.OnKeyboardActionListener {
+  private Keyboard keyboard;
+  private KeyboardView mInputView;
+
+  @Override
+  public void onInitializeInterface() {
+    keyboard = new Keyboard(this, R.xml.keyboard);
+  }
+
+  @Override
+  public View onCreateInputView() {
+    mInputView = (KeyboardView) getLayoutInflater().inflate(R.layout.main, null);
+    mInputView.setOnKeyboardActionListener(this);
+    mInputView.setKeyboard(keyboard);
+    return mInputView;
+  }
+  
+  @Override
+  public void onKey(int primaryCode, int[] keyCodes) {
+    switch(primaryCode){
+      case 1:
+        sendDownUpKeyEvents(KeyEvent.KEYCODE_1);
+        break;
+      case 2:
+        sendDownUpKeyEvents(KeyEvent.KEYCODE_1);
+        break;
+      case 3:
+        sendDownUpKeyEvents(KeyEvent.KEYCODE_1);
+        break;
+      case 4:
+        sendDownUpKeyEvents(KeyEvent.KEYCODE_A);
+        break;
+      case 5:
+        sendDownUpKeyEvents(KeyEvent.KEYCODE_B);
+        break;
+      case 6:
+        sendDownUpKeyEvents(KeyEvent.KEYCODE_C);
+        break;
+      case 7:
+        sendDownUpKeyEvents(KeyEvent.KEYCODE_DEL);
+        break;
+    }
+  }
+
+  @Override
+  public void onPress(int primaryCode) {}
+
+  @Override
+  public void onRelease(int primaryCode) {}
+
+  @Override
+  public void onText(CharSequence text) {}
+
+  @Override
+  public void swipeDown() {}
+
+  @Override
+  public void swipeLeft() {}
+
+  @Override
+  public void swipeRight() {}
+
+  @Override
+  public void swipeUp() {}
+}

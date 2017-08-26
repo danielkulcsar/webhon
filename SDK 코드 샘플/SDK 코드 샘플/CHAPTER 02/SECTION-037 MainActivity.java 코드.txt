@@ -1,0 +1,39 @@
+package com.example.screen21;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
+
+public class MainActivity extends Activity {
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+
+    // 후보에 표시되는 문자열 사전
+    String[] wordlist = new String[] {
+      "Cupcake", "Cute",
+      "Donut",
+      "Eclair",
+      "Froyo",
+      "Gingerbread",
+      "Honeycomb",
+      "IceCreamSandwich",
+    };
+
+    // 어댑터 작성
+    ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+      this,
+      android.R.layout.simple_dropdown_item_1line,
+      wordlist
+    );
+
+    // AutoCompleteTextView 인스턴스 작성 
+    AutoCompleteTextView textView = (AutoCompleteTextView)
+        findViewById(R.id.autocomplete);
+
+    // 어댑터를 등록
+    textView.setAdapter(adapter);
+  }
+}

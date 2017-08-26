@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="app_name">Sample</string>
+  <string name="enable">Enable Admin</string>
+  <string name="disable">Disable Admin</string>
+  <string name="force_lock">Screen Lock</string>
+</resources>

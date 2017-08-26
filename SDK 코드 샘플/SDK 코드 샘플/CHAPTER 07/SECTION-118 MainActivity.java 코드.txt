@@ -1,0 +1,25 @@
+package com.example.w02;
+
+import android.app.Activity;
+import android.app.WallpaperManager;
+import android.os.Bundle;
+import android.widget.TextView;
+
+public class MainActivity extends Activity {
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+    
+    // WallpaperManager 인스턴스 취득
+    WallpaperManager wallpaperManager = WallpaperManager.getInstance(this);
+    TextView t1 = (TextView)findViewById(R.id.text1);
+    TextView t2 = (TextView)findViewById(R.id.text2);
+    
+    // 권장 최소 폭을 취득한다
+    t1.setText("Width = " + String.valueOf( wallpaperManager.getDesiredMinimumWidth() ));
+    
+    // 권장 최소 높이를 취득한다
+    t2.setText("Height = " + String.valueOf(wallpaperManager.getDesiredMinimumHeight() ));
+   }
+}

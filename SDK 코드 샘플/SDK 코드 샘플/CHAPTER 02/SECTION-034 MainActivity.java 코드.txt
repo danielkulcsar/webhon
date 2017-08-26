@@ -1,0 +1,20 @@
+package com.example.screen18;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.text.util.Linkify;
+import android.widget.TextView;
+
+public class MainActivity extends Activity {
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+
+    // TextView 인스턴스 취득
+    TextView textview = (TextView)findViewById(R.id.textview);
+
+    // 자동적으로 링크를 생성할 수 있게 설정 
+    textview.setAutoLinkMask(Linkify.ALL);
+  }
+}

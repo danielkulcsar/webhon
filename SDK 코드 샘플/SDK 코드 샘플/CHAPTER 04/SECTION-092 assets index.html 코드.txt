@@ -1,0 +1,8 @@
+<html>
+<head>
+<title>Sample</title>
+</head>
+<body>
+<input type=button onClick="JsVibrate.vibrate()" value="vibrate">
+</body>
+</html>

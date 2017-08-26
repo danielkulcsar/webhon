@@ -1,0 +1,22 @@
+package com.example.settings02;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.provider.Settings;
+import android.widget.TextView;
+
+public class MainActivity extends Activity {
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+    // 텍스트 뷰 작성
+    TextView tv = (TextView) findViewById(R.id.text);
+    // 단말 화면의 밝기를 취득(0~255)
+    String brightness = 
+      Settings.System.getString(this.getContentResolver(), 
+        "screen_brightness");
+    // 텍스트 뷰 표시
+    tv.setText("Screen Brightness：" + brightness);
+  }
+}

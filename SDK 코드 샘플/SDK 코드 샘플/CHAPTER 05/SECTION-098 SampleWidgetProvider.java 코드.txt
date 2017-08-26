@@ -1,0 +1,18 @@
+package com.example.widget04;
+
+import android.appwidget.AppWidgetProvider;
+import android.content.Context;
+import android.util.Log;
+
+public class SampleWidgetProvider extends AppWidgetProvider {
+  @Override
+  public void onDeleted(Context context, int[] appWidgetIds) {
+    Log.d("SampleWidgetProvider","onDeleted");
+    super.onDeleted(context, appWidgetIds);
+  }
+  @Override
+  public void onDisabled(Context context) {
+    Log.d("SampleWidgetProvider","onDisabled");
+    super.onDisabled(context);
+  }
+}

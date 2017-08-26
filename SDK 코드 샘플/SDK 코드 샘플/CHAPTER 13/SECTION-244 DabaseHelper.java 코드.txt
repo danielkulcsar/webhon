@@ -1,0 +1,24 @@
+package com.example.database04;
+
+import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
+
+public class DatabaseHelper extends SQLiteOpenHelper {
+  public DatabaseHelper(Context context) {
+    // 스토리지(로컬 파일)에 DB 작성
+    super(context, "sample.db", null, 1);
+  }
+  @Override
+  public void onCreate(SQLiteDatabase db) {
+    // 테이블 작성 처리
+    db.execSQL("CREATE TABLE ZIPCODE (_id INTEGER PRIMARY KEY, 
+    DATA1 TEXT, DATA2 TEXT, DATA3 TEXT, DATA4 TEXT, DATA5 TEXT, 
+    DATA6 TEXT, DATA7 TEXT, DATA8 TEXT, DATA9 TEXT, DATA10 TEXT, 
+    DATA11 TEXT, DATA12 TEXT, DATA13 TEXT, DATA14 TEXT, DATA15 TEXT)
+    ");
+  }
+  @Override
+  public void onUpgrade(SQLiteDatabase arg0, int arg1, int arg2) {
+  }
+}

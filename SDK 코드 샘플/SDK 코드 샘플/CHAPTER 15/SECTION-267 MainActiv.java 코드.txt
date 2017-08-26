@@ -1,0 +1,53 @@
+package com.example.settings03;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.view.WindowManager;
+import android.widget.SeekBar;
+import android.widget.TextView;
+import android.widget.SeekBar.OnSeekBarChangeListener;
+
+public class MainActivity extends Activity {
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+    // 밝기 조정용 시크 바의 이용
+    SeekBar seekBar = (SeekBar) findViewById(R.id.seekBar);
+    // 최대 값을 100으로 한다
+    seekBar.setMax(100);
+    // 초기값을 5으로 한다 
+    seekBar.setProgress(50);
+    // LayoutParams정수의 취득 
+    final WindowManager.LayoutParams lp = 
+      getWindow().getAttributes();
+    // 화면 밝기 변경(시크 바 값을 100으로 나눈 값)
+    lp.screenBrightness = (float) 50 / 100;
+    // 화면 밝기 설정
+    getWindow().setAttributes(lp);
+    seekBar.setOnSeekBarChangeListener(
+        new OnSeekBarChangeListener() {
+      @Override
+      public void onProgressChanged(SeekBar seekBar, 
+          int progress, boolean fromTouch) {
+        // 화면 밝기 변경(시크 바 값을 100으로 나눈 값)
+        lp.screenBrightness = (float) progress / 100;
+        // 화면 밝기 설정
+        getWindow().setAttributes(lp);
+        // 화면 밝기 값을 텍스트 뷰에 표시
+        TextView tv = (TextView) findViewById(R.id.progress);
+        tv.setText("Current Brightness：" 
+          + String.valueOf(lp.screenBrightness) 
+          + " (Dark 0.0~Bright 1.0)"); 
+      }
+      @Override
+      public void onStartTrackingTouch(SeekBar seekBar) {
+      }
+
+      @Override
+      public void onStopTrackingTouch(SeekBar seekBar) {
+      }
+
+    });
+  }
+}
