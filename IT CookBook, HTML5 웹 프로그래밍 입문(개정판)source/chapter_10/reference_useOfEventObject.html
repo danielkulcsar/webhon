@@ -1,0 +1,21 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Event Object</title>
+ <script>
+ 	window.onload = function (e) {
+ 		var event;
+ 		if (e) {
+ 			// 매개변수 e가 있는 경우: 현대 웹 브라우저
+ 			event = e;
+ 		} else {
+ 			// 매개변수 e가 없는 경우: 구 버전의 인터넷 익스플로러
+ 		event = window.event;
+ 		}
+ 	};
+ </script>
+</head>
+<body>
+
+</body>
+</html>

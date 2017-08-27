@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hello">Hello World, OptionMenuEx!</string>
+    <string name="app_name">OptionMenuEx</string>
+<string name="menu_item0">항목0</string>
+<string name="menu_item1">항목1</string>
+<string name="menu_item2">항목2</string>
+</resources>

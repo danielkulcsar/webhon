@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<string name="hello">여기에 반환값이 출력된다!</string>
+<string name="app_name">Explicit Intent</string>
+<string name="START_ACTIVITY_FOR_RESULT">결과 반환하는 액티비티 호출</string>
+<string name="finish_label">종료</string>
+<string name="launced_activity_label">LauncedActivity</string>
+<string name="START_ACTIVITY">타 액티비티 단순 호출</string>
+</resources>

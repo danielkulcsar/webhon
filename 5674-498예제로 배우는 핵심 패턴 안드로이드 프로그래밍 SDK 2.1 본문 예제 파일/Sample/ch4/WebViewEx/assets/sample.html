@@ -1,0 +1,17 @@
+<html>
+<head>
+<script language="javascript">
+var id=0;
+function changeImage() {
+alert("A");
+id=(id==0)?1:0;
+document.getElementById("image").src=id+".jpg";
+alert("B");
+}
+</script>
+</head>
+<body>
+<a onClick="window.demo.onClick()">
+<img id="image" src="0.jpg"/></a>
+</body>
+</html>
